@@ -5,7 +5,7 @@ import Title from "../../components/Title";
 export default function Category() {
   return (
     <View style={styles.container}>
-      <Title title={"Category - flz Niver"} />
+      <Title title={"Category"} />
     </View>
   );
 }

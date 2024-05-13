@@ -6,7 +6,7 @@ import Title from "../../components/Title";
 export default function Home() {
   return (
     <View style={styles.container}>
-      <Title title={"Home - flz Niver"} />
+      <Title title={"Home"} />
     </View>
   );
 }

@@ -27,9 +27,11 @@ export default function Category() {
         <View key={item.id} style={styles.card}>
           <Text style={styles.text}>ID: {item.id}</Text>
           <Text style={styles.text}>Name: {item.name}</Text>
-          <Text style={styles.text}>Username: {item.username}</Text>
+          <Text style={styles.text}>Email: {item.email}</Text>
+          <Text style={styles.text}> Password: {item.password}</Text>
         </View>
-      ))}
-    </View>
+  ))
+}
+    </View >
   );
 }

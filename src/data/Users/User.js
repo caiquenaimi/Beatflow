@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url_API = "https://osprey-vocal-mink.ngrok-free.app/users"
+const url_API = "http://localhost:3000/users"
 
 const fetchApi = async () => {
     try {

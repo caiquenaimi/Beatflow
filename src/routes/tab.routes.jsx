@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Feather from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Home from "../screens/Home";
-import Sobrenos from "../screens/Sobrenos";
-import Category from "../screens/Users";
+import Playlists from "../screens/Playlists";
+import Users from "../screens/Users";
+import Search from "../screens/Search";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,13 +17,9 @@ const TabRoutes = () => {
         tabBarActiveTintColor: "#E25252",
         tabBarStyle: {
           position: "absolute",
-          bottom: 25,
-          left: 20,
-          right: 20,
           elevation: 0,
           backgroundColor: "#3A3954",
-          borderRadius: 15,
-          height: 90,
+          height: 80,
           shadowColor: "#000",
           shadowOffset: {
             width: 10,
@@ -31,37 +29,54 @@ const TabRoutes = () => {
           shadowRadius: 13.97,
           elevation: 21,
         },
+        tabBarIconStyle: {
+          marginBottom: -10, 
+        },
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="Search"
+        component={Search}
         options={{
-          tabBarLabel: "Home",
+          tabBarLabel: "Buscar",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Sobre Nós"
-        component={Sobrenos}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="information"
+            <Feather
+              name="search"
               color={color}
-              size={26}
+              size={32}
             />
           ),
         }}
       />
       <Tab.Screen
-        name="Category"
-        component={Category}
+        name="Home"
+        component={Home}
         options={{
+          tabBarLabel: "Início",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="view-list" color={color} size={26} />
+            <Feather name="home" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Playlists"
+        component={Playlists}
+        options={{
+          tabBarLabel: "Biblioteca",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="playlist-music" color={color} size={32} />
           ),
         }}
       />

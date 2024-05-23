@@ -5,7 +5,7 @@ import React from "react";
 import styles from "./styles";
 import Title from "../../components/Title";
 
-export default function Category() {
+export default function Users() {
   const [apiData, setApiData] = useState([]);
 
   useEffect(() => {

@@ -1,7 +1,6 @@
 import { View, Text } from "react-native";
 import { useEffect, useState } from "react";
 import fetchApi from "../../data/Users/User";
-import React from "react";
 import styles from "./styles";
 import Title from "../../components/Title";
 

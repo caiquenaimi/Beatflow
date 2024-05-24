@@ -32,6 +32,10 @@ const TabRoutes = () => {
         tabBarIconStyle: {
           marginBottom: -10, 
         },
+        headerStyle: {
+          backgroundColor: "#3A3954",      
+        },
+        headerTintColor: "#fff",
       }}
     >
       <Tab.Screen
@@ -53,7 +57,7 @@ const TabRoutes = () => {
         }}
       />
       <Tab.Screen
-        name="Home"
+        name="Inicio"
         component={Home}
         options={{
           tabBarLabel: "Início",

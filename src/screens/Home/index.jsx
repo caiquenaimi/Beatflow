@@ -5,8 +5,24 @@ import { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import fetchApi from "../../data/Users/User";
 import ProfileCard from "../../components/Profile/ProfileCard";
+import { verify } from "jsonwebtoken";
 
 export default function Home() {
+  
+  // const authToken = request.headers.authorization;
+  // if (!authToken){
+  //   return <Text>Usuário não autenticado</Text>
+  // }
+  // const [ , token] = authToken.split("");
+  // try{
+  //   verify(token, "d2093a95-ed12-46fb-9bb4-8c16d28e6013");
+  //   return next();
+  // } catch (error) {
+  //   return <Text>Usuário não autenticado</Text>
+  // }
+
+
+
   /*  const [apiData, setApiData] = useState([]);
 
   useEffect(() => {

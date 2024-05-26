@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import fetchApi from "../../data/Users/User";
 import ProfileCard from "../../components/Profile/ProfileCard";
-import { verify } from "jsonwebtoken";
+/* import { verify } from "jsonwebtoken"; */
 
 export default function Home() {
   

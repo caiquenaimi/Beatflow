@@ -4,6 +4,21 @@ import TrackPlayer, { Capability, Event, RepeatMode, State, usePlaybackState, us
 
 const setupPlayer = async() => {
     await TrackPlayer.setupPlayer();
+    await TrackPlayer.updateOptions({
+        stopWithApp: true,
+        capabilities: [
+            Capability.Play,
+            Capability.Pause,
+            Capability.SkipToNext,
+            Capability.SkipToPrevious,
+            Capability.Stop
+        ],
+        compactCapabilities: [
+            Capability.Play,
+            Capability.Pause
+        ]
+    });
+
     await TrackPlayer.add({
         id: 'trackId',
         url: require('../../../assets/track.mp3'),
@@ -175,5 +190,43 @@ export default function musicPlayer() {
     return () => {
         scrollx.removeAllListeners();
     }})
+
+    return (
+        <View>
+            <View>
+                <Image source={trackImage} />
+                <Text>{trackName}</Text>
+                <Text>{trackArtist}</Text>
+                <Text>{trackAlbum}</Text>
+                <Text>{trackDuration}</Text>
+            </View>
+            <View>
+                <TouchableOpacity onPress={changeRepeatMode}>
+                    <Text>{repeatMode}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={changeShuffleMode}>
+                    <Text>{shuffleMode}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={likeIcon}>
+                    <Text>{isLiked ? "Liked" : "Not Liked"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={playlistIcon}>
+                    <Text>{isPlaylist ? "Playlist" : "Not Playlist"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={changePlayback}>
+                    <Text>{playbackState === State.Playing ? "Pause" : "Play"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={skipToNext}>
+                    <Text>Skip to Next</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={skipToPrevious}>
+                    <Text>Skip to Previous</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={seekTo}>
+                    <Text>Seek to</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
 
 }

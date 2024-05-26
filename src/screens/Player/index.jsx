@@ -39,7 +39,7 @@ const togglePlayback = async(playbackState) => {
 export default function musicPlayer() {
     const playbackState = usePlaybackState();
     const progress = useProgress(); 
-
+    
     const scrollx = useRef(new Animated.Value(0)).current;
     const [songIndex, setSongIndex] = useState(0);
     const [repeatMode, setRepeatMode] = useState("off");
@@ -51,6 +51,19 @@ export default function musicPlayer() {
     const [isChanging, setIsChanging] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [isPlaylist, setIsPlaylist] = useState(false);
+    // id SERIAL PRIMARY KEY,
+    // name VARCHAR(100) NOT NULL,
+    // image VARCHAR(100),
+    // duration DECIMAL(5,2)  NOT NULL,
+    // file VARCHAR(100) NOT NULL,
+    // album VARCHAR(100) NOT NULL,
+    // artist VARCHAR(100) NOT NULL
+    const [trackName, setTrackName] = useState();
+    const [trackImage, setTrackImage] = useState();
+    const [trackAlbum, setTrackAlbum] = useState();
+    const [trackArtist, setTrackArtist] = useState();
+    const [trackDuration, setTrackDuration] = useState();       
+
 
     const repeatIcon = () => {
         if (repeatMode === "off") {
@@ -127,6 +140,29 @@ export default function musicPlayer() {
     }
 }
     
+    const changeShuffleMode = () => {
+        if (shuffleMode === "off") {
+            TrackPlayer.setShuffleMode(true);
+            setShuffleMode("on");
+    }
+        if (shuffleMode === "on") {
+            TrackPlayer.setShuffleMode(false);
+            setShuffleMode("off");
+    }
+}
+
+    useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
+        if (event.type === Event.PlaybackTrackChanged && event.nextTrack !== null){
+            const track = await TrackPlayer.getTrack(event.nextTrack);
+            const { name, image, artist, album, duration } = track;
+            setTrackName(name);
+            setTrackImage(image);
+            setTrackArtist(artist);
+            setTrackAlbum(album);
+            setTrackDuration(duration);
+        }})
+
+
     useEffect(() => {
         setupPlayer();
         scrollx.addListener(({ value }) => {
@@ -138,4 +174,6 @@ export default function musicPlayer() {
         });
     return () => {
         scrollx.removeAllListeners();
-    }} )}
+    }})
+
+}

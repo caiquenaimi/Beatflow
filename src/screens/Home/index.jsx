@@ -12,7 +12,7 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const dados = await fetchApi();
-        console.log(dados); // Verifique a estrutura dos dados aqui
+        console.log(dados);
         setApiData(dados.users);
       } catch (error) {
         console.error("Erro ao buscar dados: ", error);
@@ -25,9 +25,8 @@ export default function Home() {
     <View style={styles.container}>
       {apiData.length > 0 ? (
         apiData.map((item) => (
-          <ProfileCard
-            key={item.id}
-            username={item.name}
+          <ProfileCard key={item.id}
+            username={item.username}
           />
         ))
       ) : (

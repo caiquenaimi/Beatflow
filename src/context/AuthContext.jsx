@@ -2,9 +2,9 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';   
 import { createContext, useContext, useEffect, useState } from 'react';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
     const apiURL = 'http://localhost:3000/api'; //process.env.REACT_APP_API_URL;
     const [user, setUser] = useState('');
     const [refreshToken, setRefreshToken] = useState('');
@@ -86,6 +86,12 @@ export const AuthProvider = ({ children }) => {
     );
 }
 
+const useAuth = () => {
+    const context = useContext(AuthContext);
+    return context;
+}
+
+export { AuthProvider, useAuth };
 
 
 

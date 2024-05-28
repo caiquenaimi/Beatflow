@@ -12,10 +12,12 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   cardImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 10,
+    width: 100,
+    height: 100,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
     marginRight: 10,
+    marginLeft: -9.5,
   },
   cardTextContainer: {
     flex: 1,

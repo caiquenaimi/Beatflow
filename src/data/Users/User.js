@@ -19,4 +19,4 @@ const fetchApi = async () => {
     }
 }
 
-export default fetchApi;
+export default fetchApi;    

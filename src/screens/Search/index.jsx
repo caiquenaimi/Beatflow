@@ -9,8 +9,7 @@ export default function Search() {
 
   const updateSearch = (search) => {
     setSearch(search);
-  }
-
+  };
 
   return (
     <View style={styles.container}>
@@ -19,6 +18,9 @@ export default function Search() {
           placeholder="Search"
           onChangeText={updateSearch}
           value={search}
+          /* showLoading={true} */
+          inputContainerStyle={{ backgroundColor: "#3A3954", }}
+          containerStyle={{ backgroundColor: "#3A3954", borderRadius: 10 }}
         />
       </View>
     </View>

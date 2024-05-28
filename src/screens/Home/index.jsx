@@ -2,8 +2,9 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./styles";
 import Title from "../../components/Title";
-import fetchApi from "../../data/Users/User";
-import ProfileCard from "../../components/Profile/ProfileCard";
+import fetchApi from "../../data/Musics/Music";
+import MusicCard from "../../components/Musics/MusicCard";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function Home() {
   const [apiData, setApiData] = useState([]);
@@ -13,7 +14,7 @@ export default function Home() {
       try {
         const dados = await fetchApi();
         console.log(dados);
-        setApiData(dados.users);
+        setApiData(dados.musics);
       } catch (error) {
         console.error("Erro ao buscar dados: ", error);
       }
@@ -22,17 +23,22 @@ export default function Home() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {apiData.length > 0 ? (
-        apiData.map((item) => (
-          <ProfileCard key={item.id}
-            username={item.username}
-          />
-        ))
-      ) : (
-        <Text>Carregando...</Text>
-      )}
-      <Title title={"Home"} />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        {apiData.length > 0 ? (
+          apiData.map((item) => (
+            <MusicCard
+              key={item.id}
+              songname={item.name}
+              image={item.image}
+              artist={item.artist}
+            />
+          ))
+        ) : (
+          <Text>Carregando...</Text>
+        )}
+        <Title title={"Home"} />
+      </View>
+    </ScrollView>
   );
 }

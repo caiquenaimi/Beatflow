@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {AsyncStorage} from 'react-native';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 export const AuthContext = createContext();
 
@@ -42,9 +42,9 @@ const AuthProvider = ({ children }) => {
         loadingStoreDataStuff();
     }, []);
 
-    const sign = async (email, password) => {
+    const login = async (email, password) => {
         try {
-            const loggged = await axios.post(`${apiURL}/users/login/`, {
+            const loggged = await axios.post(`${apiURL}/users/login`, {
                 email,
                 password
             });
@@ -80,13 +80,18 @@ const AuthProvider = ({ children }) => {
     }   
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, sign, signOut, loading }}>
+        <AuthContext.Provider value={{ signed: !!user, user, login, signOut, loading }}>
             {children}
         </AuthContext.Provider>
     );
 }
 
-export default AuthProvider;
+const useAuth = () => {
+    const context = useContext(AuthContext);
+    return context;
+}
+
+export { AuthProvider, useAuth };
 
 
 

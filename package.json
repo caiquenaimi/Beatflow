@@ -33,7 +33,8 @@
     "react-native-snap-carousel": "^4.0.0-beta.6",
     "react-native-track-player": "^4.0.0-rc09",
     "react-native-vector-icons": "^10.1.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "@expo/webpack-config": "^0.17.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

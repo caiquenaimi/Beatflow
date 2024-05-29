@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
         loadingStoreDataStuff();
     }, []);
 
-    const test = () => {
+    const test = async () => {
         console.log('user: ', user);
         console.log('refreshToken: ', refreshToken);
         console.log('acessToken: ', acessToken);
@@ -49,16 +49,22 @@ const AuthProvider = ({ children }) => {
                 email: email,
                 password: password
             });
-            console.log('loggged: ', loggged);
+            console.log('loggged: ', loggged.data);
             if(loggged){
-                setAcessToken(loggged.data.rtoken);
+                setAcessToken(loggged.data.token);
                 const { password, ...noPassword } = loggged.data.user;
                 setUser(noPassword);
-                setRefreshToken(loggged.data.rtoken);
-                AsyncStorage.setItem("@asyncStorage:refreshToken", JSON.stringify(loggged.data.rtoken));
+                setRefreshToken(loggged.data.refreshToken);
+                console.log('user: ', user);
+                console.log('refreshToken: ', loggged.data.refreshToken);
+                console.log('password: ', password);
+                AsyncStorage.setItem("@asyncStorage:refreshToken", JSON.stringify(loggged.data.refreshToken));
             }
+
+            return true
         } catch (error) {
             console.error("Erro ao fazer login: ", error);
+            return false
         }
     }
 

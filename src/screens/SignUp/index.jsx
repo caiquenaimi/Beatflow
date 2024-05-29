@@ -1,17 +1,18 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
-// import styles from './styles'
+import styles from './styles'
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
-import { AuthContext } from '../../context/AuthContext'
 
 export default function SignUp() {
-    const { setUser } = useContext(AuthContext)
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
+    const [birthdate, setBirthDate] = useState('')
     const [loading, setLoading] = useState(false)
     const navigation = useNavigation()
+
     
     useEffect(() => {
         console.log('SignUp')
@@ -20,12 +21,13 @@ export default function SignUp() {
     const handleSignUp = async () => {
         setLoading(true)
         try {
-        const response = await axios.post('http://localhost:3000/api/users', {
+        const response = await axios.post('http://localhost:3000/users', {
+            name,
             email,
             password,
-            name
+            birthdate
         })
-        setUser(response.data.user)
+        console.log('response: ', response.data)
         navigation.navigate('Home')
         } catch (error) {
         console.error('Erro ao fazer login: ', error)
@@ -54,6 +56,12 @@ export default function SignUp() {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
+        />
+        <TextInput
+            style={styles.input}
+            placeholder='Birth Date'
+            value={birthdate}
+            onChangeText={setBirthDate}
         />
         <TouchableOpacity
             style={styles.button}

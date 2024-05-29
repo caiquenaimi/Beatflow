@@ -4,7 +4,7 @@ import styles from "./styles";
 import Title from "../../components/Title";
 import fetchApi from "../../data/Musics/Music";
 import MusicCard from "../../components/Musics/MusicCard";
-import Carousel from 'react-native-carousel-control';
+import Carousel from "react-native-carousel-control";
 
 export default function Home() {
   const [apiData, setApiData] = useState([]);
@@ -33,15 +33,11 @@ export default function Home() {
     </View>
   );
 
-  const kanyeWestSongs = apiData.filter(
-    (item) => item.artist === "Kanye West"
-  );
+  const kanyeWestSongs = apiData.filter((item) => item.artist === "Kanye West");
 
-  const matueSongs = apiData.filter(
-    (item) => item.artist === "Matuê"
-  );
+  const matueSongs = apiData.filter((item) => item.artist === "Matuê");
 
-  const { width } = Dimensions.get('window');
+  const { width } = Dimensions.get("window");
 
   return (
     <ScrollView>
@@ -50,16 +46,28 @@ export default function Home() {
 
         <Text style={styles.artistTitle}>Kanye West</Text>
         {kanyeWestSongs.length > 0 ? (
-          <Carousel pageWidth={width} sneak={20} style={styles.carousel} itemPadding={10}>
+          <Carousel
+            pageWidth={width}
+            sneak={20}
+            style={styles.carousel}
+            itemPadding={10}
+          >
             {kanyeWestSongs.map((item) => renderItem(item))}
           </Carousel>
         ) : (
-          <Text style={styles.loadingText}>Carregando músicas de Kanye West...</Text>
+          <Text style={styles.loadingText}>
+            Carregando músicas de Kanye West...
+          </Text>
         )}
 
         <Text style={styles.artistTitle}>Matuê</Text>
         {matueSongs.length > 0 ? (
-          <Carousel pageWidth={width} sneak={20} style={styles.carousel} itemPadding={10}>
+          <Carousel
+            pageWidth={width}
+            sneak={20}
+            style={styles.carousel}
+            itemPadding={10}
+          >
             {matueSongs.map((item) => renderItem(item))}
           </Carousel>
         ) : (

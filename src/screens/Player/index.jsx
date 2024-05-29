@@ -166,16 +166,18 @@ export default function musicPlayer() {
     }
 }
 
-    useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
-        if (event.type === Event.PlaybackTrackChanged && event.nextTrack !== null){
-            const track = await TrackPlayer.getTrack(event.nextTrack);
-            const { name, image, artist, album, duration } = track;
-            setTrackName(name);
-            setTrackImage(image);
-            setTrackArtist(artist);
-            setTrackAlbum(album);
-            setTrackDuration(duration);
-        }})
+const listener = async (event) => {
+    if (event.type === Event.PlaybackTrackChanged && event.nextTrack !== null) {
+      const track = await TrackPlayer.getTrack(event.nextTrack);
+      const { name, image, artist, album, duration } = track;
+      setTrackName(name);
+      setTrackImage(image);
+      setTrackArtist(artist);
+      setTrackAlbum(album);
+      setTrackDuration(duration);
+    }
+  };
+  
 
 
     useEffect(() => {

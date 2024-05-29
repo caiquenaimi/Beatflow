@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -9,6 +10,19 @@ const styles = StyleSheet.create({
   },
   carousel: {
     flex: 1,
+  },
+  cardContainer: {
+    padding: 10,
+  },
+  artistTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginVertical: 10,
+  },
+  loadingText: {
+    fontSize: 18,
+    color: '#fff',
   },
 });
 

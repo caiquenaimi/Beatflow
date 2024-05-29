@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./styles";
 import Title from "../../components/Title";
 import fetchApi from "../../data/Musics/Music";
 import MusicCard from "../../components/Musics/MusicCard";
 import { ScrollView } from "react-native-gesture-handler";
+import Carousel from "react-native-carousel-control";
 
 export default function Home() {
   const [apiData, setApiData] = useState([]);
@@ -22,22 +23,43 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const renderItem = (item) => (
+    <MusicCard
+      key={item.id}
+      songname={item.name}
+      image={item.image}
+      artist={item.artist}
+    />
+  );
+
+  const kanyeWestSongs = apiData.filter((item) => item.artist === "Kanye West");
+
+  const matueSongs = apiData.filter((item) => item.artist === "Matuê");
+
+  const { width } = Dimensions.get("window");
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        {apiData.length > 0 ? (
-          apiData.map((item) => (
-            <MusicCard
-              key={item.id}
-              songname={item.name}
-              image={item.image}
-              artist={item.artist}
-            />
-          ))
-        ) : (
-          <Text>Carregando...</Text>
-        )}
         <Title title={"Home"} />
+        <Text style={styles.sectionTitle}>Músicas</Text>
+        <Text style={styles.artistTitle}>Kanye West</Text>
+        {kanyeWestSongs.length > 0 ? (
+          <Carousel pageWidth={width} sneak={20}>
+            {kanyeWestSongs.map((item) => renderItem(item))}
+          </Carousel>
+        ) : (
+          <Text>Carregando músicas de Kanye West...</Text>
+        )}
+
+        <Text style={styles.artistTitle}>Matuê</Text>
+        {matueSongs.length > 0 ? (
+          <Carousel pageWidth={width} sneak={20}>
+            {matueSongs.map((item) => renderItem(item))}
+          </Carousel>
+        ) : (
+          <Text>Carregando músicas de Matuê...</Text>
+        )}
       </View>
     </ScrollView>
   );

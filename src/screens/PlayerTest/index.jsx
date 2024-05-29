@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, Button } from 'react-native';
-import { useLastActiveTrack, useSetupTrackPlayer, useTrackPlayerFavorite, useTrackPlayerRepeatMode, useTrackPlayerVolume } from './seus-hooks';
+import { useLastActiveTrack, useLogTrackPlayerState, useSetupTrackPlayer, useTrackPlayerFavorite, useTrackPlayerRepeatMode, useTrackPlayerVolume } from './seus-hooks';
 
 const MusicPlayer = () => {
-  // Setup Track Player
+  const { RepeatMode, TrackPlayer } = require('react-native-track-player');
   useSetupTrackPlayer({});
 
-  // Hooks
+
   const lastActiveTrack = useLastActiveTrack();
   const { isFavorite, toggleFavorite } = useTrackPlayerFavorite();
   const { repeatMode, changeRepeatMode } = useTrackPlayerRepeatMode();
   const { volume, updateVolume } = useTrackPlayerVolume();
 
-  // State
+ 
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Play / Pause Functions
@@ -27,7 +27,7 @@ const MusicPlayer = () => {
     }
   };
 
-  // Toggle Repeat Mode Function
+
   const toggleRepeatMode = () => {
     let newMode;
     switch (repeatMode) {
@@ -46,7 +46,7 @@ const MusicPlayer = () => {
     changeRepeatMode(newMode);
   };
 
-  // Render
+
   return (
     <View>
       <Text>Music Player</Text>

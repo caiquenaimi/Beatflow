@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { AuthContext } from '../../context/AuthContext'
 
 export default function SignIn() {
-    const { login } = useContext(AuthContext)
+    const { login, test } = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
@@ -59,13 +59,15 @@ export default function SignIn() {
         return true
     }
 
+
     const handleSignIn = async () => {
         try{
-            if (validation()) {
-                setLoading(true)
-                await login(email, password)
-                navigation.navigate('Inicio')
+            if (!validation()) {
+               return
             }
+            setLoading(true)
+            await login(email, password)
+            navigation.navigate('Inicio')
         }
         catch (error) {
             console.error('Erro ao fazer login: ', error)

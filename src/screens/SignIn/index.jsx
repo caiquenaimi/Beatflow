@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
 import { AuthContext } from '../../context/AuthContext'
 
-export default function SignUp() {
+export default function SignIn() {
     const { setUser } = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

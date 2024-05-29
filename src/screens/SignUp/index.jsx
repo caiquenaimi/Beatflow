@@ -28,7 +28,7 @@ export default function SignUp() {
             birthdate
         })
         console.log('response: ', response.data)
-        navigation.navigate('Home')
+        navigation.navigate('SignIn')
         } catch (error) {
         console.error('Erro ao fazer login: ', error)
         }

@@ -6,42 +6,76 @@ import { useNavigation } from '@react-navigation/native'
 import { AuthContext } from '../../context/AuthContext'
 
 export default function SignIn() {
-    const { setUser } = useContext(AuthContext)
+    const { login } = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+    const errors = []
     const navigation = useNavigation()
     
     useEffect(() => {
         console.log('SignUp')
     }, [])
     
-    const handleSignUp = async () => {
-        setLoading(true)
-        try {
-        const response = await axios.post('http://localhost:3000/api/users', {
-            email,
-            password,
-            name
-        })
-        setUser(response.data.user)
-        navigation.navigate('Home')
-        } catch (error) {
-        console.error('Erro ao fazer login: ', error)
+
+    const validation = () => {
+        if (!email) {
+            errors.push('Preencha o campo de email')
+            return false
+        }
+        if (!password) {
+            errors.push('Preencha o campo de senha')
+            return false
+        }
+        if (password.length < 6) {
+            errors.push('A senha deve ter no mínimo 6 caracteres')
+            return false
+        }
+        if (!email.includes('@')) {
+            errors.push('Email inválido')
+            return false
+        }
+        if (!password.includes('@', '.', '!', '#', '$', '%', '&', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~', ':', ';', '<', '>', '[', ']', '\\', '"', "'")) {
+            errors.push('A senha deve conter ao menos um caracter especial')
+            return false
+        }
+        if (!password.includes('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')) {
+            errors.push('A senha deve conter ao menos um número')
+            return false
+        }
+        if (!password.includes('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')) {
+            errors.push('A senha deve conter ao menos uma letra maiúscula')
+            return false
+        }
+        if (!password.includes('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')) {
+            errors.push('A senha deve conter ao menos uma letra minúscula')
+            return false
+        }
+        if (errors.length > 0) {
+            setError(errors.join('\n'))
+            return false
+        }
+        return true
+    }
+
+    const handleSignIn = async () => {
+        try{
+            if (validation()) {
+                setLoading(true)
+                await login(email, password)
+                navigation.navigate('Home')
+            }
+        }
+        catch (error) {
+            console.error('Erro ao fazer login: ', error)
         }
         setLoading(false)
     }
     
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>Sign Up</Text>
-        <TextInput
-            style={styles.input}
-            placeholder='Name'
-            value={name}
-            onChangeText={setName}
-        />
+        <Text style={styles.title}>Login</Text>
         <TextInput
             style={styles.input}
             placeholder='Email'
@@ -57,9 +91,9 @@ export default function SignIn() {
         />
         <TouchableOpacity
             style={styles.button}
-            onPress={handleSignUp}
+            onPress={handleSignIn}
         >
-            <Text style={styles.buttonText}>Sign Up</Text>
+            <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
         </View>
     )

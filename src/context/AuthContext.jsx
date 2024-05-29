@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {AsyncStorage} from 'react-native';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 export const AuthContext = createContext();
 
@@ -86,12 +86,7 @@ const AuthProvider = ({ children }) => {
     );
 }
 
-const useAuth = () => {
-    const context = useContext(AuthContext);
-    return context;
-}
-
-export { AuthProvider, useAuth };
+export default AuthProvider;
 
 
 

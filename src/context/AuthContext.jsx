@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const apiURL = 'http://localhost:3000/api'; //process.env.REACT_APP_API_URL;
+    const apiURL = 'http://localhost:3000/'; //process.env.REACT_APP_API_URL;
     const [user, setUser] = useState('');
     const [refreshToken, setRefreshToken] = useState('');
     const [acessToken, setAcessToken] = useState('');

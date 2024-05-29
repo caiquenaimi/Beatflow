@@ -2,35 +2,30 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   cardContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: 300,
-    height: 100,
+    width: 180,
     backgroundColor: "#3A3954",
     borderRadius: 10,
-    padding: 10,
-    margin: 10,
+    alignItems: "center",
   },
   cardImage: {
-    width: 100,
-    height: 100,
-    borderBottomLeftRadius: 10,
+    width: 180,
+    height: 180,
     borderTopLeftRadius: 10,
-    marginRight: 10,
-    marginLeft: -9.5,
+    borderTopRightRadius: 10,
   },
   cardTextContainer: {
-    flex: 1,
-    justifyContent: "center",
+    width: "100%",
+    alignItems: "center",
   },
   cardText: {
-    fontSize: 16,
-    textAlign: "left",
+    fontSize: 18,
+    textAlign: "center",
     color: "#FFF",
+    marginBottom: 5,
   },
   artistText: {
-    fontSize: 14,
-    color: "#fff",
+    fontSize: 16,
+    color: "#bbb",
   },
 });
 

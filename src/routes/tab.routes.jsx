@@ -5,6 +5,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import Home from "../screens/Home";
 import Playlists from "../screens/Playlists";
 import Users from "../screens/Users";
+import SignUp from "../screens/SignUp";
+import SignIn from "../screens/SignIn";
 import Search from "../screens/Search";
 
 const Tab = createBottomTabNavigator();
@@ -81,6 +83,48 @@ const TabRoutes = () => {
           },
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="playlist-music" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Users"
+        component={Users}
+        options={{
+          tabBarLabel: "Usuários",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
+          tabBarIcon: ({ color }) => (
+            <Feather name="users" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{
+          tabBarLabel: "Sign Up",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
+          tabBarIcon: ({ color }) => (
+            <Feather name="user-plus" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{
+          tabBarLabel: "Sign In",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
+          tabBarIcon: ({ color }) => (
+            <Feather name="log-in" color={color} size={32} />
           ),
         }}
       />

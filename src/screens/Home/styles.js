@@ -9,20 +9,23 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   carousel: {
-    flex: 'row',
+    marginVertical: 20,
   },
   cardContainer: {
     padding: 10,
   },
   artistTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
     marginVertical: 10,
   },
   loadingText: {
     fontSize: 18,
-    color: '#fff',
+    color: "#fff",
+  },
+  carouselContent: {
+    alignItems: "center",
   },
 });
 

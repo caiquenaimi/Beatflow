@@ -32,32 +32,14 @@ const TabRoutes = () => {
           elevation: 21,
         },
         tabBarIconStyle: {
-          marginBottom: -10, 
+          marginBottom: -10,
         },
         headerStyle: {
-          backgroundColor: "#3A3954",      
+          backgroundColor: "#3A3954",
         },
         headerTintColor: "#fff",
       }}
     >
-      <Tab.Screen
-        name="Search"
-        component={Search}
-        options={{
-          tabBarLabel: "Buscar",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
-          tabBarIcon: ({ color }) => (
-            <Feather
-              name="search"
-              color={color}
-              size={32}
-            />
-          ),
-        }}
-      />
       <Tab.Screen
         name="Inicio"
         component={Home}
@@ -73,6 +55,20 @@ const TabRoutes = () => {
         }}
       />
       <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          tabBarLabel: "Buscar",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
+          tabBarIcon: ({ color }) => (
+            <Feather name="search" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Playlists"
         component={Playlists}
         options={{
@@ -82,7 +78,11 @@ const TabRoutes = () => {
             fontFamily: "Roboto",
           },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="playlist-music" color={color} size={32} />
+            <MaterialCommunityIcons
+              name="playlist-music"
+              color={color}
+              size={32}
+            />
           ),
         }}
       />

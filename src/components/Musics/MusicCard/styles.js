@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#3A3954",
     borderRadius: 10,
     alignItems: "center",
+    marginHorizontal: 10,
   },
   cardImage: {
     width: 180,
@@ -16,6 +17,7 @@ const styles = StyleSheet.create({
   cardTextContainer: {
     width: "100%",
     alignItems: "center",
+    padding: 10,
   },
   cardText: {
     fontSize: 18,

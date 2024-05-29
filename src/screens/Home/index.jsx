@@ -49,11 +49,12 @@ export default function Home() {
             data={kanyeWestSongs}
             renderItem={renderItem}
             sliderWidth={width}
-            itemWidth={100}
+            itemWidth={width * 0.8}
             layout={"default"}
-            activeSlideAlignment="start"
-            activeSlideOffset={"start"}
-            style={styles.carousel}
+            inactiveSlideScale={0.95}
+            inactiveSlideOpacity={0.7}
+            activeSlideAlignment="center"
+            contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (
           <Text style={styles.loadingText}>
@@ -67,11 +68,12 @@ export default function Home() {
             data={matueSongs}
             renderItem={renderItem}
             sliderWidth={width}
-            itemWidth={100}
+            itemWidth={width * 0.8}
             layout={"default"}
-            activeSlideAlignment="start"
-            activeSlideOffset={"start"}
-            style={styles.carousel}
+            inactiveSlideScale={0.95}
+            inactiveSlideOpacity={0.7}
+            activeSlideAlignment="center"
+            contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (
           <Text style={styles.loadingText}>Carregando músicas de Matuê...</Text>

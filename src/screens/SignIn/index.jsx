@@ -62,12 +62,14 @@ export default function SignIn() {
 
     const handleSignIn = async () => {
         try{
-            if (!validation()) {
-               return
-            }
             setLoading(true)
-            await login(email, password)
+            const response = await login(email, password);
+            console.log('response: ', response)
+            if(response){
             navigation.navigate('Inicio')
+            setEmail('')
+            setPassword('')
+            }
         }
         catch (error) {
             console.error('Erro ao fazer login: ', error)

@@ -1,10 +1,10 @@
 import { View, Text, Dimensions, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
+import Carousel from "react-native-snap-carousel"; // Certifique-se de que está importando corretamente
 import styles from "./styles";
 import Title from "../../components/Title";
 import fetchApi from "../../data/Musics/Music";
 import MusicCard from "../../components/Musics/MusicCard";
-import Carousel from "react-native-carousel-control";
 
 export default function Home() {
   const [apiData, setApiData] = useState([]);
@@ -22,7 +22,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const renderItem = (item) => (
+  const renderItem = ({ item }) => (
     <View style={styles.cardContainer}>
       <MusicCard
         key={item.id}
@@ -34,7 +34,6 @@ export default function Home() {
   );
 
   const kanyeWestSongs = apiData.filter((item) => item.artist === "Kanye West");
-
   const matueSongs = apiData.filter((item) => item.artist === "Matuê");
 
   const { width } = Dimensions.get("window");
@@ -47,13 +46,15 @@ export default function Home() {
         <Text style={styles.artistTitle}>Kanye West</Text>
         {kanyeWestSongs.length > 0 ? (
           <Carousel
-            pageWidth={width}
-            sneak={20}
+            data={kanyeWestSongs}
+            renderItem={renderItem}
+            sliderWidth={width}
+            itemWidth={100}
+            layout={"default"}
+            activeSlideAlignment="start"
+            activeSlideOffset={"start"}
             style={styles.carousel}
-            itemPadding={10}
-          >
-            {kanyeWestSongs.map((item) => renderItem(item))}
-          </Carousel>
+          />
         ) : (
           <Text style={styles.loadingText}>
             Carregando músicas de Kanye West...
@@ -63,13 +64,15 @@ export default function Home() {
         <Text style={styles.artistTitle}>Matuê</Text>
         {matueSongs.length > 0 ? (
           <Carousel
-            pageWidth={width}
-            sneak={20}
+            data={matueSongs}
+            renderItem={renderItem}
+            sliderWidth={width}
+            itemWidth={100}
+            layout={"default"}
+            activeSlideAlignment="start"
+            activeSlideOffset={"start"}
             style={styles.carousel}
-            itemPadding={10}
-          >
-            {matueSongs.map((item) => renderItem(item))}
-          </Carousel>
+          />
         ) : (
           <Text style={styles.loadingText}>Carregando músicas de Matuê...</Text>
         )}

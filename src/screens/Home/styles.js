@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   carousel: {
-    flex: 1,
+    flex: 'row',
   },
   cardContainer: {
     padding: 10,

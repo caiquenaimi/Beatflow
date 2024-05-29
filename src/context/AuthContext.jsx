@@ -42,9 +42,9 @@ const AuthProvider = ({ children }) => {
         loadingStoreDataStuff();
     }, []);
 
-    const sign = async (email, password) => {
+    const login = async (email, password) => {
         try {
-            const loggged = await axios.post(`${apiURL}/users/login/`, {
+            const loggged = await axios.post(`${apiURL}/users/login`, {
                 email,
                 password
             });
@@ -80,7 +80,7 @@ const AuthProvider = ({ children }) => {
     }   
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, sign, signOut, loading }}>
+        <AuthContext.Provider value={{ signed: !!user, user, login, signOut, loading }}>
             {children}
         </AuthContext.Provider>
     );

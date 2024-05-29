@@ -64,7 +64,7 @@ export default function SignIn() {
             if (validation()) {
                 setLoading(true)
                 await login(email, password)
-                navigation.navigate('Home')
+                navigation.navigate('Inicio')
             }
         }
         catch (error) {
@@ -102,7 +102,7 @@ export default function SignIn() {
             <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
         <Text style={{ color: 'red' }}>{error}</Text>
-        
+
         </View>
     )
 }

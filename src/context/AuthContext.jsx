@@ -19,16 +19,11 @@ const AuthProvider = ({ children }) => {
             if (storageToken) {
                 try {
                     const loggged = await axios.post(`${apiURL}/users/refresh`, {
-                        refreshToken: JSON.parse(storageToken)
+                        rtoken: JSON.parse(storageToken)
                     });
                     if(loggged){
-                        const userId = await axios.get(`${apiURL}/users/${loggged.data.refreshToken.user_id}`, {
-                            headers: {
-                                Authorization: `Bearer ${loggged.data.accessToken}`
-                            }
-                        });
-                        
-                        setAcessToken(loggged.data.token);
+                        const userId = await axios.get(`${apiURL}/users/${loggged.data.rtoken.user_id}`);
+                        setAcessToken(loggged.data.rtoken);
                         const { password, ...noPassword } = userId.data.user;
                         setUser(noPassword);
                     }
@@ -45,20 +40,16 @@ const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const loggged = await axios.post(`${apiURL}/users/login`, {
-                email,
-                password
+                email: email,
+                password: password
             });
+            console.log('loggged: ', loggged);
             if(loggged){
-                const userId = await axios.get(`${apiURL}/users/${loggged.data.refreshToken.user_id}`, {
-                    headers: {
-                        Authorization: `Bearer ${loggged.data.accessToken}`
-                    }
-                });
-                setAcessToken(loggged.data.token);
-                const { password, ...noPassword } = userId.data.user;
+                setAcessToken(loggged.data.rtoken);
+                const { password, ...noPassword } = loggged.data.user;
                 setUser(noPassword);
-                setRefreshToken(loggged.data.refreshToken);
-                AsyncStorage.setItem("@asyncStorage:refreshToken", JSON.stringify(loggged.data.refreshToken));
+                setRefreshToken(loggged.data.rtoken);
+                AsyncStorage.setItem("@asyncStorage:refreshToken", JSON.stringify(loggged.data.rtoken));
             }
         } catch (error) {
             console.error("Erro ao fazer login: ", error);

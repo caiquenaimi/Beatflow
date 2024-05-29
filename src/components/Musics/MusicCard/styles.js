@@ -12,18 +12,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardContainer: {
-    width: 200,
+    width: 180,
     backgroundColor: "#3A3954",
     borderRadius: 10,
-    padding: 10,
-    margin: 10,
     alignItems: 'center',
   },
   cardImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    marginBottom: 10,
+    width: 180,
+    height: 180,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   cardTextContainer: {
     width: '100%',

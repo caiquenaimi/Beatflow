@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
 import fetchApiMusics from "../../data/Musics/Music";
-import { fetchApiPlaylists, fetchApiPlaylistById } from "../../data/Playlists/Playlist";
+import { fetchApiPlaylists } from "../../data/Playlists/Playlist";
 import MusicCard from "../../components/Musics/MusicCard";
 
 export default function Home() {

@@ -5,26 +5,58 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
   },
+  containerScroll:{
+    flexGrow: 1,
+    marginBottom: 100
+  },
+  cadastre:{
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 20
+  },
+  loginButton:{
+    color: '#555555',
+  },
+  
   title: {
     fontSize: 32,
     color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 24,
   },
+  logo: {
+    alignSelf: 'center',
+    marginBottom: 24, 
+    marginTop: 20
+   },
   form: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
   },
   input: {
+    width: "100%",
     backgroundColor: '#333333',
     borderRadius: 8,
     color: '#FFFFFF',
-    width: '100%',
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
     marginBottom: 16,
+    paddingRight: 40,
+    alignItems: 'center',
+    borderBottomWidth: 1, 
+    borderBottomColor: 'gray', 
+  },
+  eyeIcon:{
+    position: 'absolute',
+    right: 20,
+    top: 10
+  },
+  flr:{
+    flexDirection: 'row',
+    width: "100%"
   },
   button: {
     backgroundColor: '#FF0000',
@@ -37,9 +69,6 @@ export default StyleSheet.create({
   buttonText: {
     color: '#FFFFFF',
     fontSize: 18,
-  },
-  loginButton: {
-    backgroundColor: '#555555', 
   },
   errorMessage: {
     color: '#FF0000',

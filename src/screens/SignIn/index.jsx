@@ -1,8 +1,9 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
+import { Feather } from "@expo/vector-icons";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage"; 
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage"; 
 import styles from "./styles";
@@ -14,6 +15,7 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -24,6 +26,11 @@ export default function SignIn() {
 
     return () => clearTimeout(timeout);
   }, [error, success]);
+
+  const toggleSecureEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+  
 
   const validation = () => {
     let errors = [];
@@ -80,6 +87,13 @@ export default function SignIn() {
 
   return (
     <View style={styles.container}>
+      <ScrollView style={styles.containerScroll} >
+       <View style={styles.logo}>
+        <Image
+          source={require("../../../assets/Beatflowlogo.png")}
+         style={{width:350, height:250}}
+        />
+      </View>
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
@@ -87,13 +101,22 @@ export default function SignIn() {
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
+      <View style={styles.flr}>
+<TextInput
         style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
+        secureTextEntry={secureTextEntry}
       />
+      <TouchableOpacity onPress={toggleSecureEntry} style={styles.eyeIcon}>
+        <Feather
+          name={secureTextEntry ? 'eye-off' : 'eye'}
+          size={24}
+          color="gray"
+        />
+      </TouchableOpacity>
+      </View>
       <TouchableOpacity
         style={styles.button}
         onPress={handleSignIn}
@@ -101,16 +124,14 @@ export default function SignIn() {
       >
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("SignUp")}
-      >
-        <Text style={styles.buttonText}>Cadastrar</Text>
-      </TouchableOpacity>
+      <Text style={styles.cadastre}>
+        Não possui uma conta? <Text style={styles.loginButton} onPress={() => navigation.navigate("SignUp")}>Faça o cadastro</Text>
+      </Text>
      <View style={styles.erros}>
       {error ? <ErrorMessage msg={error} /> : null}
       {success ? <SuccessMessage msg={success} /> : null}
       </View>
+      </ScrollView>
     </View>
   );
 }

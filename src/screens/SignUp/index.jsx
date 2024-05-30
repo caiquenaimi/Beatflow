@@ -1,8 +1,9 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 
@@ -14,6 +15,7 @@ export default function SignUp() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -25,6 +27,9 @@ export default function SignUp() {
     return () => clearTimeout(timeout);
   }, [error, success]);
 
+  const toggleSecureEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
 
   const validation = () => {
     let errors = [];
@@ -95,7 +100,17 @@ export default function SignUp() {
   return (
     <View style={styles.container}>
         <ScrollView style={styles.containerScroll} >
-      <Text style={styles.title}>Sign Up</Text>
+          <View style={styles.head}>
+        <View style={styles.logo}>
+        <Image
+          source={require("../../../assets/Beatflowlogo.png")}
+         style={{width:350, height:250}}
+        />
+      </View>
+      <Text style={styles.title}>Bem-vindo a BeatFlow</Text>
+      <Text style={styles.subtitle}>A melhor plataforma de Trap/Rap</Text>
+      </View>
+      <Text style={styles.title}>Cadastre-se</Text>
       <View style={styles.form}> 
       <TextInput
         style={styles.input}
@@ -109,13 +124,22 @@ export default function SignUp() {
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
+      <View style={styles.flr}>
+<TextInput
         style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
+        secureTextEntry={secureTextEntry}
       />
+      <TouchableOpacity onPress={toggleSecureEntry} style={styles.eyeIcon}>
+        <Feather
+          name={secureTextEntry ? 'eye-off' : 'eye'}
+          size={24}
+          color="gray"
+        />
+      </TouchableOpacity>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Birth Date"
@@ -129,13 +153,9 @@ export default function SignUp() {
         >
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("SignIn")}
-        disabled={loading}
-        >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <Text style={styles.cadastre}>
+        Já possui uma conta? <Text style={styles.loginButton} onPress={() => navigation.navigate("SignIn")}>Faça login</Text>
+      </Text>
         </View>
       {error ? <ErrorMessage msg={error} /> : null}
       {success ? <SuccessMessage msg={success} /> : null}

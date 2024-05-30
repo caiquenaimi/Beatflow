@@ -56,7 +56,7 @@ export default function Home() {
             renderItem={renderItem}
             sliderWidth={width}
             itemWidth={220}
-            activeSlideAlignment="start"
+            activeSlideAlignment="center"
             contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (
@@ -72,7 +72,7 @@ export default function Home() {
             renderItem={renderItem}
             sliderWidth={width}
             itemWidth={220}
-            activeSlideAlignment="start"
+            activeSlideAlignment="center"
             contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (

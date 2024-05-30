@@ -18,7 +18,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     padding: 24,
   },
+  flr:{
+    flexDirection: 'row',
+    width: "100%"
+  },
   input: {
+    width: "100%",
     backgroundColor: '#333333',
     borderRadius: 8,
     color: '#FFFFFF',
@@ -26,6 +31,15 @@ export default StyleSheet.create({
     paddingVertical: 12,
     fontSize: 16,
     marginBottom: 16,
+    paddingRight: 40,
+    alignItems: 'center',
+    borderBottomWidth: 1, 
+    borderBottomColor: 'gray', 
+  },
+  eyeIcon:{
+    position: 'absolute',
+    right: 20,
+    top: 10
   },
   button: {
     backgroundColor: '#FF0000',
@@ -50,5 +64,14 @@ export default StyleSheet.create({
     color: '#00FF00',
     textAlign: 'center',
     marginTop: 16,
+  },
+  cadastre:{
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 20
+  },
+  loginButton:{
+    color: '#555555',
   },
 });

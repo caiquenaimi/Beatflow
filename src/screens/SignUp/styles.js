@@ -4,7 +4,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
-    justifyContent: 'center',
   },
   title: {
     fontSize: 32,
@@ -12,10 +11,16 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginBottom: 24,
   },
+  form: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
   input: {
     backgroundColor: '#333333',
     borderRadius: 8,
     color: '#FFFFFF',
+    width: '100%',
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
@@ -23,6 +28,7 @@ export default StyleSheet.create({
   },
   button: {
     backgroundColor: '#FF0000',
+    width: '100%',
     borderRadius: 8,
     paddingVertical: 12,
     marginVertical: 8,

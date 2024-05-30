@@ -17,18 +17,24 @@ export default function SignUp() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    console.log("SignUp");
-  }, []);
+    const timeout = setTimeout(() => {
+      setError("");
+      setSuccess("");
+    }, 7000);
+
+    return () => clearTimeout(timeout);
+  }, [error, success]);
+
 
   const validation = () => {
     let errors = [];
     if (!email) {
-      errors.push("Preencha o campo de email");
+      errors.push("Preencha o campo de email!");
     } else if (!email.includes("@")) {
-      errors.push("Email inválido");
+      errors.push("Email inválido!");
     }
     if (!password) {
-      errors.push("Preencha o campo de senha");
+      errors.push("Preencha o campo de senha!");
     } else if (password.length < 6) {
       errors.push("A senha deve ter no mínimo 6 caracteres");
     } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
@@ -41,10 +47,10 @@ export default function SignUp() {
       errors.push("A senha deve conter ao menos uma letra minúscula");
     }
     if (!name) {
-      errors.push("Preencha o campo de nome");
+      errors.push("Preencha o campo de nome!");
     }
     if (!birthdate) {
-      errors.push("Preencha o campo de data de nascimento");
+      errors.push("Preencha o campo de data de nascimento!");
     }
 
     if (errors.length > 0) {
@@ -88,8 +94,9 @@ export default function SignUp() {
 
   return (
     <View style={styles.container}>
-        <ScrollView >
+        <ScrollView style={styles.containerScroll} >
       <Text style={styles.title}>Sign Up</Text>
+      <View style={styles.form}> 
       <TextInput
         style={styles.input}
         placeholder="Name"
@@ -119,16 +126,17 @@ export default function SignUp() {
         style={styles.button}
         onPress={handleSignUp}
         disabled={loading}
-      >
-        <Text style={styles.buttonText}>Sign Up</Text>
+        >
+        <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("SignIn")}
         disabled={loading}
-      >
+        >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+        </View>
       {error ? <ErrorMessage msg={error} /> : null}
       {success ? <SuccessMessage msg={success} /> : null}
     </ScrollView>

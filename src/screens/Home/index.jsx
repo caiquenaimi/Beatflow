@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, ScrollView } from "react-native";
+import { View, Text, Dimensions, ScrollView, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
@@ -33,23 +33,29 @@ export default function Home() {
     </View>
   );
 
-  const kanyeWestSongs = apiData.filter((item) => item.artist === "Kanye West");
-  const matueSongs = apiData.filter((item) => item.artist === "Matuê");
+  const kanyeWestSongs = apiData.filter((item) =>
+    item.artist.toLowerCase().includes("kanye west")
+  );
+  const matueSongs = apiData.filter((item) =>
+    item.artist.toLowerCase().includes("matuê")
+  );
 
   const { width } = Dimensions.get("window");
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Title title={"Home"} />
-
+        <Image
+          source={require("../../../assets/Beatflowlogo.png")}
+          style={styles.logo}
+        />
         <Text style={styles.artistTitle}>Músicas de Kanye West</Text>
         {kanyeWestSongs.length > 0 ? (
           <Carousel
             data={kanyeWestSongs}
             renderItem={renderItem}
             sliderWidth={width}
-            itemWidth={220} 
+            itemWidth={220}
             activeSlideAlignment="start"
             contentContainerCustomStyle={styles.carouselContent}
           />
@@ -65,7 +71,7 @@ export default function Home() {
             data={matueSongs}
             renderItem={renderItem}
             sliderWidth={width}
-            itemWidth={220} 
+            itemWidth={220}
             activeSlideAlignment="start"
             contentContainerCustomStyle={styles.carouselContent}
           />

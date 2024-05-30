@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#20202C",
-    marginBottom: 40,
+    marginBottom: 80.5,
   },
   title: {
     fontSize: 24,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   cardContainer: {
-    paddingHorizontal: 5,  // Ajuste o padding para diminuir o espaço entre os itens
+    paddingHorizontal: 5,  
   },
   carouselContent: {
     alignItems: 'center',  

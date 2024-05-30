@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import axios from "axios";
@@ -88,6 +88,7 @@ export default function SignUp() {
 
   return (
     <View style={styles.container}>
+        <ScrollView >
       <Text style={styles.title}>Sign Up</Text>
       <TextInput
         style={styles.input}
@@ -130,6 +131,7 @@ export default function SignUp() {
       </TouchableOpacity>
       {error ? <ErrorMessage msg={error} /> : null}
       {success ? <SuccessMessage msg={success} /> : null}
+    </ScrollView>
     </View>
   );
 }

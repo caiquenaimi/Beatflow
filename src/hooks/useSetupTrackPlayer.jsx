@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import TrackPlayer, { Capability, RatingType, RepeatMode } from 'react-native-track-player';
-import RNFS from 'react-native-fs';
+
 
 const setupPlayer = async () => {
   await TrackPlayer.setupPlayer({

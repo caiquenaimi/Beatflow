@@ -16,11 +16,11 @@ const TabRoutes = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: true,
-        tabBarActiveTintColor: "#E25252",
+        tabBarActiveTintColor: "#FF0000",
         tabBarStyle: {
           position: "absolute",
           elevation: 0,
-          backgroundColor: "#3A3954",
+          backgroundColor: "#000",
           height: 80,
           shadowColor: "#000",
           shadowOffset: {
@@ -35,9 +35,9 @@ const TabRoutes = () => {
           marginBottom: -10,
         },
         headerStyle: {
-          backgroundColor: "#3A3954",
+          backgroundColor: "#000",
         },
-        headerTintColor: "#fff",
+        headerTintColor: "#FF0000",
       }}
     >
       <Tab.Screen

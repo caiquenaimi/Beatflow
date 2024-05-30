@@ -2,8 +2,8 @@ import { View, Text, ScrollView, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { SearchBar } from "react-native-elements";
-import MusicCard from "../../components/Musics/MusicCard";
 import fetchApi from "../../data/Musics/Music";
+import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 
 export default function Search() {
   const [apiData, setApiData] = useState([]);
@@ -77,7 +77,14 @@ export default function Search() {
           placeholderTextColor="#fff"
         />
       </View>
-      <Text style={{ color: "#fff", fontSize: 20, textAlign: "center" }}>
+      <Text
+        style={{
+          color: "#fff",
+          fontSize: 20,
+          textAlign: "center",
+          marginBottom: 10,
+        }}
+      >
         Pesquise por artistas, músicas ou álbuns
       </Text>
       <ScrollView>
@@ -97,12 +104,14 @@ export default function Search() {
             </View>
           ) : (
             filteredData.map((item) => (
-              <MusicCard
-                key={item.id}
-                songname={item.name}
-                image={item.image}
-                artist={item.artist}
-              />
+              <View style={styles.renderCardView}>
+                <MusicCardSearch
+                  key={item.id}
+                  songname={item.name}
+                  image={item.image}
+                  artist={item.artist}
+                />
+              </View>
             ))
           )}
         </View>

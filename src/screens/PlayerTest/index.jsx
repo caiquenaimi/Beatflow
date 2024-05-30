@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, Button } from 'react-native';
-import { useLastActiveTrack, useLogTrackPlayerState, useSetupTrackPlayer, useTrackPlayerFavorite, useTrackPlayerRepeatMode, useTrackPlayerVolume } from './seus-hooks';
+import TrackPlayer, { RepeatMode } from 'react-native-track-player';
+import { useLastActiveTrack } from '../../hooks/useLastActiveTrack';
+import { useTrackPlayerFavorite } from '../../hooks/useTrackPlayerFavorite';
+import { useTrackPlayerRepeatMode } from '../../hooks/useTrackPlayerRepeatMode';
+import { useTrackPlayerVolume } from '../../hooks/useTrackPlayerVolume';
+import { useSetupTrackPlayer } from '../../hooks/useSetupTrackPlayer';
 
 const MusicPlayer = () => {
-  const { RepeatMode, TrackPlayer } = require('react-native-track-player');
-  useSetupTrackPlayer({});
-
-
-  const lastActiveTrack = useLastActiveTrack();
+  const isPlayerSetup = useSetupTrackPlayer();
+  const lastActiveTrack = useLastActiveTrack(isPlayerSetup);
   const { isFavorite, toggleFavorite } = useTrackPlayerFavorite();
   const { repeatMode, changeRepeatMode } = useTrackPlayerRepeatMode();
   const { volume, updateVolume } = useTrackPlayerVolume();
 
- 
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Play / Pause Functions
   const playPause = async () => {
-    if (lastActiveTrack) {
+    if (isPlayerSetup && lastActiveTrack) {
       if (isPlaying) {
         await TrackPlayer.pause();
       } else {
@@ -26,7 +26,6 @@ const MusicPlayer = () => {
       setIsPlaying(!isPlaying);
     }
   };
-
 
   const toggleRepeatMode = () => {
     let newMode;
@@ -46,6 +45,13 @@ const MusicPlayer = () => {
     changeRepeatMode(newMode);
   };
 
+  if (!isPlayerSetup) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View>

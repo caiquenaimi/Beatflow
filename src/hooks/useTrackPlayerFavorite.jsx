@@ -1,6 +1,22 @@
-import { useFavorites } from '@/store/library';
-import { useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import TrackPlayer, { useActiveTrack } from 'react-native-track-player';
+
+const useFavorites = () => {
+  const [favorites, setFavorites] = useState([]);
+
+  const toggleTrackFavorite = (track) => {
+    setFavorites((prevFavorites) => {
+      const trackIndex = prevFavorites.findIndex((fav) => fav.url === track.url);
+      if (trackIndex >= 0) {
+        return prevFavorites.filter((fav) => fav.url !== track.url);
+      } else {
+        return [...prevFavorites, track];
+      }
+    });
+  };
+
+  return { favorites, toggleTrackFavorite };
+};
 
 export const useTrackPlayerFavorite = () => {
   const activeTrack = useActiveTrack();
@@ -19,7 +35,6 @@ export const useTrackPlayerFavorite = () => {
       rating: isFavorite ? 0 : 1,
     });
 
-    
     if (activeTrack) {
       toggleTrackFavorite(activeTrack);
     }

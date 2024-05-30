@@ -1,6 +1,6 @@
 import { View, Text, Dimensions, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import Carousel from "react-native-snap-carousel"; // Certifique-se de que está importando corretamente
+import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
 import Title from "../../components/Title";
 import fetchApi from "../../data/Musics/Music";
@@ -49,11 +49,8 @@ export default function Home() {
             data={kanyeWestSongs}
             renderItem={renderItem}
             sliderWidth={width}
-            itemWidth={width * 0.8}
-            layout={"default"}
-            inactiveSlideScale={0.95}
-            inactiveSlideOpacity={0.7}
-            activeSlideAlignment="center"
+            itemWidth={220} 
+            activeSlideAlignment="start"
             contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (
@@ -68,11 +65,8 @@ export default function Home() {
             data={matueSongs}
             renderItem={renderItem}
             sliderWidth={width}
-            itemWidth={width * 0.8}
-            layout={"default"}
-            inactiveSlideScale={0.95}
-            inactiveSlideOpacity={0.7}
-            activeSlideAlignment="center"
+            itemWidth={220} 
+            activeSlideAlignment="start"
             contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (

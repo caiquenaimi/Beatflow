@@ -2,15 +2,15 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: 180,
+    width: 200, // Aumentado de 180 para 200
     backgroundColor: "#3A3954",
     borderRadius: 10,
     alignItems: "center",
     marginHorizontal: 10,
   },
   cardImage: {
-    width: 180,
-    height: 180,
+    width: 200, // Aumentado de 180 para 200
+    height: 200, // Aumentado de 180 para 200
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
@@ -20,13 +20,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   cardText: {
-    fontSize: 18,
+    fontSize: 20, // Aumentado de 18 para 20
     textAlign: "center",
     color: "#FFF",
     marginBottom: 5,
   },
   artistText: {
-    fontSize: 16,
+    fontSize: 18, // Aumentado de 16 para 18
     color: "#bbb",
   },
 });

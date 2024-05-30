@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import axios from "axios";
@@ -95,7 +95,17 @@ export default function SignUp() {
   return (
     <View style={styles.container}>
         <ScrollView style={styles.containerScroll} >
-      <Text style={styles.title}>Sign Up</Text>
+          <View style={styles.head}>
+        <View style={styles.logo}>
+        <Image
+          source={require("../../../assets/Beatflowlogo.png")}
+         style={{width:350, height:250}}
+        />
+      </View>
+      <Text style={styles.title}>Bem-vindo a BeatFlow</Text>
+      <Text style={styles.subtitle}>A melhor plataforma de Trap/Rap</Text>
+      </View>
+      <Text style={styles.title}>Cadastre-se</Text>
       <View style={styles.form}> 
       <TextInput
         style={styles.input}
@@ -129,13 +139,9 @@ export default function SignUp() {
         >
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("SignIn")}
-        disabled={loading}
-        >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <Text style={styles.cadastre}>
+        Já possui uma conta? <Text style={styles.loginButton} onPress={() => navigation.navigate("SignIn")}>Faça login</Text>
+      </Text>
         </View>
       {error ? <ErrorMessage msg={error} /> : null}
       {success ? <SuccessMessage msg={success} /> : null}

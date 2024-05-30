@@ -5,12 +5,31 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
   },
+  containerScroll:{
+    flexGrow: 1,
+    marginBottom: 100
+  },
+  cadastre:{
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 20
+  },
+  loginButton:{
+    color: '#555555',
+  },
+  
   title: {
     fontSize: 32,
     color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 24,
   },
+  logo: {
+    alignSelf: 'center',
+    marginBottom: 24, 
+    marginTop: 20
+   },
   form: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -37,9 +56,6 @@ export default StyleSheet.create({
   buttonText: {
     color: '#FFFFFF',
     fontSize: 18,
-  },
-  loginButton: {
-    backgroundColor: '#555555', 
   },
   errorMessage: {
     color: '#FF0000',

@@ -1,128 +1,135 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState, useContext, useEffect } from 'react'
-import styles from './styles'
-import axios from 'axios'
-import { useNavigation } from '@react-navigation/native'
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import styles from "./styles";
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 
 export default function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [birthdate, setBirthDate] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
-    const [birthdate, setBirthDate] = useState('')
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
-    const navigation = useNavigation()
-    const errors = []
+  useEffect(() => {
+    console.log("SignUp");
+  }, []);
 
-    
-    useEffect(() => {
-        console.log('SignUp')
-    }, [])
-    
-    const validation = () => {
-    
-        if (!email) {
-            errors.push('Preencha o campo de email')
-            return false
-        }
-        if (!password) {
-            errors.push('Preencha o campo de senha')
-            return false
-        }
-        // if (password.length < 6) {
-        //     errors.push('A senha deve ter no mínimo 6 caracteres')
-        //     return false
-        // }
-        // if (!email.includes('@')) {
-        //     errors.push('Email inválido')
-        //     return false
-        // }
-        // if (!password.includes('@', '.', '!', '#', '$', '%', '&', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~', ':', ';', '<', '>', '[', ']', '\\', '"', "'")) {
-        //     errors.push('A senha deve conter ao menos um caracter especial')
-        //     return false
-        // }
-        // if (!password.includes('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')) {
-        //     errors.push('A senha deve conter ao menos um número')
-        //     return false
-        // }
-        // if (!password.includes('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')) {
-        //     errors.push('A senha deve conter ao menos uma letra maiúscula')
-        //     return false
-        // }
-        // if (!password.includes('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')) {
-        //     errors.push('A senha deve conter ao menos uma letra minúscula')
-        //     return false
-        // }
-        if (errors.length > 0) {
-            setError(errors.join('\n'))
-            return false
-        }
-        return true
+  const validation = () => {
+    let errors = [];
+    if (!email) {
+      errors.push("Preencha o campo de email");
+    } else if (!email.includes("@")) {
+      errors.push("Email inválido");
+    }
+    if (!password) {
+      errors.push("Preencha o campo de senha");
+    } else if (password.length < 6) {
+      errors.push("A senha deve ter no mínimo 6 caracteres");
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      errors.push("A senha deve conter ao menos um caracter especial");
+    } else if (!/\d/.test(password)) {
+      errors.push("A senha deve conter ao menos um número");
+    } else if (!/[A-Z]/.test(password)) {
+      errors.push("A senha deve conter ao menos uma letra maiúscula");
+    } else if (!/[a-z]/.test(password)) {
+      errors.push("A senha deve conter ao menos uma letra minúscula");
+    }
+    if (!name) {
+      errors.push("Preencha o campo de nome");
+    }
+    if (!birthdate) {
+      errors.push("Preencha o campo de data de nascimento");
     }
 
-    const handleSignUp = async () => {
-        setLoading(true)
-        try {
-            if (validation()) {
-        const response = await axios.post('http://localhost:3000/users', {
-            name,
-            email,
-            password,
-            birthdate
-        })
-        console.log('response: ', response.data)
-        navigation.navigate('SignIn')
+    if (errors.length > 0) {
+      setError(errors.join("\n"));
+      setSuccess("");
+      return false;
     }
-        } catch (error) {
-        console.error('Erro ao fazer login: ', error)
-        }
-        setLoading(false)
+    setError("");
+    return true;
+  };
+
+  const handleSignUp = async () => {
+    setLoading(true);
+    if (!validation()) {
+      setLoading(false);
+      return;
     }
-    
-    return (
-        <View style={styles.container}>
-        <Text style={styles.title}>Sign Up</Text>
-        <TextInput
-            style={styles.input}
-            placeholder='Name'
-            value={name}
-            onChangeText={setName}
-        />
-        <TextInput
-            style={styles.input}
-            placeholder='Email'
-            value={email}
-            onChangeText={setEmail}
-        />
-        <TextInput
-            style={styles.input}
-            placeholder='Password'
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-        />
-        <TextInput
-            style={styles.input}
-            placeholder='Birth Date'
-            value={birthdate}
-            onChangeText={setBirthDate}
-        />
-        <TouchableOpacity
-            style={styles.button}
-            onPress={handleSignUp}
-            disabled={loading}
-        >
-            <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('SignIn')}
-            disabled={loading}
-        >
-            <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <Text style={{ color: 'red' }}>{error}</Text>
-        </View>
-    )
+
+    try {
+      const response = await axios.post("http://localhost:3000/users", {
+        name,
+        email,
+        password,
+        birthdate,
+      });
+      console.log("response: ", response.data);
+      setSuccess("Cadastro realizado com sucesso!");
+      setError("");
+      setName("");
+      setEmail("");
+      setPassword("");
+      setBirthDate("");
+      navigation.navigate("SignIn");
+    } catch (error) {
+      console.error("Erro ao fazer cadastro: ", error);
+      setError("Erro ao fazer cadastro. Por favor, tente novamente.");
+      setSuccess("");
     }
+    setLoading(false);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Sign Up</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Birth Date"
+        value={birthdate}
+        onChangeText={setBirthDate}
+      />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSignUp}
+        disabled={loading}
+      >
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("SignIn")}
+        disabled={loading}
+      >
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      {error ? <ErrorMessage msg={error} /> : null}
+      {success ? <SuccessMessage msg={success} /> : null}
+    </View>
+  );
+}

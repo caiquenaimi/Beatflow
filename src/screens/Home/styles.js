@@ -5,27 +5,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#20202C",
-    marginBottom: 40,
+    backgroundColor: "#000",
+    marginBottom: 80.5,
   },
-  carousel: {
-    marginVertical: 20,
-  },
-  cardContainer: {
-    padding: 10,
-  },
-  artistTitle: {
+  title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fff",
     marginVertical: 10,
   },
-  loadingText: {
-    fontSize: 18,
-    color: "#fff",
+  artistTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 10,
+    color: "#FFF",
+  },
+  cardContainer: {
+    paddingHorizontal: 5,
   },
   carouselContent: {
     alignItems: "center",
+  },
+  loadingText: {
+    fontSize: 16,
+    color: "#fff",
   },
 });
 

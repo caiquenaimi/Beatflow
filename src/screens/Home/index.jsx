@@ -1,6 +1,6 @@
-import { View, Text, Dimensions, ScrollView } from "react-native";
+import { View, Text, Dimensions, ScrollView, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import Carousel from "react-native-snap-carousel"; // Certifique-se de que está importando corretamente
+import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
 import Title from "../../components/Title";
 import fetchApi from "../../data/Musics/Music";
@@ -33,26 +33,29 @@ export default function Home() {
     </View>
   );
 
-  const kanyeWestSongs = apiData.filter((item) => item.artist === "Kanye West");
-  const matueSongs = apiData.filter((item) => item.artist === "Matuê");
+  const kanyeWestSongs = apiData.filter((item) =>
+    item.artist.toLowerCase().includes("kanye west")
+  );
+  const matueSongs = apiData.filter((item) =>
+    item.artist.toLowerCase().includes("matuê")
+  );
 
   const { width } = Dimensions.get("window");
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Title title={"Home"} />
-
-        <Text style={styles.artistTitle}>Kanye West</Text>
+        <Image
+          source={require("../../../assets/Beatflowlogo.png")}
+          style={styles.logo}
+        />
+        <Text style={styles.artistTitle}>Músicas de Kanye West</Text>
         {kanyeWestSongs.length > 0 ? (
           <Carousel
             data={kanyeWestSongs}
             renderItem={renderItem}
             sliderWidth={width}
-            itemWidth={width * 0.8}
-            layout={"default"}
-            inactiveSlideScale={0.95}
-            inactiveSlideOpacity={0.7}
+            itemWidth={220}
             activeSlideAlignment="center"
             contentContainerCustomStyle={styles.carouselContent}
           />
@@ -62,16 +65,13 @@ export default function Home() {
           </Text>
         )}
 
-        <Text style={styles.artistTitle}>Matuê</Text>
+        <Text style={styles.artistTitle}>Músicas de Matuê</Text>
         {matueSongs.length > 0 ? (
           <Carousel
             data={matueSongs}
             renderItem={renderItem}
             sliderWidth={width}
-            itemWidth={width * 0.8}
-            layout={"default"}
-            inactiveSlideScale={0.95}
-            inactiveSlideOpacity={0.7}
+            itemWidth={220}
             activeSlideAlignment="center"
             contentContainerCustomStyle={styles.carouselContent}
           />

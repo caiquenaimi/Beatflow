@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 export const AuthContext = createContext();
@@ -12,36 +12,38 @@ const AuthProvider = ({ children }) => {
     const [acessToken, setAcessToken] = useState('');
 
     useEffect(() => {
-        const loadingStoreDataStuff = async () => {
+        const loadingStore = async () => {
             setLoading(true);
             const storageToken = await AsyncStorage.getItem("@asyncStorage:refreshToken");
-
+      
             if (storageToken) {
-                try {
-                    const loggged = await axios.post(`${apiURL}/users/refresh`, {
-                        rtoken: JSON.parse(storageToken)
-                    });
-                    if(loggged){
-                        const userId = await axios.get(`${apiURL}/users/${loggged.data.rtoken.user_id}`);
-                        setAcessToken(loggged.data.rtoken);
-                        const { password, ...noPassword } = userId.data.user;
-                        setUser(noPassword);
+              try {
+                const isLogged = await axios.post(`${apiURL}/users/refresh`, {
+                  refreshToken: JSON.parse(storageToken)
+                });
+                console.log(isLogged)
+                if (isLogged) {
+                  const userById = await axios.get(`${apiURL}/users/${isLogged.data.refreshToken.user_id}`, {
+                    headers: {
+                      Authorization: `Bearer ${isLogged.data.token}`
                     }
-                } catch (error) {
-                    console.error("Erro ao fazer login: ", error);
-                    AsyncStorage.clear();
+                  });
+                  setAcessToken(isLogged.data.token);
+                  const { password, ...userWithoutPassword } = userById.data.user;
+                  setUser(userWithoutPassword);
                 }
+              } catch (error) {
+                setPopUpMessage("Faça login novamente");
+                setTimeout(() => {
+                  setPopUpMessage(null);
+                }, 3000);
+                AsyncStorage.clear();
+              }
             }
-            setLoading(false);  
-        };
-        loadingStoreDataStuff();
-    }, []);
-
-    const test = async () => {
-        console.log('user: ', user);
-        console.log('refreshToken: ', refreshToken);
-        console.log('acessToken: ', acessToken);
-    }
+            setLoading(false);
+          };
+          loadingStore();
+        }, []);
 
     const login = async (email, password) => {
         try {
@@ -58,7 +60,7 @@ const AuthProvider = ({ children }) => {
                 console.log('user: ', user);
                 console.log('refreshToken: ', loggged.data.refreshToken);
                 console.log('password: ', password);
-                AsyncStorage.setItem("@asyncStorage:refreshToken", JSON.stringify(loggged.data.refreshToken));
+                await AsyncStorage.setItem("@asyncStorage:refreshToken", JSON.stringify(loggged.data.refreshToken));
             }
 
             return true
@@ -83,7 +85,7 @@ const AuthProvider = ({ children }) => {
     }   
 
     return (
-        <AuthContext.Provider value={{ user, login, signOut, loading, test }}>
+        <AuthContext.Provider value={{ user, login, signOut, loading }}>
             {children}
         </AuthContext.Provider>
     );

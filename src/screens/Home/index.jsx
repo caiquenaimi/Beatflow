@@ -43,7 +43,7 @@ export default function Home() {
       <View style={styles.container}>
         <Title title={"Home"} />
 
-        <Text style={styles.artistTitle}>Kanye West</Text>
+        <Text style={styles.artistTitle}>Músicas de Kanye West</Text>
         {kanyeWestSongs.length > 0 ? (
           <Carousel
             data={kanyeWestSongs}
@@ -59,7 +59,7 @@ export default function Home() {
           </Text>
         )}
 
-        <Text style={styles.artistTitle}>Matuê</Text>
+        <Text style={styles.artistTitle}>Músicas de Matuê</Text>
         {matueSongs.length > 0 ? (
           <Carousel
             data={matueSongs}

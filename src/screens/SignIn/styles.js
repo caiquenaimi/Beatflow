@@ -3,59 +3,52 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#000000',
+    justifyContent: 'center',
     padding: 16,
-    backgroundColor: "#fff",
   },
   title: {
-    fontSize: 24,
-    marginBottom: 16,
+    fontSize: 32,
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  form: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
   },
   input: {
-    width: "100%",
-    padding: 8,
-    marginVertical: 8,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
+    backgroundColor: '#333333',
+    borderRadius: 8,
+    color: '#FFFFFF',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 16,
+    marginBottom: 16,
   },
   button: {
-    backgroundColor: "#FF0000",
-    padding: 12,
+    backgroundColor: '#FF0000',
+    borderRadius: 8,
+    paddingVertical: 12,
     marginVertical: 8,
-    borderRadius: 4,
+    alignItems: 'center',
   },
   buttonText: {
-    color: "#fff",
-    textAlign: "center",
+    color: '#FFFFFF',
+    fontSize: 18,
   },
-  errorContainer: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "lightcoral",
-    borderRadius: 4,
+  signUpButton: {
+    backgroundColor: '#555555', // Sign up button with a different shade for distinction
   },
-  errorMsgContainer: {
-    padding: 10,
-    backgroundColor: "lightcoral",
-    borderRadius: 4,
+  errorMessage: {
+    color: '#FF0000',
+    textAlign: 'center',
+    marginTop: 16,
   },
-  errorMsgText: {
-    color: "red",
-  },
-  successContainer: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "lightgreen",
-    borderRadius: 4,
-  },
-  successMsgContainer: {
-    padding: 10,
-    backgroundColor: "lightgreen",
-    borderRadius: 4,
-  },
-  successMsgText: {
-    color: "green",
+  successMessage: {
+    color: '#00FF00',
+    textAlign: 'center',
+    marginTop: 16,
   },
 });

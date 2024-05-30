@@ -17,8 +17,13 @@ export default function SignIn() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    console.log("SignUp");
-  }, []);
+    const timeout = setTimeout(() => {
+      setError("");
+      setSuccess("");
+    }, 7000);
+
+    return () => clearTimeout(timeout);
+  }, [error, success]);
 
   const validation = () => {
     let errors = [];
@@ -102,8 +107,10 @@ export default function SignIn() {
       >
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
+     <View style={styles.erros}>
       {error ? <ErrorMessage msg={error} /> : null}
       {success ? <SuccessMessage msg={success} /> : null}
+      </View>
     </View>
   );
 }

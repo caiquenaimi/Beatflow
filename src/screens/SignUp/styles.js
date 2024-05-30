@@ -36,14 +36,27 @@ export default StyleSheet.create({
     padding: 24,
   },
   input: {
+    width: "100%",
     backgroundColor: '#333333',
     borderRadius: 8,
     color: '#FFFFFF',
-    width: '100%',
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
     marginBottom: 16,
+    paddingRight: 40,
+    alignItems: 'center',
+    borderBottomWidth: 1, 
+    borderBottomColor: 'gray', 
+  },
+  eyeIcon:{
+    position: 'absolute',
+    right: 20,
+    top: 10
+  },
+  flr:{
+    flexDirection: 'row',
+    width: "100%"
   },
   button: {
     backgroundColor: '#FF0000',

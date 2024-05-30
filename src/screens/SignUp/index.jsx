@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 
@@ -14,6 +15,7 @@ export default function SignUp() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -25,6 +27,9 @@ export default function SignUp() {
     return () => clearTimeout(timeout);
   }, [error, success]);
 
+  const toggleSecureEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
 
   const validation = () => {
     let errors = [];
@@ -119,13 +124,22 @@ export default function SignUp() {
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
+      <View style={styles.flr}>
+<TextInput
         style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
+        secureTextEntry={secureTextEntry}
       />
+      <TouchableOpacity onPress={toggleSecureEntry} style={styles.eyeIcon}>
+        <Feather
+          name={secureTextEntry ? 'eye-off' : 'eye'}
+          size={24}
+          color="gray"
+        />
+      </TouchableOpacity>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Birth Date"

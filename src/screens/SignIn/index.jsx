@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -87,6 +87,13 @@ export default function SignIn() {
 
   return (
     <View style={styles.container}>
+      <ScrollView style={styles.containerScroll} >
+       <View style={styles.logo}>
+        <Image
+          source={require("../../../assets/Beatflowlogo.png")}
+         style={{width:350, height:250}}
+        />
+      </View>
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
@@ -124,6 +131,7 @@ export default function SignIn() {
       {error ? <ErrorMessage msg={error} /> : null}
       {success ? <SuccessMessage msg={success} /> : null}
       </View>
+      </ScrollView>
     </View>
   );
 }

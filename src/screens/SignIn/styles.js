@@ -7,6 +7,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
     padding: 16,
   },
+  containerScroll:{
+    flexGrow: 1,
+    marginBottom: 100
+  },
   title: {
     fontSize: 32,
     color: '#FFFFFF',
@@ -18,6 +22,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     padding: 24,
   },
+  logo: {
+    alignSelf: 'center',
+    marginBottom: 24, 
+    marginTop: 20
+   },
   flr:{
     flexDirection: 'row',
     width: "100%"

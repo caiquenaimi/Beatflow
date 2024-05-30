@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: "#FFF",
   },
+  playlistDescription: {
+    fontSize: 16,
+    color: "#FFF",
+  },
   cardContainer: {
     paddingHorizontal: 5,
   },

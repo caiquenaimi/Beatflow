@@ -124,13 +124,13 @@ export default function SignIn() {
       >
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
-      <Text style={styles.cadastre}>
-        Não possui uma conta? <Text style={styles.loginButton} onPress={() => navigation.navigate("SignUp")}>Faça o cadastro</Text>
-      </Text>
      <View style={styles.erros}>
       {error ? <ErrorMessage msg={error} /> : null}
       {success ? <SuccessMessage msg={success} /> : null}
       </View>
+      <Text style={styles.cadastre}>
+        Não possui uma conta? <Text style={styles.loginButton} onPress={() => navigation.navigate("SignUp")}>Faça o cadastro</Text>
+      </Text>
       </ScrollView>
     </View>
   );

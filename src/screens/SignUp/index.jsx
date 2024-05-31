@@ -4,14 +4,19 @@ import styles from "./styles";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
+import DateTimePicker from '@react-native-community/datetimepicker';
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 
-export default function SignUp() {
+export default function SignUp({route}) {
+  let { user, edit } = route.params
+  const [isUpdate, setIsUpdate] = useState(edit)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [date, setDate] = useState(new Date());
   const [birthdate, setBirthDate] = useState("");
+  const [show, setShow] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,6 +31,35 @@ export default function SignUp() {
 
     return () => clearTimeout(timeout);
   }, [error, success]);
+
+  const reverseFormatDate = (dateString) => {
+    const [day, month, year] = dateString.split('/');
+    const date = new Date(year, month - 1, day);
+    return date;
+};
+const formatDate = (dateF) => {
+  const date = new Date(dateF);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    if(edit == false){
+        setDate(currentDate);
+    } else {
+        setDate(reverseFormatDate(conquestDate));
+    }
+    setBirthDate(formatDate(currentDate));
+  };
+  
+    const showDatepicker = () => {
+        setShow(true);
+    };
 
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -140,12 +174,20 @@ export default function SignUp() {
         />
       </TouchableOpacity>
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Birth Date"
-        value={birthdate}
-        onChangeText={setBirthDate}
-      />
+      { isUpdate == true ? <Text style={styles.Textdate}>{birthdate}</Text> : 
+            <Text style={styles.Textdate}>{formatDate(date)}</Text>
+            }
+      {show && (
+        <DateTimePicker
+            testID='dateTimePicker'
+            value={date}
+            mode={'date'}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+        />
+
+      )}
       <TouchableOpacity
         style={styles.button}
         onPress={handleSignUp}

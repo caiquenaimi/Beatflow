@@ -131,7 +131,7 @@ const TabRoutes = () => {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="MusicPlayer"
         component={MusicPlayer}
         options={{
@@ -144,7 +144,7 @@ const TabRoutes = () => {
             <Feather name="music" color={color} size={32} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

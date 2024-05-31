@@ -40,6 +40,7 @@ const TabRoutes = () => {
         },
         headerTintColor: "#FF0000",
       }}
+      initialRouteName="SignUp"
     >
       <Tab.Screen
         name="Inicio"
@@ -70,24 +71,7 @@ const TabRoutes = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name="Playlists"
-        component={Playlists}
-        options={{
-          tabBarLabel: "Biblioteca",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="playlist-music"
-              color={color}
-              size={32}
-            />
-          ),
-        }}
-      />
+
       <Tab.Screen
         name="Users"
         component={Users}
@@ -105,7 +89,7 @@ const TabRoutes = () => {
       <Tab.Screen
         name="SignUp"
         component={SignUp}
-        initialParams={{ user: null, edit: false}}
+        initialParams={{ user: null, edit: false }}
         options={{
           tabBarLabel: "Sign Up",
           tabBarLabelStyle: {
@@ -129,6 +113,14 @@ const TabRoutes = () => {
           tabBarIcon: ({ color }) => (
             <Feather name="log-in" color={color} size={32} />
           ),
+        }}
+      />
+      <Tab.Screen
+        name="Playlists"
+        component={Playlists}
+        options={{
+          tabBarButton: () => null, 
+          tabBarVisible: false, 
         }}
       />
 

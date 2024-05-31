@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles";
 import Title from "../../components/Title";
 import { fetchApiPlaylistById } from "../../data/Playlists/Playlist";
-import MusicCard from "../../components/Musics/MusicCard";
+import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 
 export default function Playlists() {
   const [playlistData, setPlaylistData] = useState([]);
@@ -26,7 +26,7 @@ export default function Playlists() {
       <View style={styles.container}>
         <Title title={"Músicas da Playlist"} />
         {playlistData.map((music) => (
-          <MusicCard
+          <MusicCardSearch
             key={music.id}
             songname={music.name}
             image={music.image}

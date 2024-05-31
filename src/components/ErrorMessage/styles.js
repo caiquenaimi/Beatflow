@@ -7,11 +7,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorMsgContainer: {
-    backgroundColor: "#FFCDD2",
     padding: 10,
     borderRadius: 5,
+    textAlign: 'center',
+    alignSelf: 'center',
     marginVertical: 10,
-    width: 242,
+    width: 300,
   },
   errorMsgText: {
     color: "#D32F2F",

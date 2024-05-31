@@ -12,13 +12,20 @@ export default StyleSheet.create({
   cadastre:{
     color: '#FFFFFF',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 16,
+    marginTop: 15,
     marginBottom: 20
   },
   loginButton:{
     color: '#555555',
+    textDecorationLine: 'underline',
   },
-  
+  Textdate:{
+    color: '#FFFFFF',
+    fontSize: 16,
+    marginTop: 10,
+    marginBottom: 10
+  },
   title: {
     fontSize: 32,
     color: '#FFFFFF',

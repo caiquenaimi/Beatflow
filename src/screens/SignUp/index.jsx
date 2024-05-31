@@ -32,6 +32,28 @@ export default function SignUp({route}) {
     return () => clearTimeout(timeout);
   }, [error, success]);
 
+
+  useEffect(() => {
+    if(isUpdate == true){
+      setName(user.name)
+      setEmail(user.email)
+      setPassword(user.password)
+      setBirthDate(user.birthdate)
+      setIsUpdate(true)
+    } else {
+      setIsUpdate(false)
+      setName("");
+      setEmail("");
+      setPassword("");
+      setBirthDate("");
+    }
+  }, [user])
+
+
+
+
+
+
   const reverseFormatDate = (dateString) => {
     const [day, month, year] = dateString.split('/');
     const date = new Date(year, month - 1, day);
@@ -68,12 +90,12 @@ const formatDate = (dateF) => {
   const validation = () => {
     let errors = [];
     if (!email) {
-      errors.push("Preencha o campo de email!");
+      errors.push("Preencha o campo de email");
     } else if (!email.includes("@")) {
       errors.push("Email inválido!");
     }
     if (!password) {
-      errors.push("Preencha o campo de senha!");
+      errors.push("Preencha o campo de senha");
     } else if (password.length < 6) {
       errors.push("A senha deve ter no mínimo 6 caracteres");
     } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
@@ -86,10 +108,10 @@ const formatDate = (dateF) => {
       errors.push("A senha deve conter ao menos uma letra minúscula");
     }
     if (!name) {
-      errors.push("Preencha o campo de nome!");
+      errors.push("Preencha o campo de nome");
     }
     if (!birthdate) {
-      errors.push("Preencha o campo de data de nascimento!");
+      errors.push("Preencha o campo de data de nascimento");
     }
 
     if (errors.length > 0) {
@@ -169,11 +191,14 @@ const formatDate = (dateF) => {
       <TouchableOpacity onPress={toggleSecureEntry} style={styles.eyeIcon}>
         <Feather
           name={secureTextEntry ? 'eye-off' : 'eye'}
-          size={24}
+          size={33}
           color="gray"
         />
       </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.buttonDate} onPress={showDatepicker}>
+                <Text style={styles.buttonText}>Selecionar Data 🗓</Text>
+            </TouchableOpacity>
       { isUpdate == true ? <Text style={styles.Textdate}>{birthdate}</Text> : 
             <Text style={styles.Textdate}>{formatDate(date)}</Text>
             }
@@ -195,12 +220,13 @@ const formatDate = (dateF) => {
         >
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
+      {error ? <ErrorMessage msg={error} /> : null}
+      {success ? <SuccessMessage msg={success} /> : null}
       <Text style={styles.cadastre}>
         Já possui uma conta? <Text style={styles.loginButton} onPress={() => navigation.navigate("SignIn")}>Faça login</Text>
       </Text>
         </View>
-      {error ? <ErrorMessage msg={error} /> : null}
-      {success ? <SuccessMessage msg={success} /> : null}
+    
     </ScrollView>
     </View>
   );

@@ -105,6 +105,7 @@ const TabRoutes = () => {
       <Tab.Screen
         name="SignUp"
         component={SignUp}
+        initialParams={{ user: null, edit: false}}
         options={{
           tabBarLabel: "Sign Up",
           tabBarLabelStyle: {

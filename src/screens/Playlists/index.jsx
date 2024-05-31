@@ -4,22 +4,25 @@ import styles from "./styles";
 import Title from "../../components/Title";
 import { fetchApiPlaylistById } from "../../data/Playlists/Playlist";
 import MusicCardSearch from "../../components/Musics/MusicCardSearch";
+import { useRoute } from "@react-navigation/native";
 
 export default function Playlists() {
   const [playlistData, setPlaylistData] = useState([]);
+  const route = useRoute();
+  const { playlistId } = route.params;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { musics } = await fetchApiPlaylistById(1); // Destructuring the response
+        const { musics } = await fetchApiPlaylistById(playlistId);
         console.log(musics);
-        setPlaylistData(musics); // Setting playlistData to musics directly
+        setPlaylistData(musics);
       } catch (error) {
         console.error("Erro ao buscar dados da playlist: ", error);
       }
     };
     fetchData();
-  }, []);
+  }, [playlistId]); 
 
   return (
     <ScrollView>

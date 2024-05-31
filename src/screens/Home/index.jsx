@@ -1,14 +1,23 @@
-import { View, Text, Dimensions, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useEffect, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
 import fetchApiMusics from "../../data/Musics/Music";
 import { fetchApiPlaylists } from "../../data/Playlists/Playlist";
 import MusicCard from "../../components/Musics/MusicCard";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Home() {
   const [apiData, setApiData] = useState([]);
   const [playlistData, setPlaylistData] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,11 +36,14 @@ export default function Home() {
   }, []);
 
   const renderPlaylistItem = ({ item }) => (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() => navigation.navigate("Playlists", { playlistId: item.id })}
+    >
       <Text style={styles.artistTitle}>{item.name}</Text>
       <Text style={styles.playlistDescription}>{item.description}</Text>
       <Text style={styles.playlistDuration}>Duração: {item.duration}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   const renderMusicItem = ({ item }) => (

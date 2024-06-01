@@ -26,8 +26,8 @@ export default function Home() {
         const playlistData = await fetchApiPlaylists();
         console.log(musicData);
         console.log(playlistData);
-        setApiData(musicData.musics);
-        setPlaylistData(playlistData.playlists);
+        setApiData(musicData.musics || []);
+        setPlaylistData(playlistData.playlists || []);
       } catch (error) {
         console.error("Erro ao buscar dados: ", error);
       }

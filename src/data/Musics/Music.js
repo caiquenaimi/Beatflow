@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url_API = "http://localhost:3000/musics";
+const url_API = "https://briefly-dynamic-griffon.ngrok-free.app/musics";
 
 const fetchApiMusics = async () => {
   try {

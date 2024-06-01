@@ -131,7 +131,7 @@ const formatDate = (dateF) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/users", {
+      const response = await axios.post("https://briefly-dynamic-griffon.ngrok-free.app/users", {
         name,
         email,
         password,

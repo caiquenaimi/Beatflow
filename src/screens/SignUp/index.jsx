@@ -1,16 +1,23 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from "@react-native-community/datetimepicker";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 
-export default function SignUp({route}) {
-  let { user, edit } = route.params
-  const [isUpdate, setIsUpdate] = useState(edit)
+export default function SignUp({ route }) {
+  let { user, edit } = route.params;
+  const [isUpdate, setIsUpdate] = useState(edit);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -32,56 +39,50 @@ export default function SignUp({route}) {
     return () => clearTimeout(timeout);
   }, [error, success]);
 
-
   useEffect(() => {
-    if(isUpdate == true){
-      setName(user.name)
-      setEmail(user.email)
-      setPassword(user.password)
-      setBirthDate(user.birthdate)
-      setIsUpdate(true)
+    if (isUpdate == true) {
+      setName(user.name);
+      setEmail(user.email);
+      setPassword(user.password);
+      setBirthDate(user.birthdate);
+      setIsUpdate(true);
     } else {
-      setIsUpdate(false)
+      setIsUpdate(false);
       setName("");
       setEmail("");
       setPassword("");
       setBirthDate("");
     }
-  }, [user])
-
-
-
-
-
+  }, [user]);
 
   const reverseFormatDate = (dateString) => {
-    const [day, month, year] = dateString.split('/');
+    const [day, month, year] = dateString.split("/");
     const date = new Date(year, month - 1, day);
     return date;
-};
-const formatDate = (dateF) => {
-  const date = new Date(dateF);
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const year = date.getFullYear();
+  };
+  const formatDate = (dateF) => {
+    const date = new Date(dateF);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
 
-  return `${day}/${month}/${year}`;
-};
+    return `${day}/${month}/${year}`;
+  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(false);
-    if(edit == false){
-        setDate(currentDate);
+    if (edit == false) {
+      setDate(currentDate);
     } else {
-        setDate(reverseFormatDate(conquestDate));
+      setDate(reverseFormatDate(conquestDate));
     }
     setBirthDate(formatDate(currentDate));
   };
-  
-    const showDatepicker = () => {
-        setShow(true);
-    };
+
+  const showDatepicker = () => {
+    setShow(true);
+  };
 
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -94,7 +95,7 @@ const formatDate = (dateF) => {
     } else if (!email.includes("@")) {
       errors.push("Email inválido!");
     }
-    if (!password) {
+    /* if (!password) {
       errors.push("Preencha o campo de senha");
     } else if (password.length < 6) {
       errors.push("A senha deve ter no mínimo 6 caracteres");
@@ -106,13 +107,13 @@ const formatDate = (dateF) => {
       errors.push("A senha deve conter ao menos uma letra maiúscula");
     } else if (!/[a-z]/.test(password)) {
       errors.push("A senha deve conter ao menos uma letra minúscula");
-    }
+    } */
     if (!name) {
       errors.push("Preencha o campo de nome");
     }
-    if (!birthdate) {
+    /* if (!birthdate) {
       errors.push("Preencha o campo de data de nascimento");
-    }
+    } */
 
     if (errors.length > 0) {
       setError(errors.join("\n"));
@@ -131,12 +132,15 @@ const formatDate = (dateF) => {
     }
 
     try {
-      const response = await axios.post("https://briefly-dynamic-griffon.ngrok-free.app/users", {
-        name,
-        email,
-        password,
-        birthdate,
-      });
+      const response = await axios.post(
+        "https://briefly-dynamic-griffon.ngrok-free.app/users",
+        {
+          name,
+          email,
+          password,
+          birthdate,
+        }
+      );
       console.log("response: ", response.data);
       setSuccess("Cadastro realizado com sucesso!");
       setError("");
@@ -155,79 +159,92 @@ const formatDate = (dateF) => {
 
   return (
     <View style={styles.container}>
-        <ScrollView style={styles.containerScroll} >
-          <View style={styles.head}>
-        <View style={styles.logo}>
-        <Image
-          source={require("../../../assets/Beatflowlogo.png")}
-         style={{width:350, height:250}}
-        />
-      </View>
-      <Text style={styles.title}>Bem-vindo a BeatFlow</Text>
-      <Text style={styles.subtitle}>A melhor plataforma de Trap/Rap</Text>
-      </View>
-      <Text style={styles.title}>Cadastre-se</Text>
-      <View style={styles.form}> 
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <View style={styles.flr}>
-<TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={secureTextEntry}
-      />
-      <TouchableOpacity onPress={toggleSecureEntry} style={styles.eyeIcon}>
-        <Feather
-          name={secureTextEntry ? 'eye-off' : 'eye'}
-          size={33}
-          color="gray"
-        />
-      </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.buttonDate} onPress={showDatepicker}>
-                <Text style={styles.buttonText}>Selecionar Data 🗓</Text>
-            </TouchableOpacity>
-      { isUpdate == true ? <Text style={styles.Textdate}>{birthdate}</Text> : 
-            <Text style={styles.Textdate}>{formatDate(date)}</Text>
-            }
-      {show && (
-        <DateTimePicker
-            testID='dateTimePicker'
-            value={date}
-            mode={'date'}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-        />
-
-      )}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSignUp}
-        disabled={loading}
-        >
-        <Text style={styles.buttonText}>Cadastrar</Text>
-      </TouchableOpacity>
-      {error ? <ErrorMessage msg={error} /> : null}
-      {success ? <SuccessMessage msg={success} /> : null}
-      <Text style={styles.cadastre}>
-        Já possui uma conta? <Text style={styles.loginButton} onPress={() => navigation.navigate("SignIn")}>Faça login</Text>
-      </Text>
+      <ScrollView style={styles.containerScroll}>
+        <View style={styles.head}>
+          <View style={styles.logo}>
+            <Image
+              source={require("../../../assets/Beatflowlogo.png")}
+              style={{ width: 350, height: 250 }}
+            />
+          </View>
+          <Text style={styles.title}>Bem-vindo a BeatFlow</Text>
+          <Text style={styles.subtitle}>A melhor plataforma de Trap/Rap</Text>
         </View>
-    
-    </ScrollView>
+        <Text style={styles.title}>Cadastre-se</Text>
+        <View style={styles.form}>
+          <TextInput
+            style={styles.input}
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <View style={styles.flr}>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={secureTextEntry}
+            />
+            <TouchableOpacity
+              onPress={toggleSecureEntry}
+              style={styles.eyeIcon}
+            >
+              <Feather
+                name={secureTextEntry ? "eye-off" : "eye"}
+                size={33}
+                color="gray"
+              />
+            </TouchableOpacity>
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Data de Nascimento"
+            value={birthdate}
+            onChangeText={setBirthDate}
+          />
+
+          {isUpdate == true ? (
+            <Text style={styles.Textdate}>{birthdate}</Text>
+          ) : (
+            <Text style={styles.Textdate}>{formatDate(date)}</Text>
+          )}
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={"date"}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSignUp}
+            disabled={loading}
+          >
+            <Text style={styles.buttonText}>Cadastrar</Text>
+          </TouchableOpacity>
+          {error ? <ErrorMessage msg={error} /> : null}
+          {success ? <SuccessMessage msg={success} /> : null}
+          <Text style={styles.cadastre}>
+            Já possui uma conta?{" "}
+            <Text
+              style={styles.loginButton}
+              onPress={() => navigation.navigate("SignIn")}
+            >
+              Faça login
+            </Text>
+          </Text>
+        </View>
+      </ScrollView>
     </View>
   );
 }

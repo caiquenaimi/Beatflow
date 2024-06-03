@@ -1,11 +1,18 @@
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import { Feather } from "@expo/vector-icons";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage"; 
-import SuccessMessage from "../../components/SuccessMessage/SuccessMessage"; 
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 import styles from "./styles";
 
 export default function SignIn() {
@@ -30,7 +37,6 @@ export default function SignIn() {
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
   };
-  
 
   const validation = () => {
     let errors = [];
@@ -39,7 +45,7 @@ export default function SignIn() {
     } else if (!email.includes("@")) {
       errors.push("Email inválido");
     }
-    if (!password) {
+    /* if (!password) {
       errors.push("Preencha o campo de senha");
     } else if (password.length < 6) {
       errors.push("A senha deve ter no mínimo 6 caracteres");
@@ -51,7 +57,7 @@ export default function SignIn() {
       errors.push("A senha deve conter ao menos uma letra maiúscula");
     } else if (!/[a-z]/.test(password)) {
       errors.push("A senha deve conter ao menos uma letra minúscula");
-    }
+    } */
 
     if (errors.length > 0) {
       setError(errors.join("\n"));
@@ -87,50 +93,56 @@ export default function SignIn() {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.containerScroll} >
-       <View style={styles.logo}>
-        <Image
-          source={require("../../../assets/Beatflowlogo.png")}
-         style={{width:350, height:250}}
+      <ScrollView style={styles.containerScroll}>
+        <View style={styles.logo}>
+          <Image
+            source={require("../../../assets/Beatflowlogo.png")}
+            style={{ width: 350, height: 250 }}
+          />
+        </View>
+        <Text style={styles.title}>Login</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
         />
-      </View>
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <View style={styles.flr}>
-<TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={secureTextEntry}
-      />
-      <TouchableOpacity onPress={toggleSecureEntry} style={styles.eyeIcon}>
-        <Feather
-          name={secureTextEntry ? 'eye-off' : 'eye'}
-          size={24}
-          color="gray"
-        />
-      </TouchableOpacity>
-      </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSignIn}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
-     <View style={styles.erros}>
-      {error ? <ErrorMessage msg={error} /> : null}
-      {success ? <SuccessMessage msg={success} /> : null}
-      </View>
-      <Text style={styles.cadastre}>
-        Não possui uma conta? <Text style={styles.loginButton} onPress={() => navigation.navigate("SignUp")}>Faça o cadastro</Text>
-      </Text>
+        <View style={styles.flr}>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={secureTextEntry}
+          />
+          <TouchableOpacity onPress={toggleSecureEntry} style={styles.eyeIcon}>
+            <Feather
+              name={secureTextEntry ? "eye-off" : "eye"}
+              size={24}
+              color="gray"
+            />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSignIn}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+        <View style={styles.erros}>
+          {error ? <ErrorMessage msg={error} /> : null}
+          {success ? <SuccessMessage msg={success} /> : null}
+        </View>
+        <Text style={styles.cadastre}>
+          Não possui uma conta?{" "}
+          <Text
+            style={styles.loginButton}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            Faça o cadastro
+          </Text>
+        </Text>
       </ScrollView>
     </View>
   );

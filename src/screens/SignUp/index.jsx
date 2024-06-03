@@ -133,7 +133,7 @@ export default function SignUp({ route }) {
 
     try {
       const response = await axios.post(
-        "https://briefly-dynamic-griffon.ngrok-free.app/users",
+        "http://localhost:3000/users",
         {
           name,
           email,

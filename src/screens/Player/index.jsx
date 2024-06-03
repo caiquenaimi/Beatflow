@@ -1,17 +1,59 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, Button } from "react-native";
 import { useEffect, useState } from "react";
+import {fetchApiMusics} from "../../data/Musics/Music";
+import { Audio } from "expo-av";
 import styles from "./styles";
-import Title from "../../components/Title";
-
 
 export default function Player() {
+  const [sound, setSound] = useState();
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../../assets/songs/gorilaroxo.mp3")
+    );
+    setSound(sound);
+    await sound.playAsync();
+    setIsPlaying(true);
+
+    sound.setOnPlaybackStatusUpdate((status) => {
+      if (status.didJustFinish) {
+        setIsPlaying(false);
+      }
+    });
+  }
+
+  async function pauseSound() {
+    if (sound) {
+      await sound.pauseAsync();
+      setIsPlaying(false);
+    }
+  }
+
+  async function stopSound() {
+    if (sound) {
+      await sound.stopAsync();
+      setIsPlaying(false);
+    }
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        <Title title="Player" />
-        <Text style={styles.text}>Player</Text>
-       
+        <Text>Audio Player</Text>
+        <Button
+          title={isPlaying ? "Pause" : "Play"}
+          onPress={isPlaying ? pauseSound : playSound}
+        />
+        <Button title="Stop" onPress={stopSound} />
       </View>
     </ScrollView>
   );

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url_API = "https://briefly-dynamic-griffon.ngrok-free.app/users";
+const url_API = "http://localhost:3000/users";
 
 const fetchApiUsers = async () => {
   try {

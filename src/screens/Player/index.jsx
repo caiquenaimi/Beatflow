@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Image, Button } from "react-native";
 import { useEffect, useState } from "react";
-import {fetchApiMusics} from "../../data/Musics/Music";
+import fetchApiMusics from "../../data/Musics/Music";
 import { Audio } from "expo-av";
 import styles from "./styles";
 
@@ -10,7 +10,7 @@ export default function Player() {
 
   async function playSound() {
     const { sound } = await Audio.Sound.createAsync(
-      require("../../../assets/songs/gorilaroxo.mp3")
+      require("../../../assets/songs/conexoes.mp3")
     );
     setSound(sound);
     await sound.playAsync();

@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import { useEffect, useState } from "react";
-import fetchApiMusicsById from "../../data/Musics/Music";
 import Feather from "react-native-vector-icons/Feather";
 import { Audio } from "expo-av";
+import Slider from "@react-native-community/slider";
+import fetchApiMusicsById from "../../data/Musics/Music";
 import styles from "./styles";
 
 const audioFiles = {
@@ -13,6 +14,8 @@ export default function Player() {
   const [apiData, setApiData] = useState(null);
   const [sound, setSound] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [position, setPosition] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     async function fetchMusic() {
@@ -27,6 +30,18 @@ export default function Player() {
     fetchMusic();
   }, []);
 
+  useEffect(() => {
+    if (sound) {
+      const interval = setInterval(async () => {
+        const status = await sound.getStatusAsync();
+        setPosition(status.positionMillis);
+        setDuration(status.durationMillis);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [sound]);
+
   async function playSound() {
     if (apiData && apiData.file && audioFiles[apiData.file]) {
       const sound = new Audio.Sound();
@@ -35,12 +50,6 @@ export default function Player() {
         setSound(sound);
         await sound.playAsync();
         setIsPlaying(true);
-
-        sound.setOnPlaybackStatusUpdate((status) => {
-          if (status.didJustFinish) {
-            setIsPlaying(false);
-          }
-        });
       } catch (error) {
         console.error("Error loading or playing sound:", error);
       }
@@ -60,16 +69,14 @@ export default function Player() {
     if (sound) {
       await sound.stopAsync();
       setIsPlaying(false);
+      setPosition(0);
     }
   }
 
-  useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
+  function onSeek(value) {
+    sound.setPositionAsync(value);
+    setPosition(value);
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
@@ -80,6 +87,16 @@ export default function Player() {
             <Text style={styles.title}>{apiData.name}</Text>
             <Text style={styles.artist}>{apiData.artist}</Text>
             <Text style={styles.album}>{apiData.album}</Text>
+            <Slider
+              style={{ width: "90%", marginBottom: 20 }}
+              minimumValue={0}
+              maximumValue={duration}
+              value={position}
+              onValueChange={onSeek}
+              minimumTrackTintColor="#FFFFFF"
+              maximumTrackTintColor="#888888"
+              thumbTintColor="#FFFFFF"
+            />
             <View style={styles.controls}>
               <TouchableOpacity onPress={isPlaying ? pauseSound : playSound} style={styles.controlButton}>
                 <Feather name={isPlaying ? "pause" : "play"} size={24} color="#FFFFFF" />

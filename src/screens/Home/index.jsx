@@ -38,7 +38,7 @@ export default function Home() {
   const renderPlaylistItem = ({ item }) => (
     <TouchableOpacity
       style={styles.cardContainer}
-      onPress={() => navigation.navigate("Playlists", { playlistId: item.id })}
+      onPress={() => navigation.navigate("PlaylistTest", { playlistId: item.id })}
     >
       <Text style={styles.artistTitle}>{item.name}</Text>
       <Text style={styles.playlistDescription}>{item.description}</Text>

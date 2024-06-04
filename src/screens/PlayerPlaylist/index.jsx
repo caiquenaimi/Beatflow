@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import { Audio } from "expo-av";
 import Slider from "@react-native-community/slider";
 import { fetchApiPlaylistById } from "../../data/Playlists/Playlist";
-import { fetchApiMusicsById } from "../../data/Musics/Music"; // Importar a função correta
-import styles from "../Player/styles";
 import { useRoute } from "@react-navigation/native";
+import styles from "../Player/styles"; 
 
 const audioFiles = {
   "conexoes.mp3": require("../../../assets/songs/conexoes.mp3"),
@@ -75,53 +74,30 @@ const audioFiles = {
 
 export default function PlayerPlaylist() {
   const route = useRoute();
-  const { playlistId } = route.params;
+  const { playlistId, playlist } = route.params; 
 
-  const [playlistData, setPlaylistData] = useState({});
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    const fetchPlaylistData = async () => {
+    const fetchData = async () => {
       try {
         const playlistDataResponse = await fetchApiPlaylistById(playlistId);
-        setPlaylistData(playlistDataResponse);
-        playAllTracks();
+        setPlaylist(playlistDataResponse);
+        playAllTracks(playlistDataResponse.musics);
       } catch (error) {
-        console.error("Erro ao buscar detalhes da playlist: ", error);
+        console.error("Error fetching playlist data:", error);
       }
     };
-    fetchPlaylistData();
-    return () => {
-      if (sound) {
-        sound.unloadAsync();
-      }
-    };
+    fetchData();
   }, [playlistId]);
 
-  useEffect(() => {
-    if (sound) {
-      const interval = setInterval(async () => {
-        const status = await sound.getStatusAsync();
-        if (status.isLoaded) {
-          setPosition(status.positionMillis);
-          setDuration(status.durationMillis);
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [sound]);
-
-  const playAllTracks = async () => {
+  const playAllTracks = async (tracks) => {
     if (sound) {
       await sound.unloadAsync();
     }
-
-    const tracks = playlistData.musics;
-    console.log("Playing all tracks:", tracks); // Log de verificação
 
     for (let i = 0; i < tracks.length; i++) {
       const track = tracks[i];
@@ -136,18 +112,10 @@ export default function PlayerPlaylist() {
           newSound.setOnPlaybackStatusUpdate((status) => {
             if (status.didJustFinish) {
               if (i < tracks.length - 1) {
-                // Reproduzir a próxima música
-                playNextTrack(i + 1);
+                playNextTrack(tracks, i + 1);
               } else {
                 setIsPlaying(false);
               }
-            }
-          });
-
-          // Aguarde o término da reprodução da música atual antes de continuar
-          await newSound.setOnPlaybackStatusUpdateAsync((status) => {
-            if (status.didJustFinish) {
-              console.log("Finished playing track:", track.name);
             }
           });
         } catch (error) {
@@ -159,14 +127,12 @@ export default function PlayerPlaylist() {
     }
   };
 
-  const playNextTrack = async (index) => {
+  const playNextTrack = async (tracks, index) => {
     if (sound) {
       await sound.unloadAsync();
     }
 
-    const track = playlistData.musics[index];
-    console.log("Playing next track:", track); // Log de verificação
-
+    const track = tracks[index];
     if (track && audioFiles[track.file]) {
       const newSound = new Audio.Sound();
       try {
@@ -177,9 +143,8 @@ export default function PlayerPlaylist() {
 
         newSound.setOnPlaybackStatusUpdate((status) => {
           if (status.didJustFinish) {
-            if (index < playlistData.musics.length - 1) {
-              // Reproduzir a próxima música
-              playNextTrack(index + 1);
+            if (index < tracks.length - 1) {
+              playNextTrack(tracks, index + 1);
             } else {
               setIsPlaying(false);
             }
@@ -208,16 +173,16 @@ export default function PlayerPlaylist() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
-      <View style={styles.container}>
-        {playlistData.musics && playlistData.musics[0] && (
+    <ScrollView contentContainerStyle={styles.container}>
+      <View>
+        {playlist.musics && playlist.musics[0] && (
           <>
             <Image
-              source={{ uri: playlistData.musics[0].image }}
+              source={{ uri: playlist.musics[0].image }}
               style={styles.image}
             />
-            <Text style={styles.title}>{playlistData.musics[0].name}</Text>
-            <Text style={styles.artist}>{playlistData.musics[0].artist}</Text>
+            <Text style={styles.title}>{playlist.musics[0].name}</Text>
+            <Text style={styles.artist}>{playlist.musics[0].artist}</Text>
             <Slider
               style={{ width: "90%", marginBottom: 20 }}
               minimumValue={0}
@@ -230,7 +195,9 @@ export default function PlayerPlaylist() {
             />
             <View style={styles.controls}>
               <TouchableOpacity
-                onPress={isPlaying ? pauseSound : playAllTracks}
+                onPress={
+                  isPlaying ? pauseSound : () => playAllTracks(playlist.musics)
+                }
                 style={styles.controlButton}
               >
                 <Feather

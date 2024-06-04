@@ -3,13 +3,15 @@ import Feather from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Home from "../screens/Home";
-import Playlists from "../screens/Playlists";
+/* import Playlists from "../screens/Playlists"; */
 import Users from "../screens/Users";
 import SignUp from "../screens/SignUp";
 import SignIn from "../screens/SignIn";
 import Search from "../screens/Search";
 import Player from "../screens/Player";
 import PlayerPlaylist from "../screens/PlayerPlaylist";
+import PlaylistTest from "../screens/PlaylistTest";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -117,8 +119,8 @@ const TabRoutes = () => {
         }}
       />
       <Tab.Screen
-        name="Playlists"
-        component={Playlists}
+        name="PlaylistTest"
+        component={PlaylistTest}
         options={{
           tabBarButton: () => null, 
           tabBarVisible: false, 
@@ -142,6 +144,7 @@ const TabRoutes = () => {
           tabBarVisible: false,
         }}
       />
+
     </Tab.Navigator>
 
 

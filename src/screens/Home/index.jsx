@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
-import fetchApiMusics from "../../data/Musics/Music";
+import { fetchApiMusics } from "../../data/Musics/Music";
 import { fetchApiPlaylists } from "../../data/Playlists/Playlist";
 import MusicCard from "../../components/Musics/MusicCard";
 import { useNavigation } from "@react-navigation/native";

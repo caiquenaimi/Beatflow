@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { SearchBar } from "react-native-elements";
-import fetchApi from "../../data/Musics/Music";
+import {fetchApiMusics} from "../../data/Musics/Music";
 import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 
 export default function Search() {
@@ -23,7 +23,7 @@ export default function Search() {
       setSearchMade(true);
       try {
         const queryParams = `?search=${search.toLowerCase()}`;
-        const dados = await fetchApi(queryParams);
+        const dados = await fetchApiMusics(queryParams);
         console.log("Dados da API:", dados);
         setApiData(dados.musics || []);
       } catch (error) {

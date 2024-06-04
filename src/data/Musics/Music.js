@@ -2,7 +2,7 @@ import axios from "axios";
 
 const url_API = "http://localhost:3000/musics";
 
-const fetchApiMusics = async () => {
+export const fetchApiMusics = async () => {
   try {
     const response = await axios.get(url_API);
     return response.data;
@@ -19,7 +19,7 @@ const fetchApiMusics = async () => {
   }
 };
 
-const fetchApiMusicsById = async (id) => {
+export const fetchApiMusicsById = async (id) => {
   const url = `${url_API}/details/${id}`;
   try {
     const response = await axios.get(url);
@@ -36,7 +36,3 @@ const fetchApiMusicsById = async (id) => {
     throw error;
   }
 };
-
-export default fetchApiMusicsById;
-
-export  { fetchApiMusics, fetchApiMusicsById };

@@ -1,6 +1,7 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import fetchApiMusicsById from "../../data/Musics/Music";
+import Feather from "react-native-vector-icons/Feather";
 import { Audio } from "expo-av";
 import styles from "./styles";
 
@@ -81,10 +82,10 @@ export default function Player() {
             <Text style={styles.album}>{apiData.album}</Text>
             <View style={styles.controls}>
               <TouchableOpacity onPress={isPlaying ? pauseSound : playSound} style={styles.controlButton}>
-                <Text style={styles.controlButtonText}>{isPlaying ? "Pause" : "Play"}</Text>
+                <Feather name={isPlaying ? "pause" : "play"} size={24} color="#FFFFFF" />
               </TouchableOpacity>
               <TouchableOpacity onPress={stopSound} style={styles.controlButton}>
-                <Text style={styles.controlButtonText}>Stop</Text>
+                <Feather name="stop-circle" size={24} color="#FFFFFF" />
               </TouchableOpacity>
             </View>
           </>

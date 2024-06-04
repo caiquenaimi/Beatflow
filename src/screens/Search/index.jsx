@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image } from "react-native";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./styles";
 import { SearchBar } from "react-native-elements";
 import {fetchApiMusics} from "../../data/Musics/Music";

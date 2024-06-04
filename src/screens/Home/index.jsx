@@ -49,7 +49,7 @@ export default function Home() {
   const renderMusicItem = ({ item }) => (
     <View style={styles.cardContainer}>
       <MusicCard
-        key={item.id}
+        id={item.id}
         songname={item.name}
         image={item.image}
         artist={item.artist}

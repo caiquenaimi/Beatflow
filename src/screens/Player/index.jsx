@@ -74,7 +74,7 @@ const audioFiles = {
 
 export default function Player() {
   const route = useRoute();
-  const { musicId } = route.params;
+  const { musicId } = route.params || {};
 
   const [apiData, setApiData] = useState(null);
   const [sound, setSound] = useState();
@@ -84,10 +84,19 @@ export default function Player() {
   const [shouldResume, setShouldResume] = useState(false);
 
   useEffect(() => {
+    if (!musicId) {
+      console.error("Music ID is missing or invalid.");
+      return;
+    }
+
     async function fetchMusic() {
       try {
         const response = await fetchApiMusicsById(musicId);
-        setApiData(response.music);
+        if (response.music) {
+          setApiData(response.music);
+        } else {
+          console.error("Error fetching music: No music data found");
+        }
       } catch (error) {
         console.error("Error fetching music:", error);
       }
@@ -154,7 +163,7 @@ export default function Player() {
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.container}>
-        {apiData && (
+        {apiData ? (
           <>
             <Image source={{ uri: apiData.image }} style={styles.image} />
             <Text style={styles.title}>{apiData.name}</Text>
@@ -181,11 +190,10 @@ export default function Player() {
                   color="#FFFFFF"
                 />
               </TouchableOpacity>
-              {/* <TouchableOpacity onPress={stopSound} style={styles.controlButton}>
-                <Feather name="stop-circle" size={24} color="#FFFFFF" />
-              </TouchableOpacity> */}
             </View>
           </>
+        ) : (
+          <Text style={styles.error}>Erro ao carregar os dados da música</Text>
         )}
       </View>
     </ScrollView>

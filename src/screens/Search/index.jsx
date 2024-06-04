@@ -1,15 +1,17 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import styles from "./styles";
 import { SearchBar } from "react-native-elements";
-import {fetchApiMusics} from "../../data/Musics/Music";
+import { fetchApiMusics } from "../../data/Musics/Music";
 import MusicCardSearch from "../../components/Musics/MusicCardSearch";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Search() {
   const [apiData, setApiData] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchMade, setSearchMade] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (search.trim() === "") {
@@ -49,6 +51,10 @@ export default function Search() {
   );
 
   console.log("Dados filtrados:", filteredData);
+
+  const handleMusicPress = (music) => {
+    navigation.navigate("Player", { musicId: music.id });
+  };
 
   return (
     <View style={styles.container}>
@@ -104,14 +110,18 @@ export default function Search() {
             </View>
           ) : (
             filteredData.map((item) => (
-              <View style={styles.renderCardView}>
+              <TouchableOpacity
+                key={item.id}
+                onPress={() => handleMusicPress(item)}
+                style={styles.renderCardView}
+              >
                 <MusicCardSearch
-                  key={item.id}
+                  id={item.id} // Aqui garantimos que estamos passando o ID
                   songname={item.name}
                   image={item.image}
                   artist={item.artist}
                 />
-              </View>
+              </TouchableOpacity>
             ))
           )}
         </View>

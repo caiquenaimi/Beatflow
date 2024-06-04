@@ -20,7 +20,7 @@ export const fetchApiMusics = async () => {
 };
 
 export const fetchApiMusicsById = async (id) => {
-  const url = `${url_API}/details/${id}`;
+  const url = `${url_API}/${id}/details`;
   try {
     const response = await axios.get(url);
     return response.data;

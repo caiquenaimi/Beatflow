@@ -12,6 +12,7 @@ import {
 export default function Playlists() {
   const [playlistData, setPlaylistData] = useState({});
   const [allPlaylists, setAllPlaylists] = useState([]);
+  const [musics, setMusics] = useState([]); // Adicione o estado para armazenar as músicas
   const route = useRoute();
   const { playlistId } = route.params;
   const navigation = useNavigation();
@@ -24,7 +25,8 @@ export default function Playlists() {
         console.log(playlistDataResponse);
         console.log(allPlaylistsResponse);
         setPlaylistData(playlistDataResponse);
-        setAllPlaylists(allPlaylistsResponse.playlists);
+        setMusics(playlistDataResponse.musics || []); // Defina as músicas do estado
+        setAllPlaylists(allPlaylistsResponse.playlists || []);
       } catch (error) {
         console.error("Erro ao buscar dados da playlist: ", error);
       }
@@ -32,26 +34,38 @@ export default function Playlists() {
     fetchData();
   }, [playlistId]);
 
+  const renderMusicItem = ({ music }) => (
+    <MusicCardSearch
+      key={music.id}
+      songname={music.name}
+      image={music.image}
+      artist={music.artist}
+    />
+  );
+
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        <Title title={playlistData.name} />
+        <Title title={playlistData.name || ""} />
         <Text style={styles.playlistDescription}>
-          {playlistData.description}
+          {playlistData.description || ""}
         </Text>
         <Text style={styles.playlistDuration}>
-          Duração: {playlistData.duration}
+          Duração: {playlistData.duration || ""}
         </Text>
+        <TouchableOpacity
+          style={styles.playButton}
+          onPress={() => {
+            if (musics.length > 0) {
+              navigation.navigate("PlayerPlaylist", { musicId: musics[0].id });
+            }
+          }}
+        >
+          <Text style={styles.playButtonText}>Tocar Playlist</Text>
+        </TouchableOpacity>
         <View style={styles.musicListContainer}>
-          {playlistData.musics && playlistData.musics.length > 0 ? (
-            playlistData.musics.map((music) => (
-              <MusicCardSearch
-                key={music.id}
-                songname={music.name}
-                image={music.image}
-                artist={music.artist}
-              />
-            ))
+          {musics.length > 0 ? (
+            musics.map((music) => renderMusicItem({ music }))
           ) : (
             <Text style={styles.noMusicText}>Nenhuma música encontrada.</Text>
           )}

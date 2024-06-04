@@ -21,6 +21,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
   },
+  playButton: {
+    backgroundColor: "#1DB954",
+    borderRadius: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  playButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   musicListContainer: {
     width: "100%",
   },

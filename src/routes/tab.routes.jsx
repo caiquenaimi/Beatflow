@@ -9,6 +9,7 @@ import SignUp from "../screens/SignUp";
 import SignIn from "../screens/SignIn";
 import Search from "../screens/Search";
 import Player from "../screens/Player";
+import PlayerPlaylist from "../screens/PlayerPlaylist";
 
 const Tab = createBottomTabNavigator();
 
@@ -128,21 +129,22 @@ const TabRoutes = () => {
         name="Player"
         component={Player}
         options={{
-          tabBarLabel: "Player",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="music-circle"
-              color={color}
-              size={32}
-            />
-          ),
+          tabBarButton: () => null, 
+          tabBarVisible: false,
+        }}
+      />
+
+      <Tab.Screen
+        name="PlayerPlaylist"
+        component={PlayerPlaylist}
+        options={{
+          tabBarButton: () => null, 
+          tabBarVisible: false,
         }}
       />
     </Tab.Navigator>
+
+
   );
 };
 

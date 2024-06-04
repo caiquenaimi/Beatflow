@@ -2,51 +2,62 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   scrollView: {
-    flex: 1,
-    backgroundColor: '#000',
-    marginBottom: 100,
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 20,
+    backgroundColor: "#000000",
   },
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    backgroundColor: "#333333",
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  image: {
+    width: 300,
+    height: 300,
+    borderRadius: 10,
+    marginBottom: 20,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginVertical: 20,
-    color: '#fff',  
-  },
-  musicItem: {
-    flexDirection: 'row',
-    marginVertical: 10,
-    padding: 10,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 10,
-  },
-  image: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  details: {
-    flex: 1,
-    marginLeft: 10,
-    justifyContent: 'center',
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    marginBottom: 10,
   },
   artist: {
-    fontSize: 14,
-    color: '#888',
+    fontSize: 18,
+    color: "#888888",
+    marginBottom: 5,
   },
-  button: {
-    marginTop: 10,
-    color: 'blue',
+  album: {
+    fontSize: 16,
+    color: "#AAAAAA",
+    marginBottom: 20,
+  },
+  controls: {
+    flexDirection: "row",
+  },
+  controlButton: {
+    backgroundColor: "#FF0000",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 50,
+    marginHorizontal: 10,
+  },
+  controlButtonText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

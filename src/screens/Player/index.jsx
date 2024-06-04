@@ -1,26 +1,51 @@
-import { View, Text, ScrollView, Image, Button } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
-import fetchApiMusics from "../../data/Musics/Music";
+import fetchApiMusicsById from "../../data/Musics/Music";
 import { Audio } from "expo-av";
 import styles from "./styles";
 
+const audioFiles = {
+  "conexoes.mp3": require("../../../assets/songs/conexoes.mp3"),
+};
+
 export default function Player() {
+  const [apiData, setApiData] = useState(null);
   const [sound, setSound] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  async function playSound() {
-    const { sound } = await Audio.Sound.createAsync(
-      require("../../../assets/songs/conexoes.mp3")
-    );
-    setSound(sound);
-    await sound.playAsync();
-    setIsPlaying(true);
-
-    sound.setOnPlaybackStatusUpdate((status) => {
-      if (status.didJustFinish) {
-        setIsPlaying(false);
+  useEffect(() => {
+    async function fetchMusic() {
+      try {
+        const response = await fetchApiMusicsById(1);
+        setApiData(response.music);
+      } catch (error) {
+        console.error("Error fetching music:", error);
       }
-    });
+    }
+
+    fetchMusic();
+  }, []);
+
+  async function playSound() {
+    if (apiData && apiData.file && audioFiles[apiData.file]) {
+      const sound = new Audio.Sound();
+      try {
+        await sound.loadAsync(audioFiles[apiData.file]);
+        setSound(sound);
+        await sound.playAsync();
+        setIsPlaying(true);
+
+        sound.setOnPlaybackStatusUpdate((status) => {
+          if (status.didJustFinish) {
+            setIsPlaying(false);
+          }
+        });
+      } catch (error) {
+        console.error("Error loading or playing sound:", error);
+      }
+    } else {
+      console.error("Audio file not found");
+    }
   }
 
   async function pauseSound() {
@@ -46,14 +71,24 @@ export default function Player() {
   }, [sound]);
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.container}>
-        <Text>Audio Player</Text>
-        <Button
-          title={isPlaying ? "Pause" : "Play"}
-          onPress={isPlaying ? pauseSound : playSound}
-        />
-        <Button title="Stop" onPress={stopSound} />
+        {apiData && (
+          <>
+            <Image source={{ uri: apiData.image }} style={styles.image} />
+            <Text style={styles.title}>{apiData.name}</Text>
+            <Text style={styles.artist}>{apiData.artist}</Text>
+            <Text style={styles.album}>{apiData.album}</Text>
+            <View style={styles.controls}>
+              <TouchableOpacity onPress={isPlaying ? pauseSound : playSound} style={styles.controlButton}>
+                <Text style={styles.controlButtonText}>{isPlaying ? "Pause" : "Play"}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={stopSound} style={styles.controlButton}>
+                <Text style={styles.controlButtonText}>Stop</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </View>
     </ScrollView>
   );

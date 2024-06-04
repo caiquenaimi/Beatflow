@@ -19,4 +19,24 @@ const fetchApiMusics = async () => {
   }
 };
 
-export default fetchApiMusics;
+const fetchApiMusicsById = async (id) => {
+  const url = `${url_API}/details/${id}`;
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.log("Error: ", error.response.data);
+      console.log("Status: ", error.response.status);
+    } else if (error.request) {
+      console.log("No response: ", error.request);
+    } else {
+      console.log("Error: ", error.message);
+    }
+    throw error;
+  }
+};
+
+export default fetchApiMusicsById;
+
+export  { fetchApiMusics, fetchApiMusicsById };

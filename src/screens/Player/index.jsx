@@ -7,7 +7,8 @@ import fetchApiMusicsById from "../../data/Musics/Music";
 import styles from "./styles";
 
 const audioFiles = {
-  "conexoes.mp3": require("../../../assets/songs/conexoes.mp3"),
+  /* "conexoes.mp3": require("../../../assets/songs/conexoes.mp3"), */
+  "if_we_being_real.mp3": require("../../../assets/songs/if_we_being_real.mp3"),
 };
 
 export default function Player() {
@@ -16,11 +17,12 @@ export default function Player() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [shouldResume, setShouldResume] = useState(false);
 
   useEffect(() => {
     async function fetchMusic() {
       try {
-        const response = await fetchApiMusicsById(1);
+        const response = await fetchApiMusicsById(55);
         setApiData(response.music);
       } catch (error) {
         console.error("Error fetching music:", error);
@@ -34,8 +36,10 @@ export default function Player() {
     if (sound) {
       const interval = setInterval(async () => {
         const status = await sound.getStatusAsync();
-        setPosition(status.positionMillis);
-        setDuration(status.durationMillis);
+        if (status.isLoaded) {
+          setPosition(status.positionMillis);
+          setDuration(status.durationMillis);
+        }
       }, 1000);
 
       return () => clearInterval(interval);
@@ -44,12 +48,13 @@ export default function Player() {
 
   async function playSound() {
     if (apiData && apiData.file && audioFiles[apiData.file]) {
-      const sound = new Audio.Sound();
+      const newSound = new Audio.Sound();
       try {
-        await sound.loadAsync(audioFiles[apiData.file]);
-        setSound(sound);
-        await sound.playAsync();
+        await newSound.loadAsync(audioFiles[apiData.file], {}, shouldResume);
+        setSound(newSound);
+        await newSound.playAsync();
         setIsPlaying(true);
+        setShouldResume(true);
       } catch (error) {
         console.error("Error loading or playing sound:", error);
       }
@@ -62,6 +67,7 @@ export default function Player() {
     if (sound) {
       await sound.pauseAsync();
       setIsPlaying(false);
+      setShouldResume(false);
     }
   }
 
@@ -70,12 +76,15 @@ export default function Player() {
       await sound.stopAsync();
       setIsPlaying(false);
       setPosition(0);
+      setShouldResume(false);
     }
   }
 
-  function onSeek(value) {
-    sound.setPositionAsync(value);
-    setPosition(value);
+  async function onSeek(value) {
+    if (sound) {
+      await sound.setPositionAsync(value);
+      setPosition(value);
+    }
   }
 
   return (
@@ -98,12 +107,19 @@ export default function Player() {
               thumbTintColor="#FFFFFF"
             />
             <View style={styles.controls}>
-              <TouchableOpacity onPress={isPlaying ? pauseSound : playSound} style={styles.controlButton}>
-                <Feather name={isPlaying ? "pause" : "play"} size={24} color="#FFFFFF" />
+              <TouchableOpacity
+                onPress={isPlaying ? pauseSound : playSound}
+                style={styles.controlButton}
+              >
+                <Feather
+                  name={isPlaying ? "pause" : "play"}
+                  size={24}
+                  color="#FFFFFF"
+                />
               </TouchableOpacity>
-              <TouchableOpacity onPress={stopSound} style={styles.controlButton}>
+              {/* <TouchableOpacity onPress={stopSound} style={styles.controlButton}>
                 <Feather name="stop-circle" size={24} color="#FFFFFF" />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </>
         )}

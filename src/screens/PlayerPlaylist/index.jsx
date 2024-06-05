@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
-import { fetchApiMusics } from "../../data/Musics/Music";
 import { Audio } from "expo-av";
 import Slider from "@react-native-community/slider";
 import styles from "../Player/styles";
+import { fetchApiMusics } from "../../data/Musics/Music";
 
 const audioFiles = {
   "conexoes.mp3": require("../../../assets/songs/conexoes.mp3"),
@@ -71,22 +71,33 @@ const audioFiles = {
   "sorry_bout_that.mp3": require("../../../assets/songs/sorry_bout_that.mp3"),
 };
 
-
 export default function PlayerPlaylist() {
-  const [sound, setSound] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [position, setPosition] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [musics, setMusics] = useState([]);
+  const [playlist, setPlaylist] = useState([]); // Lista de reprodução
+  const [currentMusicIndex, setCurrentMusicIndex] = useState(0); // Índice da música atual
+  const [sound, setSound] = useState(null); // Objeto de áudio
+  const [isPlaying, setIsPlaying] = useState(false); // Estado de reprodução
+  const [position, setPosition] = useState(0); // Posição atual na faixa
+  const [duration, setDuration] = useState(0); // Duração da faixa
+  const [pausedPosition, setPausedPosition] = useState(0); // Posição do áudio quando pausado
 
   useEffect(() => {
-    fetchMusics();
+    async function loadPlaylist() {
+      try {
+        const response = await fetchApiMusics();
+        setPlaylist(response.musics);
+      } catch (error) {
+        console.error("Erro ao carregar a lista de músicas:", error);
+      }
+    }
+
+    loadPlaylist();
   }, []);
 
-  const fetchMusics = async () => {
-    const musicData = await fetchApiMusics();
-    setMusics(musicData);
-  };
+  useEffect(() => {
+    if (playlist.length > 0) {
+      loadMusic(playlist[currentMusicIndex]);
+    }
+  }, [currentMusicIndex, playlist]);
 
   useEffect(() => {
     if (sound) {
@@ -102,56 +113,75 @@ export default function PlayerPlaylist() {
     }
   }, [sound]);
 
-  async function playSound(index) {
+  const loadMusic = async (music) => {
     if (sound) {
       await sound.unloadAsync();
     }
 
     const newSound = new Audio.Sound();
     try {
-      await newSound.loadAsync(musics[index].uri);
+      const source = audioFiles[music.file];
+      await newSound.loadAsync(source);
       setSound(newSound);
       await newSound.playAsync();
       setIsPlaying(true);
 
+      if (pausedPosition > 0) {
+        await newSound.setPositionAsync(pausedPosition);
+        setPausedPosition(0);
+      }
+
       newSound.setOnPlaybackStatusUpdate((status) => {
         if (status.didJustFinish) {
-          if (index < musics.length - 1) {
-            playSound(index + 1);
+          if (currentMusicIndex < playlist.length - 1) {
+            setCurrentMusicIndex(currentMusicIndex + 1);
           } else {
             setIsPlaying(false);
           }
         }
       });
     } catch (error) {
-      console.error("Error loading or playing sound:", error);
+      console.error("Erro ao carregar ou reproduzir a música:", error);
     }
-  }
+  };
 
-  async function pauseSound() {
+  const pauseMusic = async () => {
     if (sound) {
       await sound.pauseAsync();
       setIsPlaying(false);
+      const status = await sound.getStatusAsync();
+      if (status.isLoaded) {
+        setPausedPosition(status.positionMillis);
+      }
     }
-  }
+  };
 
-  async function onSeek(value) {
+  const onSeek = async (value) => {
     if (sound) {
       await sound.setPositionAsync(value);
       setPosition(value);
     }
-  }
+  };
+
+  const formatTime = (milliseconds) => {
+    const minutes = Math.floor(milliseconds / 60000);
+    const seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View>
-        {musics.length > 0 && (
+    <ScrollView contentContainerStyle={styles.scrollView}>
+      <View style={styles.container}>
+        {playlist.length > 0 ? (
           <>
             <Image
-              source={{ uri: musics[0].image }}
+              source={{ uri: playlist[currentMusicIndex].image }}
               style={styles.image}
             />
-            <Text style={styles.title}>Now Playing</Text>
+            <Text style={styles.title}>{playlist[currentMusicIndex].name}</Text>
+            <Text style={styles.artist}>
+              {playlist[currentMusicIndex].artist}
+            </Text>
             <Slider
               style={{ width: "90%", marginBottom: 20 }}
               minimumValue={0}
@@ -162,9 +192,17 @@ export default function PlayerPlaylist() {
               maximumTrackTintColor="#888888"
               thumbTintColor="#FFFFFF"
             />
+            <View style={styles.timeContainer}>
+              <Text style={styles.time}>{formatTime(position)}</Text>
+              <Text style={styles.time}>{formatTime(duration)}</Text>
+            </View>
             <View style={styles.controls}>
               <TouchableOpacity
-                onPress={isPlaying ? pauseSound : () => playSound(0)}
+                onPress={
+                  isPlaying
+                    ? pauseMusic
+                    : () => loadMusic(playlist[currentMusicIndex])
+                }
                 style={styles.controlButton}
               >
                 <Feather
@@ -175,6 +213,8 @@ export default function PlayerPlaylist() {
               </TouchableOpacity>
             </View>
           </>
+        ) : (
+          <Text style={styles.error}>Erro ao carregar os dados da música</Text>
         )}
       </View>
     </ScrollView>

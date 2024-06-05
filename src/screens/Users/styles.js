@@ -3,7 +3,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#000",
   },
   text: {
@@ -36,12 +35,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 30,
   },
-  userSeparetad: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
-  },
-
   playlistDiv: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -50,6 +43,37 @@ const styles = StyleSheet.create({
   textTitle: {
     color: "#fff",
     fontSize: 20,
+  },
+  textInfo: {
+    color: "#FF0000",
+    fontSize: 24,
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
+    textAlign: "center",
+  },
+  emailDiv: {
+    alignItems: "center",
+  },
+  containerUser: {
+    marginTop: 100,
+  },
+  loading: {
+    color: "#FFF",
+    fontSize: 20,
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loadingNavigation: {
+    color: "#FF0000",
+    fontSize: 20,
+    paddingTop: 0,
+  },
+  containerLoading: {
+    marginTop: 350,
+    alignItems: "center",
   },
 });
 

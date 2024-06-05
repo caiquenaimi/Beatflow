@@ -121,13 +121,13 @@ const audioFiles = {
 };
 
 export default function PlayerPlaylist() {
-  const [playlist, setPlaylist] = useState([]); // Lista de reprodução
-  const [currentMusicIndex, setCurrentMusicIndex] = useState(0); // Índice da música atual
-  const [sound, setSound] = useState(null); // Objeto de áudio
-  const [isPlaying, setIsPlaying] = useState(false); // Estado de reprodução
-  const [position, setPosition] = useState(0); // Posição atual na faixa
-  const [duration, setDuration] = useState(0); // Duração da faixa
-  const [pausedPosition, setPausedPosition] = useState(0); // Posição do áudio quando pausado
+  const [playlist, setPlaylist] = useState([]); 
+  const [currentMusicIndex, setCurrentMusicIndex] = useState(0); 
+  const [sound, setSound] = useState(null); 
+  const [isPlaying, setIsPlaying] = useState(false); 
+  const [position, setPosition] = useState(0); 
+  const [duration, setDuration] = useState(0); 
+  const [pausedPosition, setPausedPosition] = useState(0); 
 
   useEffect(() => {
     async function loadPlaylist() {

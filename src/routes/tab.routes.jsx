@@ -44,7 +44,7 @@ const TabRoutes = () => {
         },
         headerTintColor: "#FF0000",
       }}
-      initialRouteName="SignUp"
+      initialRouteName="SignIn"
     >
       <Tab.Screen
         name="Inicio"
@@ -95,28 +95,16 @@ const TabRoutes = () => {
         component={SignUp}
         initialParams={{ user: null, edit: false }}
         options={{
-          tabBarLabel: "Sign Up",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
-          tabBarIcon: ({ color }) => (
-            <Feather name="user-plus" color={color} size={32} />
-          ),
+          tabBarButton: () => null, 
+          tabBarVisible: false,
         }}
       />
       <Tab.Screen
         name="SignIn"
         component={SignIn}
         options={{
-          tabBarLabel: "Sign In",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
-          tabBarIcon: ({ color }) => (
-            <Feather name="log-in" color={color} size={32} />
-          ),
+          tabBarButton: () => null, 
+          tabBarVisible: false,
         }}
       />
       <Tab.Screen

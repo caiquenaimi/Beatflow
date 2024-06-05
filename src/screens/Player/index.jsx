@@ -101,13 +101,13 @@ const audioFiles = {
   "modelo.mp3": require("../../../assets/songs/modelo.mp3"),
   "ó.mp3": require("../../../assets/songs/ó.mp3"),
   "TWERK.mp3": require("../../../assets/songs/TWERK.mp3"),
-  "sua_inveja_eu_nao_vejo.mp3": require("../../../assets/songs/sua_inveja_eu_nao_vejo.mp3"),
-  "mitico_jovem.mp3": require("../../../assets/songs/mitico_jovem.mp3"),
+  "Sua_Inveja_Eu_Não_Vejo.mp3": require("../../../assets/songs/Sua_Inveja_Eu_Não_Vejo.mp3"),
+  "Mítico_Jovem.mp3": require("../../../assets/songs/Mítico_Jovem.mp3"),
   "FYE!.mp3": require("../../../assets/songs/FYE!.mp3"),
   "hobby.mp3": require("../../../assets/songs/hobby.mp3"),
-  "diagnóstico.mp3": require("../../../assets/songs/diagnóstico.mp3"),
-  "mantem_o_pique.mp3": require("../../../assets/songs/mantem_o_pique.mp3"),
-  "embalo.mp3": require("../../../assets/songs/embalo.mp3"),
+  "Diagnóstico.mp3": require("../../../assets/songs/Diagnóstico.mp3"),
+  "Mantém_o_Pique.mp3": require("../../../assets/songs/Mantém_o_Pique.mp3"),
+  "Embalo.mp3": require("../../../assets/songs/Embalo.mp3"),
   "count_me_out.mp3": require("../../../assets/songs/count_me_out.mp3"),
   "savior.mp3": require("../../../assets/songs/savior.mp3"),
   "money_trees.mp3": require("../../../assets/songs/money_trees.mp3"),
@@ -118,7 +118,7 @@ const audioFiles = {
   "N95.mp3": require("../../../assets/songs/N95.mp3"),
   "ELEMENT.mp3": require("../../../assets/songs/ELEMENT.mp3"),
   "backseat_freestyle.mp3": require("../../../assets/songs/backseat_freestyle.mp3"),
-  "swimming_pools.mp3": require("../../../assets/songs/swimming_pools.mp3")
+  "swimming_pools.mp3": require("../../../assets/songs/swimming_pools.mp3"),
 };
 
 export default function Player() {
@@ -269,4 +269,3 @@ export default function Player() {
     </ScrollView>
   );
 }
-

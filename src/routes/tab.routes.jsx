@@ -3,12 +3,16 @@ import Feather from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Home from "../screens/Home";
-import Playlists from "../screens/Playlists";
+/* import Playlists from "../screens/Playlists"; */
 import Users from "../screens/Users";
 import SignUp from "../screens/SignUp";
 import SignIn from "../screens/SignIn";
 import Search from "../screens/Search";
 import Player from "../screens/Player";
+import PlayerPlaylist from "../screens/PlayerPlaylist";
+import PlaylistTest from "../screens/PlaylistTest";
+import Library from "../screens/Library";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +20,7 @@ const TabRoutes = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         tabBarActiveTintColor: "#FF0000",
         tabBarStyle: {
           position: "absolute",
@@ -40,7 +44,7 @@ const TabRoutes = () => {
         },
         headerTintColor: "#FF0000",
       }}
-      initialRouteName="SignUp"
+      initialRouteName="SignIn"
     >
       <Tab.Screen
         name="Inicio"
@@ -91,33 +95,21 @@ const TabRoutes = () => {
         component={SignUp}
         initialParams={{ user: null, edit: false }}
         options={{
-          tabBarLabel: "Sign Up",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
-          tabBarIcon: ({ color }) => (
-            <Feather name="user-plus" color={color} size={32} />
-          ),
+          tabBarButton: () => null, 
+          tabBarVisible: false,
         }}
       />
       <Tab.Screen
         name="SignIn"
         component={SignIn}
         options={{
-          tabBarLabel: "Sign In",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
-          tabBarIcon: ({ color }) => (
-            <Feather name="log-in" color={color} size={32} />
-          ),
+          tabBarButton: () => null, 
+          tabBarVisible: false,
         }}
       />
       <Tab.Screen
-        name="Playlists"
-        component={Playlists}
+        name="PlaylistTest"
+        component={PlaylistTest}
         options={{
           tabBarButton: () => null, 
           tabBarVisible: false, 
@@ -128,21 +120,38 @@ const TabRoutes = () => {
         name="Player"
         component={Player}
         options={{
-          tabBarLabel: "Player",
+          tabBarButton: () => null, 
+          tabBarVisible: false,
+        }}
+      />
+
+      <Tab.Screen
+        name="PlayerPlaylist"
+        component={PlayerPlaylist}
+        options={{
+          tabBarButton: () => null, 
+          tabBarVisible: false,
+        }}
+      />
+
+<Tab.Screen
+        name="Library"
+        component={Library}
+        options={{
+          tabBarLabel: "Biblioteca",
           tabBarLabelStyle: {
             fontSize: 14,
             fontFamily: "Roboto",
           },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="music-circle"
-              color={color}
-              size={32}
-            />
+            <MaterialCommunityIcons name="playlist-music" color={color} size={32} />
           ),
         }}
       />
+
     </Tab.Navigator>
+
+
   );
 };
 

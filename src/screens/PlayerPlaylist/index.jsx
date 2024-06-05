@@ -128,12 +128,17 @@ export default function PlayerPlaylist() {
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
   const [pausedPosition, setPausedPosition] = useState(0);
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [shuffledPlaylist, setShuffledPlaylist] = useState([]);
+  const [nextMusicIndex, setNextMusicIndex] = useState(0);
 
   useEffect(() => {
     async function loadPlaylist() {
       try {
         const response = await fetchApiMusics();
         setPlaylist(response.musics);
+        setShuffledPlaylist(response.musics);
+        setNextMusicIndex(0);
       } catch (error) {
         console.error("Erro ao carregar a lista de músicas:", error);
       }
@@ -182,11 +187,7 @@ export default function PlayerPlaylist() {
 
       newSound.setOnPlaybackStatusUpdate((status) => {
         if (status.didJustFinish) {
-          if (currentMusicIndex < playlist.length - 1) {
-            setCurrentMusicIndex(currentMusicIndex + 1);
-          } else {
-            setCurrentMusicIndex(0); // Voltar para a primeira música
-          }
+          playNext();
         }
       });
     } catch (error) {
@@ -218,17 +219,48 @@ export default function PlayerPlaylist() {
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   };
 
+  const shuffleArray = (array) => {
+    let shuffled = array.slice();
+    let currentIndex = shuffled.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = shuffled[currentIndex];
+      shuffled[currentIndex] = shuffled[randomIndex];
+      shuffled[randomIndex] = temporaryValue;
+    }
+
+    return shuffled;
+  };
+
+  const toggleShuffle = () => {
+    setIsShuffle(!isShuffle);
+    if (!isShuffle) {
+      const newShuffledPlaylist = shuffleArray(playlist);
+      setShuffledPlaylist(newShuffledPlaylist);
+      setNextMusicIndex(newShuffledPlaylist.findIndex(music => music === playlist[currentMusicIndex]));
+    }
+  };
+
   const playNext = () => {
-    if (currentMusicIndex < playlist.length - 1) {
-      setCurrentMusicIndex(currentMusicIndex + 1);
+    if (isShuffle) {
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * playlist.length);
+      } while (nextIndex === currentMusicIndex);
+      setCurrentMusicIndex(nextIndex);
     } else {
-      setCurrentMusicIndex(0); // Voltar para a primeira música se estiver na última
+      setCurrentMusicIndex((currentMusicIndex + 1) % playlist.length);
     }
   };
 
   const playPrevious = () => {
     if (currentMusicIndex > 0) {
       setCurrentMusicIndex(currentMusicIndex - 1);
+    } else {
+      setCurrentMusicIndex(playlist.length - 1);
     }
   };
 
@@ -285,6 +317,9 @@ export default function PlayerPlaylist() {
               </TouchableOpacity>
               <TouchableOpacity onPress={playNext} style={styles.controlButton}>
                 <Feather name="skip-forward" size={24} color="#FFFFFF" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={toggleShuffle} style={styles.controlButton}>
+                <Feather name="shuffle" size={24} color={isShuffle ? "#FFD700" : "#FFFFFF"} />
               </TouchableOpacity>
             </View>
           </>

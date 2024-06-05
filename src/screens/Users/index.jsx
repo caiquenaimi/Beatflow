@@ -30,7 +30,7 @@ export default function Users() {
       <View style={styles.containerUser}>
         <View style={styles.userInit}>
           <Image
-            source={require("../../../assets/user-removebg-preview.png")}
+            source={require("../../../assets/usuariotop.png")}
             style={styles.image}
           />
           <Text style={styles.textName}>{user?.name}</Text>

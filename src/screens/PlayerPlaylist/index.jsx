@@ -169,6 +169,18 @@ export default function PlayerPlaylist() {
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   };
 
+  const playNext = () => {
+    if (currentMusicIndex < playlist.length - 1) {
+      setCurrentMusicIndex(currentMusicIndex + 1);
+    }
+  };
+
+  const playPrevious = () => {
+    if (currentMusicIndex > 0) {
+      setCurrentMusicIndex(currentMusicIndex - 1);
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.container}>
@@ -198,6 +210,12 @@ export default function PlayerPlaylist() {
             </View>
             <View style={styles.controls}>
               <TouchableOpacity
+                onPress={playPrevious}
+                style={styles.controlButton}
+              >
+                <Feather name="skip-back" size={24} color="#FFFFFF" />
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={
                   isPlaying
                     ? pauseMusic
@@ -210,6 +228,9 @@ export default function PlayerPlaylist() {
                   size={24}
                   color="#FFFFFF"
                 />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={playNext} style={styles.controlButton}>
+                <Feather name="skip-forward" size={24} color="#FFFFFF" />
               </TouchableOpacity>
             </View>
           </>

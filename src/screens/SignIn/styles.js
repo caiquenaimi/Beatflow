@@ -4,27 +4,12 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
+    justifyContent: 'center',
+    padding: 16,
   },
   containerScroll:{
     flexGrow: 1,
     marginBottom: 100
-  },
-  cadastre:{
-    color: '#FFFFFF',
-    textAlign: 'center',
-    fontSize: 16,
-    marginTop: 15,
-    marginBottom: 20
-  },
-  loginButton:{
-    color: '#555555',
-    textDecorationLine: 'underline',
-  },
-  Textdate:{
-    color: '#FFFFFF',
-    fontSize: 16,
-    marginTop: 10,
-    marginBottom: 10
   },
   title: {
     fontSize: 32,
@@ -32,15 +17,19 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginBottom: 24,
   },
+  form: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
   logo: {
     alignSelf: 'center',
     marginBottom: 24, 
     marginTop: 20
    },
-  form: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
+  flr:{
+    flexDirection: 'row',
+    width: "100%"
   },
   input: {
     width: "100%",
@@ -61,13 +50,8 @@ export default StyleSheet.create({
     right: 20,
     top: 10
   },
-  flr:{
-    flexDirection: 'row',
-    width: "100%"
-  },
   button: {
     backgroundColor: '#FF0000',
-    width: '100%',
     borderRadius: 8,
     paddingVertical: 12,
     marginVertical: 8,
@@ -76,6 +60,9 @@ export default StyleSheet.create({
   buttonText: {
     color: '#FFFFFF',
     fontSize: 18,
+  },
+  signUpButton: {
+    backgroundColor: '#555555', // Sign up button with a different shade for distinction
   },
   errorMessage: {
     color: '#FF0000',
@@ -86,5 +73,14 @@ export default StyleSheet.create({
     color: '#00FF00',
     textAlign: 'center',
     marginTop: 16,
+  },
+  cadastre:{
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 20
+  },
+  loginButton:{
+    color: '#555555',
   },
 });

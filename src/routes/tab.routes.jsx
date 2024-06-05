@@ -8,6 +8,7 @@ import Users from "../screens/Users";
 import SignUp from "../screens/SignUp";
 import SignIn from "../screens/SignIn";
 import Search from "../screens/Search";
+import Player from "../screens/Player";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,11 +17,11 @@ const TabRoutes = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: true,
-        tabBarActiveTintColor: "#E25252",
+        tabBarActiveTintColor: "#FF0000",
         tabBarStyle: {
           position: "absolute",
           elevation: 0,
-          backgroundColor: "#3A3954",
+          backgroundColor: "#000",
           height: 80,
           shadowColor: "#000",
           shadowOffset: {
@@ -32,32 +33,15 @@ const TabRoutes = () => {
           elevation: 21,
         },
         tabBarIconStyle: {
-          marginBottom: -10, 
+          marginBottom: -10,
         },
         headerStyle: {
-          backgroundColor: "#3A3954",      
+          backgroundColor: "#000",
         },
-        headerTintColor: "#fff",
+        headerTintColor: "#FF0000",
       }}
+      initialRouteName="SignUp"
     >
-      <Tab.Screen
-        name="Search"
-        component={Search}
-        options={{
-          tabBarLabel: "Buscar",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
-          tabBarIcon: ({ color }) => (
-            <Feather
-              name="search"
-              color={color}
-              size={32}
-            />
-          ),
-        }}
-      />
       <Tab.Screen
         name="Inicio"
         component={Home}
@@ -72,20 +56,22 @@ const TabRoutes = () => {
           ),
         }}
       />
+
       <Tab.Screen
-        name="Playlists"
-        component={Playlists}
+        name="Search"
+        component={Search}
         options={{
-          tabBarLabel: "Biblioteca",
+          tabBarLabel: "Buscar",
           tabBarLabelStyle: {
             fontSize: 14,
             fontFamily: "Roboto",
           },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="playlist-music" color={color} size={32} />
+            <Feather name="search" color={color} size={32} />
           ),
         }}
       />
+
       <Tab.Screen
         name="Users"
         component={Users}
@@ -103,6 +89,7 @@ const TabRoutes = () => {
       <Tab.Screen
         name="SignUp"
         component={SignUp}
+        initialParams={{ user: null, edit: false }}
         options={{
           tabBarLabel: "Sign Up",
           tabBarLabelStyle: {
@@ -125,6 +112,33 @@ const TabRoutes = () => {
           },
           tabBarIcon: ({ color }) => (
             <Feather name="log-in" color={color} size={32} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Playlists"
+        component={Playlists}
+        options={{
+          tabBarButton: () => null, 
+          tabBarVisible: false, 
+        }}
+      />
+
+      <Tab.Screen
+        name="Player"
+        component={Player}
+        options={{
+          tabBarLabel: "Player",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="music-circle"
+              color={color}
+              size={32}
+            />
           ),
         }}
       />

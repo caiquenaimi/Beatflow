@@ -185,7 +185,7 @@ export default function PlayerPlaylist() {
           if (currentMusicIndex < playlist.length - 1) {
             setCurrentMusicIndex(currentMusicIndex + 1);
           } else {
-            setIsPlaying(false);
+            setCurrentMusicIndex(0); // Voltar para a primeira música
           }
         }
       });
@@ -221,6 +221,8 @@ export default function PlayerPlaylist() {
   const playNext = () => {
     if (currentMusicIndex < playlist.length - 1) {
       setCurrentMusicIndex(currentMusicIndex + 1);
+    } else {
+      setCurrentMusicIndex(0); // Voltar para a primeira música se estiver na última
     }
   };
 

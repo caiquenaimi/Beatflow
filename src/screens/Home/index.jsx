@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
-import fetchApiMusics from "../../data/Musics/Music";
+import { fetchApiMusics } from "../../data/Musics/Music";
 import { fetchApiPlaylists } from "../../data/Playlists/Playlist";
 import MusicCard from "../../components/Musics/MusicCard";
 import { useNavigation } from "@react-navigation/native";
@@ -38,7 +38,7 @@ export default function Home() {
   const renderPlaylistItem = ({ item }) => (
     <TouchableOpacity
       style={styles.cardContainer}
-      onPress={() => navigation.navigate("Playlists", { playlistId: item.id })}
+      onPress={() => navigation.navigate("PlaylistTest", { playlistId: item.id })}
     >
       <Text style={styles.artistTitle}>{item.name}</Text>
       <Text style={styles.playlistDescription}>{item.description}</Text>
@@ -49,7 +49,7 @@ export default function Home() {
   const renderMusicItem = ({ item }) => (
     <View style={styles.cardContainer}>
       <MusicCard
-        key={item.id}
+        id={item.id}
         songname={item.name}
         image={item.image}
         artist={item.artist}
@@ -80,11 +80,11 @@ export default function Home() {
           <Text style={styles.loadingText}>Carregando playlists...</Text>
         )}
 
-        <Text style={styles.artistTitle}>Músicas de Kanye West</Text>
+        <Text style={styles.artistTitle}>Músicas de Travis Scott</Text>
         {apiData.length > 0 ? (
           <Carousel
             data={apiData.filter((item) =>
-              item.artist.toLowerCase().includes("kanye west")
+              item.artist.toLowerCase().includes("travis scott")
             )}
             renderItem={renderMusicItem}
             sliderWidth={width}
@@ -94,7 +94,7 @@ export default function Home() {
           />
         ) : (
           <Text style={styles.loadingText}>
-            Carregando músicas de Kanye West...
+            Carregando músicas de Travis Scott...
           </Text>
         )}
 

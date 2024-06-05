@@ -59,6 +59,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  shuffleButton: {
+    backgroundColor: "transparent", 
+  },
+
+  repeatButton: {
+    backgroundColor: "transparent", 
+  },
   timeContainer: {
     width: "90%",
     flexDirection: "row",
@@ -67,7 +74,7 @@ const styles = StyleSheet.create({
   },
   time: {
     color: "#FFFFFF",
-  }
+  },
 });
 
 export default styles;

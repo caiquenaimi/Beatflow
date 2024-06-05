@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Audio } from "expo-av";
 import Slider from "@react-native-community/slider";
 import styles from "../Player/styles";
@@ -129,7 +130,7 @@ export default function PlayerPlaylist() {
   const [duration, setDuration] = useState(0);
   const [pausedPosition, setPausedPosition] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false);
-  const [repeatMode, setRepeatMode] = useState(0); // 0: no repeat, 1: repeat once, 2: repeat always
+  const [repeatMode, setRepeatMode] = useState(0); 
   const [shuffledPlaylist, setShuffledPlaylist] = useState([]);
   const [nextMusicIndex, setNextMusicIndex] = useState(0);
 
@@ -197,13 +198,13 @@ export default function PlayerPlaylist() {
   };
   const handleMusicEnd = () => {
     if (repeatMode === 2) {
-      playNext(); // Continuar para a próxima música
+      playNext();
     } else if (repeatMode === 1) {
-      loadMusic(playlist[currentMusicIndex]); // Repetir a mesma música
+      loadMusic(playlist[currentMusicIndex]); 
     } else {
       playNext(); // Ir para a próxima música
       if (currentMusicIndex === playlist.length - 1) {
-        setRepeatMode(0); // Mudar para "não repetir" se for a última música
+        setRepeatMode(0); 
       }
     }
   };
@@ -324,6 +325,17 @@ export default function PlayerPlaylist() {
             </View>
             <View style={styles.controls}>
               <TouchableOpacity
+                onPress={toggleShuffle}
+                style={[styles.controlButton, styles.shuffleButton]} 
+              >
+                <Feather
+                  name="shuffle"
+                  size={24}
+                  color={isShuffle ? "#FF0000" : "#FFFFFF"}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
                 onPress={playPrevious}
                 style={styles.controlButton}
               >
@@ -346,26 +358,17 @@ export default function PlayerPlaylist() {
               <TouchableOpacity onPress={playNext} style={styles.controlButton}>
                 <Feather name="skip-forward" size={24} color="#FFFFFF" />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={toggleShuffle}
-                style={styles.controlButton}
-              >
-                <Feather
-                  name="shuffle"
-                  size={24}
-                  color={isShuffle ? "#FFD700" : "#FFFFFF"}
-                />
-              </TouchableOpacity>
+
               <TouchableOpacity
                 onPress={toggleRepeatMode}
-                style={styles.controlButton}
+                style={[styles.controlButton, styles.repeatButton]} 
               >
-                <Feather
+                <MaterialCommunityIcons
                   name={
                     repeatMode === 0
-                      ? "repeat"
+                      ? "repeat-off"
                       : repeatMode === 1
-                      ? "repeat"
+                      ? "repeat-once"
                       : "repeat"
                   }
                   size={24}
@@ -373,11 +376,10 @@ export default function PlayerPlaylist() {
                     repeatMode === 0
                       ? "#FFFFFF"
                       : repeatMode === 1
-                      ? "#FFD700"
-                      : "#00FF00"
+                      ? "#FF0000"
+                      : "#FF0000"
                   }
                 />
-                {repeatMode === 1 && <Text style={styles.repeatText}>1</Text>}
               </TouchableOpacity>
             </View>
           </>

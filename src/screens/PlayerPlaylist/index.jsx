@@ -264,7 +264,7 @@ export default function PlayerPlaylist() {
   };
 
   const toggleRepeatMode = () => {
-    setRepeatMode((repeatMode + 1) % 3); // Alterna entre 0, 1, e 2
+    setRepeatMode((repeatMode + 1) % 3);
   };
 
   const playNext = () => {
@@ -277,7 +277,6 @@ export default function PlayerPlaylist() {
     } else {
       const nextIndex = (currentMusicIndex + 1) % playlist.length;
       if (repeatMode === 1) {
-        // Se estiver no modo de repetição única, carregue a mesma música novamente
         loadMusic(playlist[currentMusicIndex]);
       } else {
         setCurrentMusicIndex(nextIndex);

@@ -129,6 +129,7 @@ export default function PlayerPlaylist() {
   const [duration, setDuration] = useState(0);
   const [pausedPosition, setPausedPosition] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false);
+  const [repeatMode, setRepeatMode] = useState(0); // 0: no repeat, 1: repeat once, 2: repeat always
   const [shuffledPlaylist, setShuffledPlaylist] = useState([]);
   const [nextMusicIndex, setNextMusicIndex] = useState(0);
 
@@ -187,11 +188,23 @@ export default function PlayerPlaylist() {
 
       newSound.setOnPlaybackStatusUpdate((status) => {
         if (status.didJustFinish) {
-          playNext();
+          handleMusicEnd();
         }
       });
     } catch (error) {
       console.error("Erro ao carregar ou reproduzir a música:", error);
+    }
+  };
+  const handleMusicEnd = () => {
+    if (repeatMode === 2) {
+      playNext(); // Continuar para a próxima música
+    } else if (repeatMode === 1) {
+      loadMusic(playlist[currentMusicIndex]); // Repetir a mesma música
+    } else {
+      playNext(); // Ir para a próxima música
+      if (currentMusicIndex === playlist.length - 1) {
+        setRepeatMode(0); // Mudar para "não repetir" se for a última música
+      }
     }
   };
 
@@ -221,7 +234,9 @@ export default function PlayerPlaylist() {
 
   const shuffleArray = (array) => {
     let shuffled = array.slice();
-    let currentIndex = shuffled.length, temporaryValue, randomIndex;
+    let currentIndex = shuffled.length,
+      temporaryValue,
+      randomIndex;
 
     while (currentIndex !== 0) {
       randomIndex = Math.floor(Math.random() * currentIndex);
@@ -240,8 +255,16 @@ export default function PlayerPlaylist() {
     if (!isShuffle) {
       const newShuffledPlaylist = shuffleArray(playlist);
       setShuffledPlaylist(newShuffledPlaylist);
-      setNextMusicIndex(newShuffledPlaylist.findIndex(music => music === playlist[currentMusicIndex]));
+      setNextMusicIndex(
+        newShuffledPlaylist.findIndex(
+          (music) => music === playlist[currentMusicIndex]
+        )
+      );
     }
+  };
+
+  const toggleRepeatMode = () => {
+    setRepeatMode((repeatMode + 1) % 3); // Alterna entre 0, 1, e 2
   };
 
   const playNext = () => {
@@ -252,7 +275,13 @@ export default function PlayerPlaylist() {
       } while (nextIndex === currentMusicIndex);
       setCurrentMusicIndex(nextIndex);
     } else {
-      setCurrentMusicIndex((currentMusicIndex + 1) % playlist.length);
+      const nextIndex = (currentMusicIndex + 1) % playlist.length;
+      if (repeatMode === 1) {
+        // Se estiver no modo de repetição única, carregue a mesma música novamente
+        loadMusic(playlist[currentMusicIndex]);
+      } else {
+        setCurrentMusicIndex(nextIndex);
+      }
     }
   };
 
@@ -318,8 +347,38 @@ export default function PlayerPlaylist() {
               <TouchableOpacity onPress={playNext} style={styles.controlButton}>
                 <Feather name="skip-forward" size={24} color="#FFFFFF" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={toggleShuffle} style={styles.controlButton}>
-                <Feather name="shuffle" size={24} color={isShuffle ? "#FFD700" : "#FFFFFF"} />
+              <TouchableOpacity
+                onPress={toggleShuffle}
+                style={styles.controlButton}
+              >
+                <Feather
+                  name="shuffle"
+                  size={24}
+                  color={isShuffle ? "#FFD700" : "#FFFFFF"}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={toggleRepeatMode}
+                style={styles.controlButton}
+              >
+                <Feather
+                  name={
+                    repeatMode === 0
+                      ? "repeat"
+                      : repeatMode === 1
+                      ? "repeat"
+                      : "repeat"
+                  }
+                  size={24}
+                  color={
+                    repeatMode === 0
+                      ? "#FFFFFF"
+                      : repeatMode === 1
+                      ? "#FFD700"
+                      : "#00FF00"
+                  }
+                />
+                {repeatMode === 1 && <Text style={styles.repeatText}>1</Text>}
               </TouchableOpacity>
             </View>
           </>

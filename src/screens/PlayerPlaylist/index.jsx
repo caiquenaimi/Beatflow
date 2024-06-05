@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
+import { fetchApiMusics } from "../../data/Musics/Music";
 import { Audio } from "expo-av";
 import Slider from "@react-native-community/slider";
-import { fetchApiPlaylistById } from "../../data/Playlists/Playlist";
-import { useRoute } from "@react-navigation/native";
-import styles from "../Player/styles"; 
+import styles from "../Player/styles";
 
 const audioFiles = {
   "conexoes.mp3": require("../../../assets/songs/conexoes.mp3"),
@@ -72,117 +71,87 @@ const audioFiles = {
   "sorry_bout_that.mp3": require("../../../assets/songs/sorry_bout_that.mp3"),
 };
 
-export default function PlayerPlaylist() {
-  const route = useRoute();
-  const { playlistId, playlist } = route.params; 
 
+export default function PlayerPlaylist() {
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [musics, setMusics] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const playlistDataResponse = await fetchApiPlaylistById(playlistId);
-        setPlaylist(playlistDataResponse);
-        playAllTracks(playlistDataResponse.musics);
-      } catch (error) {
-        console.error("Error fetching playlist data:", error);
-      }
-    };
-    fetchData();
-  }, [playlistId]);
+    fetchMusics();
+  }, []);
 
-  const playAllTracks = async (tracks) => {
+  const fetchMusics = async () => {
+    const musicData = await fetchApiMusics();
+    setMusics(musicData);
+  };
+
+  useEffect(() => {
     if (sound) {
-      await sound.unloadAsync();
-    }
-
-    for (let i = 0; i < tracks.length; i++) {
-      const track = tracks[i];
-      if (track && audioFiles[track.file]) {
-        const newSound = new Audio.Sound();
-        try {
-          await newSound.loadAsync(audioFiles[track.file]);
-          setSound(newSound);
-          await newSound.playAsync();
-          setIsPlaying(true);
-
-          newSound.setOnPlaybackStatusUpdate((status) => {
-            if (status.didJustFinish) {
-              if (i < tracks.length - 1) {
-                playNextTrack(tracks, i + 1);
-              } else {
-                setIsPlaying(false);
-              }
-            }
-          });
-        } catch (error) {
-          console.error("Error loading or playing sound:", error);
+      const interval = setInterval(async () => {
+        const status = await sound.getStatusAsync();
+        if (status.isLoaded) {
+          setPosition(status.positionMillis);
+          setDuration(status.durationMillis);
         }
-      } else {
-        console.error("Audio file not found or track undefined:", track);
-      }
-    }
-  };
+      }, 1000);
 
-  const playNextTrack = async (tracks, index) => {
+      return () => clearInterval(interval);
+    }
+  }, [sound]);
+
+  async function playSound(index) {
     if (sound) {
       await sound.unloadAsync();
     }
 
-    const track = tracks[index];
-    if (track && audioFiles[track.file]) {
-      const newSound = new Audio.Sound();
-      try {
-        await newSound.loadAsync(audioFiles[track.file]);
-        setSound(newSound);
-        await newSound.playAsync();
-        setIsPlaying(true);
+    const newSound = new Audio.Sound();
+    try {
+      await newSound.loadAsync(musics[index].uri);
+      setSound(newSound);
+      await newSound.playAsync();
+      setIsPlaying(true);
 
-        newSound.setOnPlaybackStatusUpdate((status) => {
-          if (status.didJustFinish) {
-            if (index < tracks.length - 1) {
-              playNextTrack(tracks, index + 1);
-            } else {
-              setIsPlaying(false);
-            }
+      newSound.setOnPlaybackStatusUpdate((status) => {
+        if (status.didJustFinish) {
+          if (index < musics.length - 1) {
+            playSound(index + 1);
+          } else {
+            setIsPlaying(false);
           }
-        });
-      } catch (error) {
-        console.error("Error loading or playing sound:", error);
-      }
-    } else {
-      console.error("Audio file not found or track undefined:", track);
+        }
+      });
+    } catch (error) {
+      console.error("Error loading or playing sound:", error);
     }
-  };
+  }
 
-  const pauseSound = async () => {
+  async function pauseSound() {
     if (sound) {
       await sound.pauseAsync();
       setIsPlaying(false);
     }
-  };
+  }
 
-  const onSeek = async (value) => {
+  async function onSeek(value) {
     if (sound) {
       await sound.setPositionAsync(value);
       setPosition(value);
     }
-  };
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View>
-        {playlist.musics && playlist.musics[0] && (
+        {musics.length > 0 && (
           <>
             <Image
-              source={{ uri: playlist.musics[0].image }}
+              source={{ uri: musics[0].image }}
               style={styles.image}
             />
-            <Text style={styles.title}>{playlist.musics[0].name}</Text>
-            <Text style={styles.artist}>{playlist.musics[0].artist}</Text>
+            <Text style={styles.title}>Now Playing</Text>
             <Slider
               style={{ width: "90%", marginBottom: 20 }}
               minimumValue={0}
@@ -195,9 +164,7 @@ export default function PlayerPlaylist() {
             />
             <View style={styles.controls}>
               <TouchableOpacity
-                onPress={
-                  isPlaying ? pauseSound : () => playAllTracks(playlist.musics)
-                }
+                onPress={isPlaying ? pauseSound : () => playSound(0)}
                 style={styles.controlButton}
               >
                 <Feather

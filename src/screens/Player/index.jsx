@@ -157,10 +157,10 @@ export default function Player() {
           console.log("New sound:", newSound);
           setSound(newSound);
           setShouldResume(true);
-          await newSound.playAsync(); 
+          await newSound.playAsync();
           setIsPlaying(true);
         } else if (!isPlaying) {
-          await sound.playAsync(); 
+          await sound.playAsync();
           setIsPlaying(true);
         }
       } catch (error) {

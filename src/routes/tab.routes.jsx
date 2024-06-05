@@ -20,7 +20,7 @@ const TabRoutes = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         tabBarActiveTintColor: "#FF0000",
         tabBarStyle: {
           position: "absolute",

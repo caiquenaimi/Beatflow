@@ -97,6 +97,27 @@ const audioFiles = {
   "scooby_doo.mp3": require("../../../assets/songs/scooby_doo.mp3"),
   "vida_chique.mp3": require("../../../assets/songs/vida_chique.mp3"),
   "vivencias_do_trap.mp3": require("../../../assets/songs/vivencias_do_trap.mp3"),
+  "modelo.mp3": require("../../../assets/songs/modelo.mp3"),
+  "ó.mp3": require("../../../assets/songs/ó.mp3"),
+  "TWERK.mp3": require("../../../assets/songs/TWERK.mp3"),
+  "sua_inveja_eu_nao_vejo.mp3": require("../../../assets/songs/sua_inveja_eu_nao_vejo.mp3"),
+  "mitico_jovem.mp3": require("../../../assets/songs/mitico_jovem.mp3"),
+  "FYE!.mp3": require("../../../assets/songs/FYE!.mp3"),
+  "hobby.mp3": require("../../../assets/songs/hobby.mp3"),
+  "diagnóstico.mp3": require("../../../assets/songs/diagnóstico.mp3"),
+  "mantem_o_pique.mp3": require("../../../assets/songs/mantem_o_pique.mp3"),
+  "embalo.mp3": require("../../../assets/songs/embalo.mp3"),
+  "count_me_out.mp3": require("../../../assets/songs/count_me_out.mp3"),
+  "savior.mp3": require("../../../assets/songs/savior.mp3"),
+  "money_trees.mp3": require("../../../assets/songs/money_trees.mp3"),
+  "father_time.mp3": require("../../../assets/songs/father_time.mp3"),
+  "rich_spirit.mp3": require("../../../assets/songs/rich_spirit.mp3"),
+  "PRIDE.mp3": require("../../../assets/songs/PRIDE.mp3"),
+  "HUMBLE.mp3": require("../../../assets/songs/HUMBLE.mp3"),
+  "N95.mp3": require("../../../assets/songs/N95.mp3"),
+  "ELEMENT.mp3": require("../../../assets/songs/ELEMENT.mp3"),
+  "backseat_freestyle.mp3": require("../../../assets/songs/backseat_freestyle.mp3"),
+  "swimming_pools.mp3": require("../../../assets/songs/swimming_pools.mp3")
 };
 
 export default function PlayerPlaylist() {
@@ -222,6 +243,7 @@ export default function PlayerPlaylist() {
             <Text style={styles.artist}>
               {playlist[currentMusicIndex].artist}
             </Text>
+            <Text style={styles.album}>{playlist[currentMusicIndex].album}</Text>
             <Slider
               style={{ width: "90%", marginBottom: 20 }}
               minimumValue={0}

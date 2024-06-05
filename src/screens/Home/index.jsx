@@ -80,11 +80,11 @@ export default function Home() {
           <Text style={styles.loadingText}>Carregando playlists...</Text>
         )}
 
-        <Text style={styles.artistTitle}>Músicas de Kanye West</Text>
+        <Text style={styles.artistTitle}>Músicas de Travis Scott</Text>
         {apiData.length > 0 ? (
           <Carousel
             data={apiData.filter((item) =>
-              item.artist.toLowerCase().includes("kanye west")
+              item.artist.toLowerCase().includes("travis scott")
             )}
             renderItem={renderMusicItem}
             sliderWidth={width}
@@ -94,7 +94,7 @@ export default function Home() {
           />
         ) : (
           <Text style={styles.loadingText}>
-            Carregando músicas de Kanye West...
+            Carregando músicas de Travis Scott...
           </Text>
         )}
 

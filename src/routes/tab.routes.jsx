@@ -11,6 +11,7 @@ import Search from "../screens/Search";
 import Player from "../screens/Player";
 import PlayerPlaylist from "../screens/PlayerPlaylist";
 import PlaylistTest from "../screens/PlaylistTest";
+import Library from "../screens/Library";
 
 
 const Tab = createBottomTabNavigator();
@@ -142,6 +143,21 @@ const TabRoutes = () => {
         options={{
           tabBarButton: () => null, 
           tabBarVisible: false,
+        }}
+      />
+
+<Tab.Screen
+        name="Library"
+        component={Library}
+        options={{
+          tabBarLabel: "Biblioteca",
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontFamily: "Roboto",
+          },
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="playlist-music" color={color} size={32} />
+          ),
         }}
       />
 

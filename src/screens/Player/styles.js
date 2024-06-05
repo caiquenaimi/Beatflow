@@ -59,6 +59,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  timeContainer: {
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  time: {
+    color: "#FFFFFF",
+  }
 });
 
 export default styles;

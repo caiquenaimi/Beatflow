@@ -70,6 +70,34 @@ const audioFiles = {
   "out_the_way.mp3": require("../../../assets/songs/out_the_way.mp3"),
   "flawless.mp3": require("../../../assets/songs/flawless.mp3"),
   "sorry_bout_that.mp3": require("../../../assets/songs/sorry_bout_that.mp3"),
+  "7_novinha_pra_2_mlk.mp3": require("../../../assets/songs/7_novinha_pra_2_mlk.mp3"),
+  "atras_de_tu.mp3": require("../../../assets/songs/atras_de_tu.mp3"),
+  "bandana.mp3": require("../../../assets/songs/bandana.mp3"),
+  "barras_e_barras.mp3": require("../../../assets/songs/barras_e_barras.mp3"),
+  "bolsa_de_ombro.mp3": require("../../../assets/songs/bolsa_de_ombro.mp3"),
+  "bonde_da_fumaca.mp3": require("../../../assets/songs/bonde_da_fumaca.mp3"),
+  "chapa_quente.mp3": require("../../../assets/songs/chapa_quente.mp3"),
+  "devolve_as_correntes.mp3": require("../../../assets/songs/devolve_as_correntes.mp3"),
+  "engana_dizendo_que_ama.mp3": require("../../../assets/songs/engana_dizendo_que_ama.mp3"),
+  "essa_e_a_vida_de_um_gangsta.mp3": require("../../../assets/songs/essa_e_a_vida_de_um_gangsta.mp3"),
+  "essa_vadia.mp3": require("../../../assets/songs/essa_vadia.mp3"),
+  "eu_so_deslizo.mp3": require("../../../assets/songs/eu_so_deslizo.mp3"),
+  "foto_do_corte.mp3": require("../../../assets/songs/foto_do_corte.mp3"),
+  "hora_errada.mp3": require("../../../assets/songs/hora_errada.mp3"),
+  "i_told_u.mp3": require("../../../assets/songs/i_told_u.mp3"),
+  "jeito_bandido.mp3": require("../../../assets/songs/jeito_bandido.mp3"),
+  "lean_na_fanta.mp3": require("../../../assets/songs/lean_na_fanta.mp3"),
+  "londres_freestyle.mp3": require("../../../assets/songs/londres_freestyle.mp3"),
+  "mandraka.mp3": require("../../../assets/songs/mandraka.mp3"),
+  "meio_pa.mp3": require("../../../assets/songs/meio_pa.mp3"),
+  "mlks_de_sp.mp3": require("../../../assets/songs/mlks_de_sp.mp3"),
+  "nois_e_nois.mp3": require("../../../assets/songs/nois_e_nois.mp3"),
+  "nois_ta_forgano.mp3": require("../../../assets/songs/nois_ta_forgano.mp3"),
+  "perola.mp3": require("../../../assets/songs/perola.mp3"),
+  "resumo.mp3": require("../../../assets/songs/resumo.mp3"),
+  "scooby_doo.mp3": require("../../../assets/songs/scooby_doo.mp3"),
+  "vida_chique.mp3": require("../../../assets/songs/vida_chique.mp3"),
+  "vivencias_do_trap.mp3": require("../../../assets/songs/vivencias_do_trap.mp3"),
 };
 
 export default function Player() {
@@ -82,6 +110,7 @@ export default function Player() {
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
   const [shouldResume, setShouldResume] = useState(false);
+  const [pausedPosition, setPausedPosition] = useState(0);
 
   useEffect(() => {
     if (!musicId) {
@@ -121,13 +150,19 @@ export default function Player() {
 
   async function playSound() {
     if (apiData && apiData.file && audioFiles[apiData.file]) {
-      const newSound = new Audio.Sound();
       try {
-        await newSound.loadAsync(audioFiles[apiData.file], {}, shouldResume);
-        setSound(newSound);
-        await newSound.playAsync();
-        setIsPlaying(true);
-        setShouldResume(true);
+        if (!sound) {
+          const newSound = new Audio.Sound();
+          await newSound.loadAsync(audioFiles[apiData.file], {}, shouldResume);
+          console.log("New sound:", newSound);
+          setSound(newSound);
+          setShouldResume(true);
+          await newSound.playAsync(); 
+          setIsPlaying(true);
+        } else if (!isPlaying) {
+          await sound.playAsync(); 
+          setIsPlaying(true);
+        }
       } catch (error) {
         console.error("Error loading or playing sound:", error);
       }
@@ -138,9 +173,12 @@ export default function Player() {
 
   async function pauseSound() {
     if (sound) {
-      await sound.pauseAsync();
-      setIsPlaying(false);
-      setShouldResume(false);
+      const status = await sound.getStatusAsync();
+      if (status.isLoaded) {
+        await sound.pauseAsync();
+        setIsPlaying(false);
+        setPausedPosition(status.positionMillis);
+      }
     }
   }
 
@@ -150,6 +188,7 @@ export default function Player() {
       setIsPlaying(false);
       setPosition(0);
       setShouldResume(false);
+      setPausedPosition(0);
     }
   }
 
@@ -159,6 +198,12 @@ export default function Player() {
       setPosition(value);
     }
   }
+
+  const formatTime = (milliseconds) => {
+    const minutes = Math.floor(milliseconds / 60000);
+    const seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
@@ -179,6 +224,10 @@ export default function Player() {
               maximumTrackTintColor="#888888"
               thumbTintColor="#FFFFFF"
             />
+            <View style={styles.timeContainer}>
+              <Text style={styles.time}>{formatTime(position)}</Text>
+              <Text style={styles.time}>{formatTime(duration)}</Text>
+            </View>
             <View style={styles.controls}>
               <TouchableOpacity
                 onPress={isPlaying ? pauseSound : playSound}

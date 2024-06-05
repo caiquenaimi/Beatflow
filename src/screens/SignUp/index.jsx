@@ -132,15 +132,12 @@ export default function SignUp({ route }) {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/users",
-        {
-          name,
-          email,
-          password,
-          birthdate,
-        }
-      );
+      const response = await axios.post("http://localhost:3000/users", {
+        name,
+        email,
+        password,
+        birthdate,
+      });
       console.log("response: ", response.data);
       setSuccess("Cadastro realizado com sucesso!");
       setError("");
@@ -159,92 +156,162 @@ export default function SignUp({ route }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.containerScroll}>
-        <View style={styles.head}>
-          <View style={styles.logo}>
-            <Image
-              source={require("../../../assets/Beatflowlogo.png")}
-              style={{ width: 350, height: 250 }}
-            />
-          </View>
-          <Text style={styles.title}>Bem-vindo a BeatFlow</Text>
-          <Text style={styles.subtitle}>A melhor plataforma de Trap/Rap</Text>
-        </View>
-        <Text style={styles.title}>Cadastre-se</Text>
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder="Name"
-            value={name}
-            onChangeText={setName}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <View style={styles.flr}>
+      {isUpdate ? (
+        <ScrollView style={styles.containerScroll}>
+          <Text style={styles.title}>Editar Perfil</Text>
+          <View style={styles.form}>
             <TextInput
               style={styles.input}
-              placeholder="Password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={secureTextEntry}
+              placeholder="Name"
+              value={user.name}
+              onChangeText={setName}
             />
-            <TouchableOpacity
-              onPress={toggleSecureEntry}
-              style={styles.eyeIcon}
-            >
-              <Feather
-                name={secureTextEntry ? "eye-off" : "eye"}
-                size={33}
-                color="gray"
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={user.email}
+              onChangeText={setEmail}
+            />
+            <View style={styles.flr}>
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={user.password}
+                onChangeText={setPassword}
+                secureTextEntry={secureTextEntry}
               />
-            </TouchableOpacity>
-          </View>
-          <TextInput
-            style={styles.input}
-            placeholder="Data de Nascimento"
-            value={birthdate}
-            onChangeText={setBirthDate}
-          />
-
-          {isUpdate == true ? (
-            <Text style={styles.Textdate}>{birthdate}</Text>
-          ) : (
-            <Text style={styles.Textdate}>{formatDate(date)}</Text>
-          )}
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={"date"}
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
+              <TouchableOpacity
+                onPress={toggleSecureEntry}
+                style={styles.eyeIcon}
+              >
+                <Feather
+                  name={secureTextEntry ? "eye-off" : "eye"}
+                  size={33}
+                  color="gray"
+                />
+              </TouchableOpacity>
+            </View>
+            <TextInput
+              style={styles.input}
+              placeholder="Data de Nascimento"
+              value={user.birthdate}
+              onChangeText={setBirthDate}
             />
-          )}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleSignUp}
-            disabled={loading}
-          >
-            <Text style={styles.buttonText}>Cadastrar</Text>
-          </TouchableOpacity>
-          {error ? <ErrorMessage msg={error} /> : null}
-          {success ? <SuccessMessage msg={success} /> : null}
-          <Text style={styles.cadastre}>
-            Já possui uma conta?{" "}
-            <Text
-              style={styles.loginButton}
-              onPress={() => navigation.navigate("SignIn")}
+
+            {isUpdate == true ? (
+              <Text style={styles.Textdate}>{birthdate}</Text>
+            ) : (
+              <Text style={styles.Textdate}>{formatDate(date)}</Text>
+            )}
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={user.birthdate}
+                mode={"date"}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleSignUp}
+              disabled={loading}
             >
-              Faça login
+              <Text style={styles.buttonText}>Cadastrar</Text>
+            </TouchableOpacity>
+            {error ? <ErrorMessage msg={error} /> : null}
+            {success ? <SuccessMessage msg={success} /> : null}
+          </View>
+        </ScrollView>
+      ) : (
+        <ScrollView style={styles.containerScroll}>
+          <View style={styles.head}>
+            <View style={styles.logo}>
+              <Image
+                source={require("../../../assets/Beatflowlogo.png")}
+                style={{ width: 350, height: 250 }}
+              />
+            </View>
+            <Text style={styles.title}>Bem-vindo a BeatFlow</Text>
+            <Text style={styles.subtitle}>A melhor plataforma de Trap/Rap</Text>
+          </View>
+          <Text style={styles.title}>Cadastre-se</Text>
+          <View style={styles.form}>
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              value={name}
+              onChangeText={setName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <View style={styles.flr}>
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={secureTextEntry}
+              />
+              <TouchableOpacity
+                onPress={toggleSecureEntry}
+                style={styles.eyeIcon}
+              >
+                <Feather
+                  name={secureTextEntry ? "eye-off" : "eye"}
+                  size={33}
+                  color="gray"
+                />
+              </TouchableOpacity>
+            </View>
+            <TextInput
+              style={styles.input}
+              placeholder="Data de Nascimento"
+              value={birthdate}
+              onChangeText={setBirthDate}
+            />
+
+            {isUpdate == true ? (
+              <Text style={styles.Textdate}>{birthdate}</Text>
+            ) : (
+              <Text style={styles.Textdate}>{formatDate(date)}</Text>
+            )}
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={"date"}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleSignUp}
+              disabled={loading}
+            >
+              <Text style={styles.buttonText}>Cadastrar</Text>
+            </TouchableOpacity>
+            {error ? <ErrorMessage msg={error} /> : null}
+            {success ? <SuccessMessage msg={success} /> : null}
+            <Text style={styles.cadastre}>
+              Já possui uma conta?{" "}
+              <Text
+                style={styles.loginButton}
+                onPress={() => navigation.navigate("SignIn")}
+              >
+                Faça login
+              </Text>
             </Text>
-          </Text>
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      )}
     </View>
   );
 }

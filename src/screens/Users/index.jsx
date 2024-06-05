@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import fetchApi from "../../data/Users/User";
 import styles from "./styles";
 import { useAuth } from "../../context/AuthContext";
-
+import { useNavigation } from "@react-navigation/native";
 export default function Users() {
   const [apiData, setApiData] = useState([]);
   const { user } = useAuth();
+
+  const navigation = useNavigation();
   // id, name email, password, playlist
 
   useEffect(() => {
@@ -35,7 +37,12 @@ export default function Users() {
           />
           <Text style={styles.textName}>{user?.name}</Text>
           <View style={styles.editDiv}>
-            <Text style={styles.edit} onPress={() => alert("Edit")}>
+            <Text
+              style={styles.edit}
+              onPress={() =>
+                navigation.navigate("SignUp", { user, edit: "true" })
+              }
+            >
               ✏
             </Text>
           </View>

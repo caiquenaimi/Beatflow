@@ -156,7 +156,7 @@ export default function SignUp({ route }) {
 
   return (
     <View style={styles.container}>
-      {isUpdate ? (
+      {edit == "true" ? (
         <ScrollView style={styles.containerScroll}>
           <Text style={styles.title}>Editar Perfil</Text>
           <View style={styles.form}>
@@ -191,34 +191,12 @@ export default function SignUp({ route }) {
                 />
               </TouchableOpacity>
             </View>
-            <TextInput
-              style={styles.input}
-              placeholder="Data de Nascimento"
-              value={user.birthdate}
-              onChangeText={setBirthDate}
-            />
-
-            {isUpdate == true ? (
-              <Text style={styles.Textdate}>{birthdate}</Text>
-            ) : (
-              <Text style={styles.Textdate}>{formatDate(date)}</Text>
-            )}
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={user.birthdate}
-                mode={"date"}
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
             <TouchableOpacity
               style={styles.button}
               onPress={handleSignUp}
               disabled={loading}
             >
-              <Text style={styles.buttonText}>Cadastrar</Text>
+              <Text style={styles.buttonText}>Salvar Alterações</Text>
             </TouchableOpacity>
             {error ? <ErrorMessage msg={error} /> : null}
             {success ? <SuccessMessage msg={success} /> : null}
@@ -269,28 +247,6 @@ export default function SignUp({ route }) {
                 />
               </TouchableOpacity>
             </View>
-            <TextInput
-              style={styles.input}
-              placeholder="Data de Nascimento"
-              value={birthdate}
-              onChangeText={setBirthDate}
-            />
-
-            {isUpdate == true ? (
-              <Text style={styles.Textdate}>{birthdate}</Text>
-            ) : (
-              <Text style={styles.Textdate}>{formatDate(date)}</Text>
-            )}
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={"date"}
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
             <TouchableOpacity
               style={styles.button}
               onPress={handleSignUp}
@@ -300,15 +256,6 @@ export default function SignUp({ route }) {
             </TouchableOpacity>
             {error ? <ErrorMessage msg={error} /> : null}
             {success ? <SuccessMessage msg={success} /> : null}
-            <Text style={styles.cadastre}>
-              Já possui uma conta?{" "}
-              <Text
-                style={styles.loginButton}
-                onPress={() => navigation.navigate("SignIn")}
-              >
-                Faça login
-              </Text>
-            </Text>
           </View>
         </ScrollView>
       )}

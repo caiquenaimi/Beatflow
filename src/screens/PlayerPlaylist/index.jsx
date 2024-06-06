@@ -202,7 +202,7 @@ export default function PlayerPlaylist() {
     } else if (repeatMode === 1) {
       loadMusic(playlist[currentMusicIndex]); 
     } else {
-      playNext(); // Ir para a próxima música
+      playNext(); 
       if (currentMusicIndex === playlist.length - 1) {
         setRepeatMode(0); 
       }
@@ -371,8 +371,8 @@ export default function PlayerPlaylist() {
                   repeatMode === 0
                     ? "repeat-off"
                     : repeatMode === 1
-                    ? "repeat-once"
-                    : "repeat"
+                    ? "repeat"
+                    : "repeat-once"
                 }
                 size={24}
                 color={

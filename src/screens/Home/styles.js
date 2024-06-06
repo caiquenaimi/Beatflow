@@ -3,14 +3,13 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#000",
   },
   scrollContainer: {
-    paddingBottom: 80, // Ajuste para evitar espaço em branco na parte inferior
+    paddingBottom: 80,
+    paddingHorizontal: 10,
   },
-  title: {
+  sectionTitle: {
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 10,
@@ -34,7 +33,9 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 16,
-    color: "#fff",
+    color: "#FFF",
+    textAlign: "center",
+    marginTop: 20,
   },
   logo: {
     alignSelf: "center",

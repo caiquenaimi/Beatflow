@@ -12,6 +12,7 @@ import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { fetchApiPlaylists } from "../../data/Playlists/Playlist";
 import MusicCard from "../../components/Musics/MusicCard";
+import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Home() {
@@ -35,19 +36,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const renderPlaylistItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.cardContainer}
-      onPress={() =>
-        navigation.navigate("PlaylistTest", { playlistId: item.id })
-      }
-    >
-      <Text style={styles.artistTitle}>{item.name}</Text>
-      <Text style={styles.playlistDescription}>{item.description}</Text>
-      <Text style={styles.playlistDuration}>Duração: {item.duration}</Text>
-    </TouchableOpacity>
-  );
-
   const renderMusicItem = ({ item }) => (
     <View style={styles.cardContainer}>
       <MusicCard
@@ -61,6 +49,12 @@ export default function Home() {
 
   const { width } = Dimensions.get("window");
 
+  const recommendedMusicIds = [1, 3, 5];
+
+  const recommendedMusics = apiData.filter((music) =>
+    recommendedMusicIds.includes(music.id)
+  );
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -68,21 +62,8 @@ export default function Home() {
           source={require("../../../assets/Beatflowlogo.png")}
           style={styles.logo}
         />
-        <Text style={styles.title}>Playlists</Text>
-        {playlistData.length > 0 ? (
-          <Carousel
-            data={playlistData}
-            renderItem={renderPlaylistItem}
-            sliderWidth={width}
-            itemWidth={width - 60}
-            activeSlideAlignment="center"
-            contentContainerCustomStyle={styles.carouselContent}
-          />
-        ) : (
-          <Text style={styles.loadingText}>Carregando playlists...</Text>
-        )}
 
-        <Text style={styles.artistTitle}>Músicas de Travis Scott</Text>
+        <Text style={styles.sectionTitle}>Músicas de Travis Scott</Text>
         {apiData.length > 0 ? (
           <Carousel
             data={apiData.filter((item) =>
@@ -99,8 +80,35 @@ export default function Home() {
             Carregando músicas de Travis Scott...
           </Text>
         )}
+        <Text style={styles.sectionTitle}>Músicas recomendadas</Text>
+        {recommendedMusics.length > 0 ? (
+          <ScrollView>
+          <MusicCardSearch
+            id={recommendedMusics[0].id}
+            songname={recommendedMusics[0].name}
+            image={recommendedMusics[0].image}
+            artist={recommendedMusics[0].artist}
+          />
+          <MusicCardSearch
+            id={recommendedMusics[1].id}
+            songname={recommendedMusics[1].name}
+            image={recommendedMusics[1].image}
+            artist={recommendedMusics[1].artist}
+          />
+          <MusicCardSearch
+            id={recommendedMusics[2].id}
+            songname={recommendedMusics[2].name}
+            image={recommendedMusics[2].image}
+            artist={recommendedMusics[2].artist}
+          />
+          </ScrollView>
+        ) : (
+          <Text style={styles.loadingText}>
+            Nenhuma música recomendada encontrada.
+          </Text>
+        )}
 
-        <Text style={styles.artistTitle}>Músicas de Matuê</Text>
+        <Text style={styles.sectionTitle}>Músicas de Matuê</Text>
         {apiData.length > 0 ? (
           <Carousel
             data={apiData.filter((item) =>

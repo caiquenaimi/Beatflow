@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: "row",
+    marginBottom: 20, // Added margin to prevent space at the bottom
   },
   controlButton: {
     backgroundColor: "#FF0000",
@@ -81,6 +82,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   time: {
+    color: "#FFFFFF",
+  },
+  error: {
+    fontSize: 16,
     color: "#FFFFFF",
   },
 });

@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Feather from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { BlurView } from "expo-blur";
 
 import Home from "../screens/Home";
-/* import Playlists from "../screens/Playlists"; */
 import Users from "../screens/Users";
 import SignUp from "../screens/SignUp";
 import SignIn from "../screens/SignIn";
@@ -13,36 +13,47 @@ import PlayerPlaylist from "../screens/PlayerPlaylist";
 import PlaylistTest from "../screens/PlaylistTest";
 import Library from "../screens/Library";
 
-
 const Tab = createBottomTabNavigator();
+
+const tabBarLabelStyle = {
+  fontSize: 14,
+  fontFamily: "Roboto",
+};
+
+const tabBarIconStyle = {
+  marginBottom: 10,
+};
+
+const tabBarStyle = {
+  position: "absolute",
+  borderTopLeftRadius: 20,
+  borderTopRightRadius: 20,
+  borderTopWidth: 0,
+  paddingTop: 8,
+};
+
+const tabBarBackground = () => (
+  <BlurView
+    intensity={95}
+    style={{
+      flex: 1,
+      overflow: "hidden",
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+    }}
+  />
+);
 
 const TabRoutes = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
         tabBarActiveTintColor: "#FF0000",
-        tabBarStyle: {
-          position: "absolute",
-          elevation: 0,
-          backgroundColor: "#000",
-          height: 80,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 10,
-            height: 10,
-          },
-          shadowOpacity: 0.53,
-          shadowRadius: 13.97,
-          elevation: 21,
-        },
-        tabBarIconStyle: {
-          marginBottom: -10,
-        },
-        headerStyle: {
-          backgroundColor: "#000",
-        },
-        headerTintColor: "#FF0000",
+        tabBarLabelStyle,
+        headerShown: false,
+        tabBarStyle,
+        tabBarIconStyle,
+        tabBarBackground,
       }}
       initialRouteName="SignIn"
     >
@@ -50,13 +61,9 @@ const TabRoutes = () => {
         name="Inicio"
         component={Home}
         options={{
-          tabBarLabel: "Início",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
+          tabBarLabel: "",
           tabBarIcon: ({ color }) => (
-            <Feather name="home" color={color} size={32} />
+            <Feather name="home" color={color} size={30} />
           ),
         }}
       />
@@ -65,13 +72,9 @@ const TabRoutes = () => {
         name="Search"
         component={Search}
         options={{
-          tabBarLabel: "Buscar",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
+          tabBarLabel: "",
           tabBarIcon: ({ color }) => (
-            <Feather name="search" color={color} size={32} />
+            <Feather name="search" color={color} size={30} />
           ),
         }}
       />
@@ -80,13 +83,9 @@ const TabRoutes = () => {
         name="Users"
         component={Users}
         options={{
-          tabBarLabel: "Usuários",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
+          tabBarLabel: "",
           tabBarIcon: ({ color }) => (
-            <Feather name="users" color={color} size={32} />
+            <Feather name="users" color={color} size={30} />
           ),
         }}
       />
@@ -95,7 +94,7 @@ const TabRoutes = () => {
         component={SignUp}
         initialParams={{ user: null, edit: false }}
         options={{
-          tabBarButton: () => null, 
+          tabBarButton: () => null,
           tabBarVisible: false,
         }}
       />
@@ -103,7 +102,7 @@ const TabRoutes = () => {
         name="SignIn"
         component={SignIn}
         options={{
-          tabBarButton: () => null, 
+          tabBarButton: () => null,
           tabBarVisible: false,
         }}
       />
@@ -111,8 +110,8 @@ const TabRoutes = () => {
         name="PlaylistTest"
         component={PlaylistTest}
         options={{
-          tabBarButton: () => null, 
-          tabBarVisible: false, 
+          tabBarButton: () => null,
+          tabBarVisible: false,
         }}
       />
 
@@ -120,7 +119,7 @@ const TabRoutes = () => {
         name="Player"
         component={Player}
         options={{
-          tabBarButton: () => null, 
+          tabBarButton: () => null,
           tabBarVisible: false,
         }}
       />
@@ -129,29 +128,26 @@ const TabRoutes = () => {
         name="PlayerPlaylist"
         component={PlayerPlaylist}
         options={{
-          tabBarButton: () => null, 
+          tabBarButton: () => null,
           tabBarVisible: false,
         }}
       />
 
-<Tab.Screen
+      <Tab.Screen
         name="Library"
         component={Library}
         options={{
-          tabBarLabel: "Biblioteca",
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontFamily: "Roboto",
-          },
+          tabBarLabel: "",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="playlist-music" color={color} size={32} />
+            <MaterialCommunityIcons
+              name="playlist-music"
+              color={color}
+              size={30}
+            />
           ),
         }}
       />
-
     </Tab.Navigator>
-
-
   );
 };
 

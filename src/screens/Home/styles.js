@@ -6,12 +6,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000",
-    marginBottom: 80.5,
+  },
+  scrollContainer: {
+    paddingBottom: 80, // Ajuste para evitar espaço em branco na parte inferior
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 10,
+    color: "#FFF",
   },
   artistTitle: {
     fontSize: 20,
@@ -32,6 +35,10 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 16,
     color: "#fff",
+  },
+  logo: {
+    alignSelf: "center",
+    marginVertical: 20,
   },
 });
 

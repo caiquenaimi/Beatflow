@@ -38,7 +38,9 @@ export default function Home() {
   const renderPlaylistItem = ({ item }) => (
     <TouchableOpacity
       style={styles.cardContainer}
-      onPress={() => navigation.navigate("PlaylistTest", { playlistId: item.id })}
+      onPress={() =>
+        navigation.navigate("PlaylistTest", { playlistId: item.id })
+      }
     >
       <Text style={styles.artistTitle}>{item.name}</Text>
       <Text style={styles.playlistDescription}>{item.description}</Text>
@@ -60,8 +62,8 @@ export default function Home() {
   const { width } = Dimensions.get("window");
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Image
           source={require("../../../assets/Beatflowlogo.png")}
           style={styles.logo}
@@ -113,7 +115,7 @@ export default function Home() {
         ) : (
           <Text style={styles.loadingText}>Carregando músicas de Matuê...</Text>
         )}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }

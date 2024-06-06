@@ -49,7 +49,7 @@ export default function Home() {
 
   const { width } = Dimensions.get("window");
 
-  const recommendedMusicIds = [1, 3, 5];
+  const recommendedMusicIds = [32, 30, 28,53,14,60];
 
   const recommendedMusics = apiData.filter((music) =>
     recommendedMusicIds.includes(music.id)
@@ -83,24 +83,42 @@ export default function Home() {
         <Text style={styles.sectionTitle}>Músicas recomendadas</Text>
         {recommendedMusics.length > 0 ? (
           <ScrollView>
-          <MusicCardSearch
-            id={recommendedMusics[0].id}
-            songname={recommendedMusics[0].name}
-            image={recommendedMusics[0].image}
-            artist={recommendedMusics[0].artist}
-          />
-          <MusicCardSearch
-            id={recommendedMusics[1].id}
-            songname={recommendedMusics[1].name}
-            image={recommendedMusics[1].image}
-            artist={recommendedMusics[1].artist}
-          />
-          <MusicCardSearch
-            id={recommendedMusics[2].id}
-            songname={recommendedMusics[2].name}
-            image={recommendedMusics[2].image}
-            artist={recommendedMusics[2].artist}
-          />
+            <MusicCardSearch
+              id={recommendedMusics[0].id}
+              songname={recommendedMusics[0].name}
+              image={recommendedMusics[0].image}
+              artist={recommendedMusics[0].artist}
+            />
+            <MusicCardSearch
+              id={recommendedMusics[1].id}
+              songname={recommendedMusics[1].name}
+              image={recommendedMusics[1].image}
+              artist={recommendedMusics[1].artist}
+            />
+            <MusicCardSearch
+              id={recommendedMusics[2].id}
+              songname={recommendedMusics[2].name}
+              image={recommendedMusics[2].image}
+              artist={recommendedMusics[2].artist}
+            />
+            <MusicCardSearch
+              id={recommendedMusics[3].id}
+              songname={recommendedMusics[3].name}
+              image={recommendedMusics[3].image}
+              artist={recommendedMusics[3].artist}
+            />
+            <MusicCardSearch
+              id={recommendedMusics[4].id}
+              songname={recommendedMusics[4].name}
+              image={recommendedMusics[4].image}
+              artist={recommendedMusics[4].artist}
+            />
+            <MusicCardSearch
+              id={recommendedMusics[5].id}
+              songname={recommendedMusics[5].name}
+              image={recommendedMusics[5].image}
+              artist={recommendedMusics[5].artist}
+            />
           </ScrollView>
         ) : (
           <Text style={styles.loadingText}>

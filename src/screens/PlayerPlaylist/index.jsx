@@ -337,7 +337,7 @@ export default function PlayerPlaylist() {
 
               <TouchableOpacity
                 onPress={playPrevious}
-                style={styles.controlButton}
+                style={[styles.controlButton, styles.backwardButton]}
               >
                 <Feather name="skip-back" size={24} color="#FFFFFF" />
               </TouchableOpacity>
@@ -355,7 +355,7 @@ export default function PlayerPlaylist() {
                   color="#FFFFFF"
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={playNext} style={styles.controlButton}>
+              <TouchableOpacity onPress={playNext} style={[styles.controlButton, styles.forwardButton]}>
                 <Feather name="skip-forward" size={24} color="#FFFFFF" />
               </TouchableOpacity>
 

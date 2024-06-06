@@ -60,11 +60,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   shuffleButton: {
-    backgroundColor: "transparent", 
+    backgroundColor: "transparent",
   },
 
   repeatButton: {
-    backgroundColor: "transparent", 
+    backgroundColor: "transparent",
+  },
+
+  forwardButton: {
+    backgroundColor: "transparent",
+  },
+
+  backwardButton: {
+    backgroundColor: "transparent",
   },
   timeContainer: {
     width: "90%",

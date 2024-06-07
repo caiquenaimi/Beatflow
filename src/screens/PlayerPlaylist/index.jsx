@@ -130,7 +130,7 @@ export default function PlayerPlaylist() {
   const [duration, setDuration] = useState(0);
   const [pausedPosition, setPausedPosition] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false);
-  const [repeatMode, setRepeatMode] = useState(0); 
+  const [repeatMode, setRepeatMode] = useState(0);
   const [shuffledPlaylist, setShuffledPlaylist] = useState([]);
   const [nextMusicIndex, setNextMusicIndex] = useState(0);
 
@@ -200,11 +200,11 @@ export default function PlayerPlaylist() {
     if (repeatMode === 2) {
       playNext();
     } else if (repeatMode === 1) {
-      loadMusic(playlist[currentMusicIndex]); 
+      loadMusic(playlist[currentMusicIndex]);
     } else {
-      playNext(); 
+      playNext();
       if (currentMusicIndex === playlist.length - 1) {
-        setRepeatMode(0); 
+        setRepeatMode(0);
       }
     }
   };
@@ -295,101 +295,101 @@ export default function PlayerPlaylist() {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
-    <View style={styles.container}>
-      {playlist.length > 0 ? (
-        <>
-          <Image
-            source={{ uri: playlist[currentMusicIndex].image }}
-            style={styles.image}
-          />
-          <Text style={styles.title}>{playlist[currentMusicIndex].name}</Text>
-          <Text style={styles.artist}>
-            {playlist[currentMusicIndex].artist}
-          </Text>
-          <Text style={styles.album}>
-            {playlist[currentMusicIndex].album}
-          </Text>
-          <Slider
-            style={{ width: "90%", marginBottom: 20 }}
-            minimumValue={0}
-            maximumValue={duration}
-            value={position}
-            onValueChange={onSeek}
-            minimumTrackTintColor="#FFFFFF"
-            maximumTrackTintColor="#888888"
-            thumbTintColor="#FFFFFF"
-          />
-          <View style={styles.timeContainer}>
-            <Text style={styles.time}>{formatTime(position)}</Text>
-            <Text style={styles.time}>{formatTime(duration)}</Text>
-          </View>
-          <View style={styles.controls}>
-            <TouchableOpacity
-              onPress={toggleShuffle}
-              style={[styles.controlButton, styles.shuffleButton]}
-            >
-              <Feather
-                name="shuffle"
-                size={24}
-                color={isShuffle ? "#FF0000" : "#FFFFFF"}
-              />
-            </TouchableOpacity>
+      <View style={styles.container}>
+        {playlist.length > 0 ? (
+          <>
+            <Image
+              source={{ uri: playlist[currentMusicIndex].image }}
+              style={styles.image}
+            />
+            <Text style={styles.title}>{playlist[currentMusicIndex].name}</Text>
+            <Text style={styles.artist}>
+              {playlist[currentMusicIndex].artist}
+            </Text>
+            <Text style={styles.album}>
+              {playlist[currentMusicIndex].album}
+            </Text>
+            <Slider
+              style={{ width: "90%", marginBottom: 20 }}
+              minimumValue={0}
+              maximumValue={duration}
+              value={position}
+              onValueChange={onSeek}
+              minimumTrackTintColor="#FFFFFF"
+              maximumTrackTintColor="#888888"
+              thumbTintColor="#FFFFFF"
+            />
+            <View style={styles.timeContainer}>
+              <Text style={styles.time}>{formatTime(position)}</Text>
+              <Text style={styles.time}>{formatTime(duration)}</Text>
+            </View>
+            <View style={styles.controls}>
+              <TouchableOpacity
+                onPress={toggleShuffle}
+                style={[styles.controlButton, styles.shuffleButton]}
+              >
+                <Feather
+                  name="shuffle"
+                  size={24}
+                  color={isShuffle ? "#FF0000" : "#FFFFFF"}
+                />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={playPrevious}
-              style={[styles.controlButton, styles.backwardButton]}
-            >
-              <Feather name="skip-back" size={24} color="#FFFFFF" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={
-                isPlaying
-                  ? pauseMusic
-                  : () => loadMusic(playlist[currentMusicIndex])
-              }
-              style={styles.controlButton}
-            >
-              <Feather
-                name={isPlaying ? "pause" : "play"}
-                size={24}
-                color="#FFFFFF"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={playNext}
-              style={[styles.controlButton, styles.forwardButton]}
-            >
-              <Feather name="skip-forward" size={24} color="#FFFFFF" />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={playPrevious}
+                style={[styles.controlButton, styles.backwardButton]}
+              >
+                <Feather name="skip-back" size={24} color="#FFFFFF" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={
+                  isPlaying
+                    ? pauseMusic
+                    : () => loadMusic(playlist[currentMusicIndex])
+                }
+                style={styles.controlButton}
+              >
+                <Feather
+                  name={isPlaying ? "pause" : "play"}
+                  size={24}
+                  color="#FFFFFF"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={playNext}
+                style={[styles.controlButton, styles.forwardButton]}
+              >
+                <Feather name="skip-forward" size={24} color="#FFFFFF" />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={toggleRepeatMode}
-              style={[styles.controlButton, styles.repeatButton]}
-            >
-              <MaterialCommunityIcons
-                name={
-                  repeatMode === 0
-                    ? "repeat-off"
-                    : repeatMode === 1
-                    ? "repeat"
-                    : "repeat-once"
-                }
-                size={24}
-                color={
-                  repeatMode === 0
-                    ? "#FFFFFF"
-                    : repeatMode === 1
-                    ? "#FF0000"
-                    : "#FF0000"
-                }
-              />
-            </TouchableOpacity>
-          </View>
-        </>
-      ) : (
-        <Text style={styles.error}>Erro ao carregar os dados da música</Text>
-      )}
-    </View>
-  </ScrollView>
+              <TouchableOpacity
+                onPress={toggleRepeatMode}
+                style={[styles.controlButton, styles.repeatButton]}
+              >
+                <MaterialCommunityIcons
+                  name={
+                    repeatMode === 0
+                      ? "repeat-off"
+                      : repeatMode === 1
+                      ? "repeat"
+                      : "repeat-once"
+                  }
+                  size={24}
+                  color={
+                    repeatMode === 0
+                      ? "#FFFFFF"
+                      : repeatMode === 1
+                      ? "#FF0000"
+                      : "#FF0000"
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+          </>
+        ) : (
+          <Text style={styles.error}>Erro ao carregar os dados da música</Text>
+        )}
+      </View>
+    </ScrollView>
   );
 }

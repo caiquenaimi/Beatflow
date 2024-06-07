@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
-import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Library() {
+export default function Library({ addToQueue }) {
   const [musics, setMusics] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -14,7 +13,7 @@ export default function Library() {
     async function fetchMusics() {
       setLoading(true);
       try {
-        const response = await fetchApiMusics(); 
+        const response = await fetchApiMusics();
         if (response && response.musics) {
           setMusics(response.musics);
         } else {
@@ -34,29 +33,49 @@ export default function Library() {
     navigation.navigate("PlayerPlaylist");
   };
 
+  const handleAddToQueue = (music) => {
+    addToQueue(music);
+    navigation.navigate("PlayerPlaylist", { initialMusic: music });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Nossa Biblioteca</Text>
-      <TouchableOpacity onPress={handlePlayPlaylist} style={styles.playPlaylistButton}>
+      <TouchableOpacity
+        onPress={handlePlayPlaylist}
+        style={styles.playPlaylistButton}
+      >
         <Text style={styles.playPlaylistButtonText}>Tocar Playlist</Text>
       </TouchableOpacity>
       <ScrollView style={styles.musicList}>
         {loading ? (
           <Text style={styles.loadingText}>Loading...</Text>
         ) : (
-          musics.map((music) => (
-            <TouchableOpacity
-              key={music.id}
-              style={styles.musicItem}
-              onPress={() => navigation.navigate("Player", { musicId: music.id })}
-            >
-              <MusicCardSearch
-                id={music.id}
-                songname={music.name}
-                image={music.image}
-                artist={music.artist}
-              />
-            </TouchableOpacity>
+          musics.map((music, index) => (
+            <View key={music.id} style={styles.musicItem}>
+              <View style={styles.cardContainer}>
+                <Image source={{ uri: music.image }} style={styles.cardImage} />
+                <View style={styles.cardTextContainer}>
+                  <TouchableOpacity
+                    style={styles.musicPlayButton}
+                    onPress={() =>
+                      navigation.navigate("Player", { musicId: music.id })
+                    }
+                  >
+                    <Text style={styles.cardText}>{music.name}</Text>
+                    <Text style={styles.artistText}>{music.artist}</Text>
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity
+                  style={styles.addToQueueButton}
+                  onPress={() => handleAddToQueue(music)}
+                >
+                  <Text style={styles.addToQueueButtonText}>
+                    Adicionar à Fila
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           ))
         )}
       </ScrollView>

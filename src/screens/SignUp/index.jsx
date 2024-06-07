@@ -252,6 +252,15 @@ export default function SignUp({ route }) {
             >
               <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>
+            <Text style={styles.cadastre}>
+          Já possui uma conta?{" "}
+          <Text
+            style={styles.loginButton}
+            onPress={() => navigation.navigate("SignIn")}
+          >
+            Faça o Login
+          </Text>
+        </Text>
             {error ? <ErrorMessage msg={error} /> : null}
             {success ? <SuccessMessage msg={success} /> : null}
           </View>

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     width: '100%',
-    height: 200,
+    height: 300,
     resizeMode: 'cover',
   },
   cardTextContainer: {

@@ -1,23 +1,31 @@
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Dimensions,
   ScrollView,
   Image,
-  TouchableOpacity,
+  Animated,
 } from "react-native";
-import { useEffect, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { fetchApiPlaylists } from "../../data/Playlists/Playlist";
 import MusicCard from "../../components/Musics/MusicCard";
 import MusicCardSearch from "../../components/Musics/MusicCardSearch";
+import RandomMusicCard from "../../components/RandomMusicCard";
 import { useNavigation } from "@react-navigation/native";
+
+const getRandomMusic = (apiData) => {
+  const randomId = Math.floor(Math.random() * 104) + 1;
+  return apiData.find((music) => music.id === randomId) || {};
+};
 
 export default function Home() {
   const [apiData, setApiData] = useState([]);
   const [playlistData, setPlaylistData] = useState([]);
+  const [randomMusic, setRandomMusic] = useState({});
+  const [animation] = useState(new Animated.Value(0)); 
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -29,12 +37,27 @@ export default function Home() {
         console.log(playlistData);
         setApiData(musicData.musics || []);
         setPlaylistData(playlistData.playlists || []);
+        setRandomMusic(getRandomMusic(musicData.musics || []));
       } catch (error) {
         console.error("Erro ao buscar dados: ", error);
       }
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(handleRandomMusicTime, 7000);
+    startAnimation();
+    return () => clearInterval(interval); 
+  }, [apiData]);
+
+  const startAnimation = () => {
+    animation.setValue(0);
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: 7000,
+    }).start();
+  };
 
   const renderMusicItem = ({ item }) => (
     <View style={styles.cardContainer}>
@@ -49,11 +72,21 @@ export default function Home() {
 
   const { width } = Dimensions.get("window");
 
-  const recommendedMusicIds = [32, 30, 28,53,14,60];
+  const recommendedMusicIds = [32, 30, 28, 53, 14, 60];
 
   const recommendedMusics = apiData.filter((music) =>
     recommendedMusicIds.includes(music.id)
   );
+
+  const handleRandomMusicTime = () => {
+    setRandomMusic(getRandomMusic(apiData));
+    startAnimation(); 
+  };
+
+  const progressBarWidth = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [width - 20, 0] // adjust the width to your preference
+  });
 
   return (
     <View style={styles.container}>
@@ -62,6 +95,29 @@ export default function Home() {
           source={require("../../../assets/Beatflowlogo.png")}
           style={styles.logo}
         />
+
+        <View style={styles.randomSongCard}>
+          {randomMusic.id ? (
+            <View>
+              <RandomMusicCard
+                id={randomMusic.id}
+                songname={randomMusic.name}
+                image={randomMusic.image}
+                artist={randomMusic.artist}
+              />
+              <Animated.View
+                style={[
+                  styles.progressBar,
+                  {
+                    width: progressBarWidth,
+                  },
+                ]}
+              />
+            </View>
+          ) : (
+            <Text style={styles.loadingText}>Carregando música...</Text>
+          )}
+        </View>
 
         <Text style={styles.sectionTitle}>Músicas de Travis Scott</Text>
         {apiData.length > 0 ? (
@@ -83,42 +139,15 @@ export default function Home() {
         <Text style={styles.sectionTitle}>Músicas recomendadas</Text>
         {recommendedMusics.length > 0 ? (
           <ScrollView>
-            <MusicCardSearch
-              id={recommendedMusics[0].id}
-              songname={recommendedMusics[0].name}
-              image={recommendedMusics[0].image}
-              artist={recommendedMusics[0].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[1].id}
-              songname={recommendedMusics[1].name}
-              image={recommendedMusics[1].image}
-              artist={recommendedMusics[1].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[2].id}
-              songname={recommendedMusics[2].name}
-              image={recommendedMusics[2].image}
-              artist={recommendedMusics[2].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[3].id}
-              songname={recommendedMusics[3].name}
-              image={recommendedMusics[3].image}
-              artist={recommendedMusics[3].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[4].id}
-              songname={recommendedMusics[4].name}
-              image={recommendedMusics[4].image}
-              artist={recommendedMusics[4].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[5].id}
-              songname={recommendedMusics[5].name}
-              image={recommendedMusics[5].image}
-              artist={recommendedMusics[5].artist}
-            />
+            {recommendedMusics.map((music) => (
+              <MusicCardSearch
+                key={music.id}
+                id={music.id}
+                songname={music.name}
+                image={music.image}
+                artist={music.artist}
+              />
+            ))}
           </ScrollView>
         ) : (
           <Text style={styles.loadingText}>
@@ -139,7 +168,9 @@ export default function Home() {
             contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (
-          <Text style={styles.loadingText}>Carregando músicas de Matuê...</Text>
+          <Text style={styles.loadingText}>
+            Carregando músicas de Matuê...
+          </Text>
         )}
       </ScrollView>
     </View>

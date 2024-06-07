@@ -41,6 +41,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 20,
   },
+  progressBar: {
+    height: 5,
+    backgroundColor: "#red",
+    alignSelf: "center",
+    marginTop: 10,
+  }
 });
 
 export default styles;

@@ -12,7 +12,7 @@ const RandomMusicCard = ({ id, songname, image, artist }) => {
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.cardContainer}>
-        <Image source={{ uri: image }} style={styles.cardImage} />
+        <Image source={{ uri: image }} style={styles.cardImage} resizeMode="stretch"/>
         <View style={styles.cardTextContainer}>
           <Text style={styles.cardText}>{songname}</Text>
           <Text style={styles.artistText}>{artist}</Text>

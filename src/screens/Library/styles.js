@@ -50,10 +50,15 @@ const styles = StyleSheet.create({
   },
   playPlaylistButton: {
     backgroundColor: "#FF0000",
-    padding: 5,
+    padding: 10,
     borderRadius: 20,
     alignItems: "center",
-    width: 50,
+    justifyContent: "center",
+  },
+  playButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
   cardContainer: {
     flexDirection: "row",
@@ -63,10 +68,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
   },
+  albumContainer: {
+    alignItems: "center",
+    marginRight: 10,
+  },
   cardImage: {
     width: 80,
     height: 80,
     borderRadius: 10,
+  },
+  albumName: {
+    fontSize: 16,
+    color: "#fff",
+    marginTop: 5,
+    textAlign: "center",
   },
   cardTextContainer: {
     flex: 1,

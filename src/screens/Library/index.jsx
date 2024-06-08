@@ -109,7 +109,7 @@ export default function Library() {
           onPress={handlePlayPlaylist}
           style={styles.playPlaylistButton}
         >
-          <MaterialCommunityIcons name="play" size={24} color="#fff" />
+          <Text style={styles.playButtonText}>Tocar</Text>
         </TouchableOpacity>
       </View>
 
@@ -132,16 +132,6 @@ export default function Library() {
                     <Text style={styles.artistText}>{music.artist}</Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                  onPress={handleAddToQueue.bind(this, music)}
-                  style={styles.addToQueueButton}
-                >
-                  <MaterialCommunityIcons
-                    name="playlist-plus"
-                    size={24}
-                    color="#ff0000"
-                  />
-                </TouchableOpacity>
               </View>
             </View>
           ))

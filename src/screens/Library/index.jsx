@@ -53,7 +53,7 @@ export default function Library() {
           onPress={handlePlayPlaylist}
           style={styles.playPlaylistButton}
         >
-          <MaterialCommunityIcons name="play" size={40} color="#fff" />
+          <MaterialCommunityIcons name="play" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 

@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
@@ -120,7 +121,7 @@ export default function Home() {
             <Text style={styles.WelcomeText}>Let the</Text>
             <Text style={styles.beatflowtxt}> Beatflow</Text>
           </View>
-            <Text style={styles.subtitle}>O seu aplicativo de Trap/Rap</Text>
+          <Text style={styles.subtitle}>O seu aplicativo de Trap/Rap</Text>
         </View>
         <View style={styles.randomSongCard}>
           {randomMusic.id ? (
@@ -141,7 +142,7 @@ export default function Home() {
               />
             </View>
           ) : (
-            <Text style={styles.loadingText}>Carregando música...</Text>
+            <ActivityIndicator size="large" color="#ff0000" />
           )}
         </View>
 
@@ -175,9 +176,7 @@ export default function Home() {
             contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (
-          <Text style={styles.loadingText}>
-            Carregando músicas de {randomArtist}...
-          </Text>
+          <ActivityIndicator size="large" color="#ff0000" />
         )}
       </ScrollView>
     </View>

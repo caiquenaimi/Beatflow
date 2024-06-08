@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
@@ -46,17 +53,13 @@ export default function Library() {
           onPress={handlePlayPlaylist}
           style={styles.playPlaylistButton}
         >
-          <MaterialCommunityIcons
-            name="play"
-            size={24}
-            color="#fff"
-          />
+          <MaterialCommunityIcons name="play" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.musicList}>
         {loading ? (
-          <Text style={styles.loadingText}>Loading...</Text>
+          <ActivityIndicator size="large" color="#ff0000" />
         ) : (
           musics.map((music, index) => (
             <View key={music.id} style={styles.musicItem}>

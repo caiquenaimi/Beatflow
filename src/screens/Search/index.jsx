@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useState, useEffect } from "react";
 import styles from "./styles";
 import { SearchBar } from "react-native-elements";
@@ -105,7 +105,7 @@ export default function Search() {
       <ScrollView>
         <View style={styles.render}>
           {loading ? (
-            <Text style={styles.message}>Carregando...</Text>
+            <ActivityIndicator size="large" color="#ff0000" />
           ) : searchMade && filteredData.length === 0 ? (
             <View>
               <Text style={styles.message}>
@@ -125,7 +125,7 @@ export default function Search() {
                 style={styles.renderCardView}
               >
                 <MusicCardSearch
-                  id={item.id} // Aqui garantimos que estamos passando o ID
+                  id={item.id} 
                   songname={item.name}
                   image={item.image}
                   artist={item.artist}

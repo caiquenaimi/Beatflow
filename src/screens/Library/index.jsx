@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Library() {
   const [musics, setMusics] = useState([]);
@@ -66,12 +67,14 @@ export default function Library() {
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
+                  onPress={handlePlayPlaylist}
                   style={styles.addToQueueButton}
-                  onPress={() => handleAddToQueue(music)}
                 >
-                  <Text style={styles.addToQueueButtonText}>
-                    Adicionar à Fila
-                  </Text>
+                  <MaterialCommunityIcons
+                    name="playlist-play"
+                    size={24}
+                    color="#ff0000"
+                  />
                 </TouchableOpacity>
               </View>
             </View>

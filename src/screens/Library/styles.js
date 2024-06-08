@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
     color: "#bbb",
   },
   addToQueueButton: {
-    backgroundColor: "#ff0000",
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,

@@ -92,7 +92,6 @@ export default function Home() {
   const { width } = Dimensions.get("window");
 
   const getRandomArtist = (apiData) => {
-    //tem musicas que tem varios artistas é necessario separar com split
     const randomIndex = Math.floor(Math.random() * apiData.length);
     return apiData[randomIndex].artist.split(",")[0];
   };

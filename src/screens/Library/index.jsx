@@ -19,7 +19,7 @@ export default function Library() {
   const [filter, setFilter] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
   const [lastFilter, setLastFilter] = useState(null);
-  const [sortOrder, setSortOrder] = useState("A-Z"); // Novo estado para armazenar a ordem de classificação atual
+  const [sortOrder, setSortOrder] = useState("A-Z"); 
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -43,9 +43,7 @@ export default function Library() {
   }, []);
 
   useEffect(() => {
-    // Ao atualizar a direção de classificação, reordenar as músicas
     const sortedMusics = sortMusics(musics, filter);
-    // Verificar se é necessário inverter a ordem
     const orderedMusics = sortOrder === "A-Z" ? sortedMusics : sortedMusics.reverse();
     setMusics(orderedMusics);
   }, [musics, filter, sortDirection, sortOrder]);
@@ -71,7 +69,6 @@ export default function Library() {
   const toggleSortDirection = () => {
     const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
     setSortDirection(newSortDirection);
-    // Atualizar sortOrder com base na nova direção de classificação
     const newSortOrder = newSortDirection === "asc" ? "A-Z" : "Z-A";
     setSortOrder(newSortOrder);
   };

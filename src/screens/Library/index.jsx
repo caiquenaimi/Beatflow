@@ -51,11 +51,9 @@ export default function Library() {
 
   const sortMusics = (musics, filter) => {
     return musics.sort((a, b) => {
-      const aVal = a[filter].toLowerCase();
-      const bVal = b[filter].toLowerCase();
-      if (aVal < bVal) return sortDirection === "asc" ? -1 : 1;
-      if (aVal > bVal) return sortDirection === "asc" ? 1 : -1;
-      return 0;
+      const aVal = a[filter];
+      const bVal = b[filter];
+      return sortDirection === "asc" ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
     });
   };
 

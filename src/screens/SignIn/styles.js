@@ -11,6 +11,10 @@ export default StyleSheet.create({
     flexGrow: 1,
     marginBottom: 100
   },
+  loginButton: {
+    color: "#555555",
+    textDecorationLine: "underline",
+  },
   title: {
     fontSize: 32,
     color: '#FFFFFF',
@@ -79,8 +83,5 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     marginBottom: 20
-  },
-  loginButton:{
-    color: '#555555',
-  },
+  }
 });

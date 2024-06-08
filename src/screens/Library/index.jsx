@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { useNavigation } from "@react-navigation/native";
@@ -15,6 +16,9 @@ import { useNavigation } from "@react-navigation/native";
 export default function Library() {
   const [musics, setMusics] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState("name");
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [lastFilter, setLastFilter] = useState(null);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -45,9 +49,56 @@ export default function Library() {
     console.log("Added to queue:", music);
   };
 
+  const sortMusics = (musics, filter) => {
+    return musics.sort((a, b) => {
+      const aVal = a[filter].toLowerCase();
+      const bVal = b[filter].toLowerCase();
+      if (aVal < bVal) return sortDirection === "asc" ? -1 : 1;
+      if (aVal > bVal) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+  };
+
+  const toggleSortDirection = () => {
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  };
+
+  const sortedMusics = sortMusics(musics, filter);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Nossa Biblioteca</Text>
+
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={filter}
+          onValueChange={(itemValue) => {
+            if (itemValue === filter && lastFilter === filter) {
+              toggleSortDirection();
+            } else {
+              setFilter(itemValue);
+              setSortDirection("asc");
+            }
+            setLastFilter(itemValue);
+          }}
+          style={styles.picker}
+        >
+          <Picker.Item label="Título" value="name" />
+          <Picker.Item label="Artista" value="artist" />
+          <Picker.Item label="Álbum" value="album" />
+        </Picker>
+        <TouchableOpacity onPress={toggleSortDirection}>
+          <Text style={{ color: "#fff" }}>
+            {sortDirection === "asc" ? "A-Z" : "Z-A"}
+          </Text>
+          <MaterialCommunityIcons
+            name={sortDirection === "asc" ? "chevron-up" : "chevron-down"}
+            size={24}
+            color="#fff"
+          />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.playBtn}>
         <TouchableOpacity
           onPress={handlePlayPlaylist}
@@ -61,7 +112,7 @@ export default function Library() {
         {loading ? (
           <ActivityIndicator size="large" color="#ff0000" />
         ) : (
-          musics.map((music, index) => (
+          sortedMusics.map((music, index) => (
             <View key={music.id} style={styles.musicItem}>
               <View style={styles.cardContainer}>
                 <Image source={{ uri: music.image }} style={styles.cardImage} />

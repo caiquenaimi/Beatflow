@@ -13,15 +13,23 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 20,
   },
+  pickerContainer: {
+    marginBottom: 20,
+  },
+  picker: {
+    height: 50, 
+    width: 200,
+    alignSelf: "center",
+    marginBottom: 20,
+    backgroundColor: "#111",
+    color: "#fff",
+    borderRadius: 10,
+  },
   musicList: {
     marginBottom: 20,
   },
   musicItem: {
     marginBottom: 10,
-  },
-  loadingText: {
-    color: "#fff",
-    fontSize: 16,
   },
   playBtn: {
     flexDirection: "row",

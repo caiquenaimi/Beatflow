@@ -5,14 +5,32 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
   },
+  WelcomeView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 50,
+  },
+  WelcomeText: {
+    fontSize: 30,
+    color: '#FFF',
+    fontWeight: 'bold',
+    marginBottom: 10, 
+  },
+  subtitle: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: '#888', 
+  },
   scrollContainer: {
     paddingBottom: 80,
     paddingHorizontal: 10,
   },
   sectionTitle: {
     fontSize: 24,
+    textAlign: "center",
     fontWeight: "bold",
     marginVertical: 10,
+    marginTop: 50,
     color: "#FFF",
   },
   artistTitle: {
@@ -39,7 +57,17 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
-    marginVertical: 20,
+    marginTop: 80,
+    height: 145
+  },
+  loader: {
+    width: 150,
+    height: 10,
+    borderRadius: 25,
+    backgroundColor: "red",
+    alignSelf: "center",
+    marginTop: 2,
+    marginBottom: 20
   },
 });
 

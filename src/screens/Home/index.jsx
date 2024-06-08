@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -5,19 +6,30 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Animated,
 } from "react-native";
-import { useEffect, useState } from "react";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { fetchApiPlaylists } from "../../data/Playlists/Playlist";
 import MusicCard from "../../components/Musics/MusicCard";
 import MusicCardSearch from "../../components/Musics/MusicCardSearch";
+import RandomMusicCard from "../../components/RandomMusicCard";
 import { useNavigation } from "@react-navigation/native";
+
+
+const getRandomMusic = (apiData) => {
+  const randomId = Math.floor(Math.random() * 104) + 1;
+  return apiData.find((music) => music.id === randomId) || {};
+};
 
 export default function Home() {
   const [apiData, setApiData] = useState([]);
   const [playlistData, setPlaylistData] = useState([]);
+  const [randomMusic, setRandomMusic] = useState({});
+  const [randomArtist, setRandomArtist] = useState("");
+  const [randomArtistMusicData, setRandomArtistMusicData] = useState([]);
+  const [animation] = useState(new Animated.Value(1)); 
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -29,12 +41,42 @@ export default function Home() {
         console.log(playlistData);
         setApiData(musicData.musics || []);
         setPlaylistData(playlistData.playlists || []);
+        setRandomMusic(getRandomMusic(musicData.musics || []));
       } catch (error) {
         console.error("Erro ao buscar dados: ", error);
       }
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (apiData.length > 0) {
+      setRandomArtist(getRandomArtist(apiData));
+    }
+  }, [apiData]);
+
+  useEffect(() => {
+    const interval = setInterval(handleRandomMusicTime, 7000);
+    startAnimation();
+    return () => clearInterval(interval); 
+  }, [randomMusic]);
+
+  useEffect(() => {
+    if (randomArtist) {
+      setRandomArtistMusicData(apiData.filter((item) =>
+        item.artist.toLowerCase().includes(randomArtist.toLowerCase())
+      ));
+    }
+  }, [randomArtist]);
+
+  const startAnimation = () => {
+    animation.setValue(1);
+    Animated.timing(animation, {
+      toValue: 0,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start();
+  };
 
   const renderMusicItem = ({ item }) => (
     <View style={styles.cardContainer}>
@@ -49,11 +91,22 @@ export default function Home() {
 
   const { width } = Dimensions.get("window");
 
-  const recommendedMusicIds = [32, 30, 28,53,14,60];
+  const getRandomArtist = (apiData) => {
+    //tem musicas que tem varios artistas é necessario separar com split
+    const randomIndex = Math.floor(Math.random() * apiData.length);
+    return apiData[randomIndex].artist.split(",")[0];
+  };
+
+  const recommendedMusicIds = [32, 30, 28, 53, 14, 60];
 
   const recommendedMusics = apiData.filter((music) =>
     recommendedMusicIds.includes(music.id)
   );
+
+  const handleRandomMusicTime = () => {
+    setRandomMusic(getRandomMusic(apiData));
+    startAnimation(); 
+  };
 
   return (
     <View style={styles.container}>
@@ -62,63 +115,47 @@ export default function Home() {
           source={require("../../../assets/Beatflowlogo.png")}
           style={styles.logo}
         />
-
-        <Text style={styles.sectionTitle}>Músicas de Travis Scott</Text>
-        {apiData.length > 0 ? (
-          <Carousel
-            data={apiData.filter((item) =>
-              item.artist.toLowerCase().includes("travis scott")
-            )}
-            renderItem={renderMusicItem}
-            sliderWidth={width}
-            itemWidth={220}
-            activeSlideAlignment="center"
-            contentContainerCustomStyle={styles.carouselContent}
-          />
-        ) : (
-          <Text style={styles.loadingText}>
-            Carregando músicas de Travis Scott...
+        <View style={styles.WelcomeView}>
+          <Text style={styles.WelcomeText}>Let the Beatflow</Text>
+          <Text style={styles.subtitle}>
+            O seu aplicativo de Trap/Rap
           </Text>
-        )}
+        </View>
+        <View style={styles.randomSongCard}>
+          {randomMusic.id ? (
+            <View>
+              <RandomMusicCard
+                id={randomMusic.id}
+                songname={randomMusic.name}
+                image={randomMusic.image}
+                artist={randomMusic.artist}
+              />
+              <Animated.View
+                style={[
+                  styles.loader,
+                  {
+                    transform: [{ scale: animation }],
+                  },
+                ]}
+              />
+            </View>
+          ) : (
+            <Text style={styles.loadingText}>Carregando música...</Text>
+          )}
+        </View>
+
         <Text style={styles.sectionTitle}>Músicas recomendadas</Text>
         {recommendedMusics.length > 0 ? (
           <ScrollView>
-            <MusicCardSearch
-              id={recommendedMusics[0].id}
-              songname={recommendedMusics[0].name}
-              image={recommendedMusics[0].image}
-              artist={recommendedMusics[0].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[1].id}
-              songname={recommendedMusics[1].name}
-              image={recommendedMusics[1].image}
-              artist={recommendedMusics[1].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[2].id}
-              songname={recommendedMusics[2].name}
-              image={recommendedMusics[2].image}
-              artist={recommendedMusics[2].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[3].id}
-              songname={recommendedMusics[3].name}
-              image={recommendedMusics[3].image}
-              artist={recommendedMusics[3].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[4].id}
-              songname={recommendedMusics[4].name}
-              image={recommendedMusics[4].image}
-              artist={recommendedMusics[4].artist}
-            />
-            <MusicCardSearch
-              id={recommendedMusics[5].id}
-              songname={recommendedMusics[5].name}
-              image={recommendedMusics[5].image}
-              artist={recommendedMusics[5].artist}
-            />
+            {recommendedMusics.map((music) => (
+              <MusicCardSearch
+                key={music.id}
+                id={music.id}
+                songname={music.name}
+                image={music.image}
+                artist={music.artist}
+              />
+            ))}
           </ScrollView>
         ) : (
           <Text style={styles.loadingText}>
@@ -126,12 +163,10 @@ export default function Home() {
           </Text>
         )}
 
-        <Text style={styles.sectionTitle}>Músicas de Matuê</Text>
-        {apiData.length > 0 ? (
+<Text style={styles.sectionTitle}>Músicas de {randomArtist}</Text>
+        {randomArtistMusicData.length > 0 ? (
           <Carousel
-            data={apiData.filter((item) =>
-              item.artist.toLowerCase().includes("matuê")
-            )}
+            data={randomArtistMusicData}
             renderItem={renderMusicItem}
             sliderWidth={width}
             itemWidth={220}
@@ -139,8 +174,11 @@ export default function Home() {
             contentContainerCustomStyle={styles.carouselContent}
           />
         ) : (
-          <Text style={styles.loadingText}>Carregando músicas de Matuê...</Text>
-        )}
+          <Text style={styles.loadingText}>
+            Carregando músicas de {randomArtist}...
+          </Text>
+        )}  
+      
       </ScrollView>
     </View>
   );

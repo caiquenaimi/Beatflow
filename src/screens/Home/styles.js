@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   loader: {
     width: 150,
-    height: 10,
+    height: 7,
     borderRadius: 25,
     backgroundColor: "red",
     alignSelf: "center",

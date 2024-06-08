@@ -73,7 +73,7 @@ export default function Home() {
     animation.setValue(1);
     Animated.timing(animation, {
       toValue: 0,
-      duration: 2000,
+      duration: 7670,
       useNativeDriver: true,
     }).start();
   };

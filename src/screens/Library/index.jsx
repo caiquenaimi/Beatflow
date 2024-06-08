@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +16,9 @@ import { useNavigation } from "@react-navigation/native";
 export default function Library() {
   const [musics, setMusics] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState("name");
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [lastFilter, setLastFilter] = useState(null);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -31,34 +42,82 @@ export default function Library() {
   }, []);
 
   const handlePlayPlaylist = () => {
-    navigation.navigate("PlayerPlaylist");
+    const sortedMusics = sortMusics(musics, filter, sortDirection);
+    navigation.navigate("PlayerPlaylist", { sortedPlaylist: sortedMusics });
   };
 
   const handleAddToQueue = (music) => {
     console.log("Added to queue:", music);
   };
 
+  const sortMusics = (musics, filter, direction) => {
+    const sorted = musics.sort((a, b) => {
+      const aVal = a[filter];
+      const bVal = b[filter];
+      return direction === "asc" ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    });
+    return sorted;
+  };
+
+  const toggleSortDirection = () => {
+    const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newSortDirection);
+  };
+
+  const sortedMusics = sortMusics(musics, filter, sortDirection);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Nossa Biblioteca</Text>
-      <View style={styles.playBtn}>
+      <Text style={styles.title}>Biblioteca</Text>
+      <View style={styles.pickerContainer}>
+        <View style={styles.pickerWrapper}>
+          <Picker
+            selectedValue={filter}
+            onValueChange={(itemValue) => {
+              if (itemValue === filter && lastFilter === filter) {
+                toggleSortDirection();
+              } else {
+                setFilter(itemValue);
+                setSortDirection("asc");
+              }
+              setLastFilter(itemValue);
+            }}
+            style={styles.picker}
+          >
+            <Picker.Item label="Título" value="name" />
+            <Picker.Item label="Artista" value="artist" />
+            <Picker.Item label="Álbum" value="album" />
+          </Picker>
+        </View>
         <TouchableOpacity
-          onPress={handlePlayPlaylist}
-          style={styles.playPlaylistButton}
+          onPress={toggleSortDirection}
+          style={styles.sortButton}
         >
+          <Text style={{ color: "#fff" }}>
+            {sortDirection === "asc" ? "A-Z" : "Z-A"}
+          </Text>
           <MaterialCommunityIcons
-            name="play"
+            name={sortDirection === "asc" ? "chevron-up" : "chevron-down"}
             size={24}
             color="#fff"
           />
         </TouchableOpacity>
       </View>
 
+      <View style={styles.playBtn}>
+        <TouchableOpacity
+          onPress={handlePlayPlaylist}
+          style={styles.playPlaylistButton}
+        >
+          <MaterialCommunityIcons name="play" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+
       <ScrollView style={styles.musicList}>
         {loading ? (
-          <Text style={styles.loadingText}>Loading...</Text>
+          <ActivityIndicator size="large" color="#ff0000" />
         ) : (
-          musics.map((music, index) => (
+          sortedMusics.map((music, index) => (
             <View key={music.id} style={styles.musicItem}>
               <View style={styles.cardContainer}>
                 <Image source={{ uri: music.image }} style={styles.cardImage} />

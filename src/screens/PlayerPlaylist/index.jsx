@@ -121,8 +121,10 @@ const audioFiles = {
   "swimming_pools.mp3": require("../../../assets/songs/swimming_pools.mp3"),
 };
 
-export default function PlayerPlaylist() {
-  const [playlist, setPlaylist] = useState([]);
+
+export default function PlayerPlaylist({ route }) {
+  const { sortedPlaylist } = route.params;
+  const [playlist, setPlaylist] = useState(sortedPlaylist);
   const [currentMusicIndex, setCurrentMusicIndex] = useState(0);
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -132,22 +134,6 @@ export default function PlayerPlaylist() {
   const [isShuffle, setIsShuffle] = useState(false);
   const [repeatMode, setRepeatMode] = useState(0);
   const [shuffledPlaylist, setShuffledPlaylist] = useState([]);
-  const [nextMusicIndex, setNextMusicIndex] = useState(0);
-
-  useEffect(() => {
-    async function loadPlaylist() {
-      try {
-        const response = await fetchApiMusics();
-        setPlaylist(response.musics);
-        setShuffledPlaylist(response.musics);
-        setNextMusicIndex(0);
-      } catch (error) {
-        console.error("Erro ao carregar a lista de músicas:", error);
-      }
-    }
-
-    loadPlaylist();
-  }, []);
 
   useEffect(() => {
     if (playlist.length > 0) {
@@ -196,6 +182,7 @@ export default function PlayerPlaylist() {
       console.error("Erro ao carregar ou reproduzir a música:", error);
     }
   };
+
   const handleMusicEnd = () => {
     if (repeatMode === 2) {
       playNext();
@@ -203,9 +190,6 @@ export default function PlayerPlaylist() {
       loadMusic(playlist[currentMusicIndex]);
     } else {
       playNext();
-      if (currentMusicIndex === playlist.length - 1) {
-        setRepeatMode(0);
-      }
     }
   };
 
@@ -256,11 +240,6 @@ export default function PlayerPlaylist() {
     if (!isShuffle) {
       const newShuffledPlaylist = shuffleArray(playlist);
       setShuffledPlaylist(newShuffledPlaylist);
-      setNextMusicIndex(
-        newShuffledPlaylist.findIndex(
-          (music) => music === playlist[currentMusicIndex]
-        )
-      );
     }
   };
 
@@ -393,3 +372,5 @@ export default function PlayerPlaylist() {
     </ScrollView>
   );
 }
+
+

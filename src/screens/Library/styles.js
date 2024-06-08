@@ -11,17 +11,37 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#fff",
+    marginBottom: 22,
+    textAlign: "center",
+  },
+  pickerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
+  picker: {
+    height: 50,
+    width: 150, 
+    backgroundColor: "#111",
+    color: "#fff",
+    borderRadius: 10,
+    textAlign: "center",
+    border: "none",
+  },
+  sortButton: {
+    width: 150,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#111",
+    borderRadius: 10,
+    padding: 10,
+  },
   musicList: {
-    marginBottom: 20,
+    marginBottom: 45,
   },
   musicItem: {
     marginBottom: 10,
-  },
-  loadingText: {
-    color: "#fff",
-    fontSize: 16,
   },
   playBtn: {
     flexDirection: "row",

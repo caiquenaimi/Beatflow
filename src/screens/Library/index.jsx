@@ -4,7 +4,7 @@ import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Library({ addToQueue }) {
+export default function Library() {
   const [musics, setMusics] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -34,8 +34,7 @@ export default function Library({ addToQueue }) {
   };
 
   const handleAddToQueue = (music) => {
-    addToQueue(music);
-    navigation.navigate("PlayerPlaylist", { initialMusic: music });
+    console.log("Added to queue:", music);
   };
 
   return (

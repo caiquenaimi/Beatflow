@@ -26,7 +26,6 @@ export default function Search() {
       try {
         const queryParams = `?search=${search.toLowerCase()}`;
         const dados = await fetchApiMusics(queryParams);
-        console.log("Dados da API:", dados);
         setApiData(dados.musics || []);
       } catch (error) {
         console.error("Erro ao buscar dados: ", error);
@@ -50,7 +49,6 @@ export default function Search() {
       item.album.toLowerCase().includes(search.toLowerCase())
   );
 
-  console.log("Dados filtrados:", filteredData);
 
   const handleMusicPress = (music) => {
     navigation.navigate("Player", { musicId: music.id });
@@ -79,8 +77,19 @@ export default function Search() {
           }}
           inputStyle={{
             color: "#fff",
+            outline: "none",
           }}
           placeholderTextColor="#fff"
+          platform="default"
+          cancelButtonProps={{
+            color: 'white',
+            style: {
+              WebkitAppearance: 'none',
+              appearance: 'none',
+            },
+          }}
+          searchIcon={{ color: 'white' }}
+          clearIcon={{ color: 'white' }}
         />
       </View>
       <Text

@@ -27,6 +27,8 @@ export default function Home() {
   const [apiData, setApiData] = useState([]);
   const [playlistData, setPlaylistData] = useState([]);
   const [randomMusic, setRandomMusic] = useState({});
+  const [randomArtist, setRandomArtist] = useState("");
+  const [randomArtistMusicData, setRandomArtistMusicData] = useState([]);
   const [animation] = useState(new Animated.Value(1)); 
   const navigation = useNavigation();
 
@@ -48,16 +50,30 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (apiData.length > 0) {
+      setRandomArtist(getRandomArtist(apiData));
+    }
+  }, [apiData]);
+
+  useEffect(() => {
     const interval = setInterval(handleRandomMusicTime, 7000);
     startAnimation();
     return () => clearInterval(interval); 
-  }, [apiData]);
+  }, [randomMusic]);
+
+  useEffect(() => {
+    if (randomArtist) {
+      setRandomArtistMusicData(apiData.filter((item) =>
+        item.artist.toLowerCase().includes(randomArtist.toLowerCase())
+      ));
+    }
+  }, [randomArtist]);
 
   const startAnimation = () => {
     animation.setValue(1);
     Animated.timing(animation, {
       toValue: 0,
-      duration: 7000,
+      duration: 2000,
       useNativeDriver: true,
     }).start();
   };
@@ -74,6 +90,12 @@ export default function Home() {
   );
 
   const { width } = Dimensions.get("window");
+
+  const getRandomArtist = (apiData) => {
+    //tem musicas que tem varios artistas é necessario separar com split
+    const randomIndex = Math.floor(Math.random() * apiData.length);
+    return apiData[randomIndex].artist.split(",")[0];
+  };
 
   const recommendedMusicIds = [32, 30, 28, 53, 14, 60];
 
@@ -93,7 +115,12 @@ export default function Home() {
           source={require("../../../assets/Beatflowlogo.png")}
           style={styles.logo}
         />
-
+        <View style={styles.WelcomeView}>
+          <Text style={styles.WelcomeText}>Let the Beatflow</Text>
+          <Text style={styles.subtitle}>
+            O seu aplicativo de Trap/Rap
+          </Text>
+        </View>
         <View style={styles.randomSongCard}>
           {randomMusic.id ? (
             <View>
@@ -136,12 +163,10 @@ export default function Home() {
           </Text>
         )}
 
-        <Text style={styles.sectionTitle}>Músicas de Travis Scott</Text>
-        {apiData.length > 0 ? (
+<Text style={styles.sectionTitle}>Músicas de {randomArtist}</Text>
+        {randomArtistMusicData.length > 0 ? (
           <Carousel
-            data={apiData.filter((item) =>
-              item.artist.toLowerCase().includes("travis scott")
-            )}
+            data={randomArtistMusicData}
             renderItem={renderMusicItem}
             sliderWidth={width}
             itemWidth={220}
@@ -150,28 +175,10 @@ export default function Home() {
           />
         ) : (
           <Text style={styles.loadingText}>
-            Carregando músicas de Travis Scott...
+            Carregando músicas de {randomArtist}...
           </Text>
-        )}
-       
-
-        <Text style={styles.sectionTitle}>Músicas de Matuê</Text>
-        {apiData.length > 0 ? (
-          <Carousel
-            data={apiData.filter((item) =>
-              item.artist.toLowerCase().includes("matuê")
-            )}
-            renderItem={renderMusicItem}
-            sliderWidth={width}
-            itemWidth={220}
-            activeSlideAlignment="center"
-            contentContainerCustomStyle={styles.carouselContent}
-          />
-        ) : (
-          <Text style={styles.loadingText}>
-            Carregando músicas de Matuê...
-          </Text>
-        )}
+        )}  
+      
       </ScrollView>
     </View>
   );

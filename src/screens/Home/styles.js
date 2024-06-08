@@ -5,6 +5,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
   },
+  WelcomeView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 50,
+  },
+  WelcomeText: {
+    fontSize: 30,
+    color: '#FFF',
+    fontWeight: 'bold',
+    marginBottom: 10, 
+  },
+  subtitle: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: '#888', 
+  },
   scrollContainer: {
     paddingBottom: 80,
     paddingHorizontal: 10,
@@ -45,7 +61,7 @@ const styles = StyleSheet.create({
     height: 145
   },
   loader: {
-    width: 40,
+    width: 150,
     height: 10,
     borderRadius: 25,
     backgroundColor: "red",

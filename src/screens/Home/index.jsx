@@ -5,6 +5,7 @@ import {
   Dimensions,
   ScrollView,
   Image,
+  TouchableOpacity,
   Animated,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
@@ -16,6 +17,7 @@ import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 import RandomMusicCard from "../../components/RandomMusicCard";
 import { useNavigation } from "@react-navigation/native";
 
+
 const getRandomMusic = (apiData) => {
   const randomId = Math.floor(Math.random() * 104) + 1;
   return apiData.find((music) => music.id === randomId) || {};
@@ -25,7 +27,7 @@ export default function Home() {
   const [apiData, setApiData] = useState([]);
   const [playlistData, setPlaylistData] = useState([]);
   const [randomMusic, setRandomMusic] = useState({});
-  const [animation] = useState(new Animated.Value(0)); 
+  const [animation] = useState(new Animated.Value(1)); 
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -52,10 +54,11 @@ export default function Home() {
   }, [apiData]);
 
   const startAnimation = () => {
-    animation.setValue(0);
+    animation.setValue(1);
     Animated.timing(animation, {
-      toValue: 1,
+      toValue: 0,
       duration: 7000,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -83,11 +86,6 @@ export default function Home() {
     startAnimation(); 
   };
 
-  const progressBarWidth = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [width - 20, 0] // adjust the width to your preference
-  });
-
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -107,9 +105,9 @@ export default function Home() {
               />
               <Animated.View
                 style={[
-                  styles.progressBar,
+                  styles.loader,
                   {
-                    width: progressBarWidth,
+                    transform: [{ scale: animation }],
                   },
                 ]}
               />

@@ -39,14 +39,18 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
-    marginVertical: 20,
+    marginTop: 80,
+    height: 145
   },
-  progressBar: {
-    height: 5,
-    backgroundColor: "#red",
+  loader: {
+    width: 40,
+    height: 10,
+    borderRadius: 25,
+    backgroundColor: "red",
     alignSelf: "center",
-    marginTop: 10,
-  }
+    marginTop: 2,
+    marginBottom: 20
+  },
 });
 
 export default styles;

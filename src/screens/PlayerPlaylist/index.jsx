@@ -138,17 +138,21 @@ export default function PlayerPlaylist() {
     async function loadPlaylist() {
       try {
         const response = await fetchApiMusics();
-        setPlaylist(response.musics);
-        setShuffledPlaylist(response.musics);
+        const sortedPlaylist = response.musics.slice().sort((a, b) => {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0;
+        });
+        setPlaylist(sortedPlaylist);
+        setShuffledPlaylist(sortedPlaylist); 
         setNextMusicIndex(0);
       } catch (error) {
         console.error("Erro ao carregar a lista de músicas:", error);
       }
     }
-
+  
     loadPlaylist();
   }, []);
-
   useEffect(() => {
     if (playlist.length > 0) {
       loadMusic(playlist[currentMusicIndex]);

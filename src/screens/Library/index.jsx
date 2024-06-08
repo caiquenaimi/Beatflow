@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Library() {
   const [musics, setMusics] = useState([]);
@@ -41,12 +41,19 @@ export default function Library() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Nossa Biblioteca</Text>
-      <TouchableOpacity
-        onPress={handlePlayPlaylist}
-        style={styles.playPlaylistButton}
-      >
-        <Text style={styles.playPlaylistButtonText}>Tocar Biblioteca</Text>
-      </TouchableOpacity>
+      <View style={styles.playBtn}>
+        <TouchableOpacity
+          onPress={handlePlayPlaylist}
+          style={styles.playPlaylistButton}
+        >
+          <MaterialCommunityIcons
+            name="play"
+            size={24}
+            color="#fff"
+          />
+        </TouchableOpacity>
+      </View>
+
       <ScrollView style={styles.musicList}>
         {loading ? (
           <Text style={styles.loadingText}>Loading...</Text>
@@ -71,7 +78,7 @@ export default function Library() {
                   style={styles.addToQueueButton}
                 >
                   <MaterialCommunityIcons
-                    name="playlist-play"
+                    name="playlist-plus"
                     size={24}
                     color="#ff0000"
                   />

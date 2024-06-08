@@ -23,17 +23,17 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
   },
+  playBtn: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
   playPlaylistButton: {
     backgroundColor: "#FF0000",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    padding: 5,
+    borderRadius: 20,
     alignItems: "center",
-  },
-  playPlaylistButtonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+    width: 50,
   },
   cardContainer: {
     flexDirection: "row",

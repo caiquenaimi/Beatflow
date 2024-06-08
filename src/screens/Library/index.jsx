@@ -67,7 +67,7 @@ export default function Library() {
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                  onPress={handlePlayPlaylist}
+                  onPress={handleAddToQueue.bind(this, music)}
                   style={styles.addToQueueButton}
                 >
                   <MaterialCommunityIcons

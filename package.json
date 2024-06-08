@@ -36,7 +36,8 @@
     "react-native-sound": "^0.11.2",
     "react-native-track-player": "^4.1.1",
     "react-native-web": "~0.19.10",
-    "shaka-player": "^4.9.0"
+    "shaka-player": "^4.9.0",
+    "expo-image-picker": "~15.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

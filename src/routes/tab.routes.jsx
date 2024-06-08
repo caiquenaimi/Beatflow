@@ -12,6 +12,7 @@ import Player from "../screens/Player";
 import PlayerPlaylist from "../screens/PlayerPlaylist";
 import PlaylistTest from "../screens/PlaylistTest";
 import Library from "../screens/Library";
+import ConfirmDelete from "../screens/ConfirmDelete";
 
 const Tab = createBottomTabNavigator();
 
@@ -145,6 +146,15 @@ const TabRoutes = () => {
               size={30}
             />
           ),
+        }}
+      />
+
+      <Tab.Screen
+        name="ConfirmDelete"
+        component={ConfirmDelete}
+        options={{
+          tabBarButton: () => null,
+          tabBarVisible: false,
         }}
       />
     </Tab.Navigator>

@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   textName: {
     color: "#fff",
     fontSize: 30,
+    textAlign: "center",
   },
   playlistDiv: {
     flexDirection: "row",
@@ -74,6 +75,26 @@ const styles = StyleSheet.create({
   containerLoading: {
     marginTop: 350,
     alignItems: "center",
+  },
+  separatedDivs: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+  },
+  passwordDiv: {
+    alignItems: "center",
+  },
+  textInfoDiv: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  containerUser: {
+    marginTop: 200,
+  },
+  eyeIcon: {
+    bottom: 8,
+    right: 8,
   },
 });
 

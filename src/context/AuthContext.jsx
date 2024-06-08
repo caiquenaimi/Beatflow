@@ -5,11 +5,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const apiURL = "http://localhost:3000"; //process.env.REACT_APP_API_URL;
+  const apiURL = "http://localhost:3000";
   const [user, setUser] = useState("");
   const [loading, setLoading] = useState(false);
   const [refreshToken, setRefreshToken] = useState("");
-  const [acessToken, setAcessToken] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
     const loadingStore = async () => {
@@ -32,9 +32,8 @@ const AuthProvider = ({ children }) => {
                 },
               }
             );
-            setAcessToken(isLogged.data.token);
+            setAccessToken(isLogged.data.token);
             const { password, ...userWithoutPassword } = userById.data.user;
-            // Adiciona a senha manualmente
             const userWithPassword = { ...userWithoutPassword, password: "" };
             setUser(userWithPassword);
           }
@@ -51,12 +50,11 @@ const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const logged = await axios.post(`${apiURL}/users/login`, {
-        email: email,
-        password: password,
+        email,
+        password,
       });
       if (logged) {
-        setAcessToken(logged.data.token);
-        // Inclui a senha no estado do usuário
+        setAccessToken(logged.data.token);
         const userWithPassword = { ...logged.data.user, password };
         setUser(userWithPassword);
         setRefreshToken(logged.data.refreshToken);
@@ -80,14 +78,18 @@ const AuthProvider = ({ children }) => {
       AsyncStorage.clear();
       setUser("");
       setRefreshToken("");
-      setAcessToken("");
+      setAccessToken("");
     } catch (error) {
       console.error("Erro ao fazer logout: ", error);
     }
   };
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, signOut, loading }}>
+    <AuthContext.Provider value={{ user, login, signOut, loading, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

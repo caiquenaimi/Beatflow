@@ -4,10 +4,11 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
   },
   containerScroll: {
-    flexGrow: 1,
-    marginBottom: 100,
+    marginTop: 200,
   },
   cadastre: {
     color: "#FFFFFF",
@@ -93,5 +94,31 @@ export default StyleSheet.create({
     position: "absolute",
     top: 20,
     right: 20,
+  },
+  exitIcon: {
+    position: "absolute",
+    right: 20,
+    top: 20,
+  },
+  TEXT: {
+    color: "#FF0000",
+    fontSize: 15,
+    textDecorationLine: "underline",
+    textAlign: "center",
+  },
+  buttonDelete: {
+    width: "100%",
+    borderRadius: 8,
+    paddingVertical: 12,
+    marginVertical: 8,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#FF0000",
+  },
+  deleteButton: {
+    marginTop: 40,
+  },
+  textLittle: {
+    margin: 20,
   },
 });

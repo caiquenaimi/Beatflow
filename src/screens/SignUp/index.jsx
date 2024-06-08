@@ -12,11 +12,13 @@ import axios from "axios";
 import { Feather } from "@expo/vector-icons";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
+import { useAuth } from "../../context/AuthContext";
 
 import { useNavigation } from "@react-navigation/native";
 
 export default function SignUp({ route }) {
   let { user, edit } = route.params;
+  const { updateUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -40,8 +42,8 @@ export default function SignUp({ route }) {
     if (edit) {
       setName(user.name);
       setEmail(user.email);
-      setPassword(user.password); // Preenche a senha atual
-      setConfirmPassword(""); // Limpa o campo de confirmação da senha
+      setPassword(user.password);
+      setConfirmPassword("");
     } else {
       setName("");
       setEmail("");
@@ -64,7 +66,7 @@ export default function SignUp({ route }) {
     if (!name) {
       errors.push("Preencha o campo de nome");
     }
-    if (password !== confirmPassword) {
+    if (edit && password !== confirmPassword) {
       errors.push("As senhas não coincidem");
     }
     if (errors.length > 0) {
@@ -96,7 +98,7 @@ export default function SignUp({ route }) {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      navigation.navigate("Users", { updateUser: response.data });
+      navigation.navigate("Users");
     } catch (error) {
       console.error("Erro ao fazer cadastro: ", error);
       setError("Erro ao fazer cadastro. Por favor, tente novamente.");
@@ -122,32 +124,33 @@ export default function SignUp({ route }) {
           password,
         }
       );
-      console.log("response: ", response.data);
+      const updatedUser = response.data;
+      console.log("response: ", updatedUser);
       setSuccess("Cadastro atualizado com sucesso!");
       setError("");
-      setName("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
+      updateUser(updatedUser);
       navigation.navigate("Users");
     } catch (error) {
-      console.error("Erro ao fazer cadastro: ", error);
-      setError("Erro ao fazer cadastro. Por favor, tente novamente.");
+      console.error("Erro ao atualizar cadastro: ", error);
+      setError("Erro ao atualizar cadastro. Por favor, tente novamente.");
+      setSuccess("");
     }
     setLoading(false);
   };
 
+  console.log("User:", user);
+
   return (
     <View style={styles.container}>
+      <View style={styles.exit}>
+        <Text style={styles.exit} onPress={() => navigation.navigate("Users")}>
+          <Feather name="corner-down-left" size={32} color="red" />
+        </Text>
+      </View>
       {edit ? (
         <ScrollView style={styles.containerScroll}>
           <Text style={styles.title}>Editar Perfil</Text>
-          <Text
-            style={styles.exit}
-            onPress={() => navigation.navigate("Users")}
-          >
-            <Feather name="corner-down-left" size={32} color="red" />
-          </Text>
+
           <View style={styles.form}>
             <TextInput
               style={styles.input}
@@ -198,6 +201,18 @@ export default function SignUp({ route }) {
             </TouchableOpacity>
             {error ? <ErrorMessage msg={error} /> : null}
             {success ? <SuccessMessage msg={success} /> : null}
+          </View>
+          <View style={styles.textLittle}>
+            <Text style={styles.TEXT}>ou</Text>
+          </View>
+
+          <View style={styles.deleteButton}>
+            <TouchableOpacity
+              style={styles.buttonDelete}
+              onPress={() => navigation.navigate("ConfirmDelete", { user })}
+            >
+              <Text style={styles.buttonText}>Deletar Perfil</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       ) : (
@@ -253,14 +268,14 @@ export default function SignUp({ route }) {
               <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>
             <Text style={styles.cadastre}>
-          Já possui uma conta?{" "}
-          <Text
-            style={styles.loginButton}
-            onPress={() => navigation.navigate("SignIn")}
-          >
-            Faça o Login
-          </Text>
-        </Text>
+              Já possui uma conta?{" "}
+              <Text
+                style={styles.loginButton}
+                onPress={() => navigation.navigate("SignIn")}
+              >
+                Faça o Login
+              </Text>
+            </Text>
             {error ? <ErrorMessage msg={error} /> : null}
             {success ? <SuccessMessage msg={success} /> : null}
           </View>

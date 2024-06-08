@@ -11,8 +11,10 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
+    textAlign: "center",
     fontWeight: "bold",
     marginVertical: 10,
+    marginTop: 50,
     color: "#FFF",
   },
   artistTitle: {

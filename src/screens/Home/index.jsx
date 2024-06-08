@@ -117,23 +117,6 @@ export default function Home() {
           )}
         </View>
 
-        <Text style={styles.sectionTitle}>Músicas de Travis Scott</Text>
-        {apiData.length > 0 ? (
-          <Carousel
-            data={apiData.filter((item) =>
-              item.artist.toLowerCase().includes("travis scott")
-            )}
-            renderItem={renderMusicItem}
-            sliderWidth={width}
-            itemWidth={220}
-            activeSlideAlignment="center"
-            contentContainerCustomStyle={styles.carouselContent}
-          />
-        ) : (
-          <Text style={styles.loadingText}>
-            Carregando músicas de Travis Scott...
-          </Text>
-        )}
         <Text style={styles.sectionTitle}>Músicas recomendadas</Text>
         {recommendedMusics.length > 0 ? (
           <ScrollView>
@@ -152,6 +135,25 @@ export default function Home() {
             Nenhuma música recomendada encontrada.
           </Text>
         )}
+
+        <Text style={styles.sectionTitle}>Músicas de Travis Scott</Text>
+        {apiData.length > 0 ? (
+          <Carousel
+            data={apiData.filter((item) =>
+              item.artist.toLowerCase().includes("travis scott")
+            )}
+            renderItem={renderMusicItem}
+            sliderWidth={width}
+            itemWidth={220}
+            activeSlideAlignment="center"
+            contentContainerCustomStyle={styles.carouselContent}
+          />
+        ) : (
+          <Text style={styles.loadingText}>
+            Carregando músicas de Travis Scott...
+          </Text>
+        )}
+       
 
         <Text style={styles.sectionTitle}>Músicas de Matuê</Text>
         {apiData.length > 0 ? (

@@ -44,7 +44,7 @@ export default function Library() {
         onPress={handlePlayPlaylist}
         style={styles.playPlaylistButton}
       >
-        <Text style={styles.playPlaylistButtonText}>Tocar Playlist</Text>
+        <Text style={styles.playPlaylistButtonText}>Tocar Biblioteca</Text>
       </TouchableOpacity>
       <ScrollView style={styles.musicList}>
         {loading ? (

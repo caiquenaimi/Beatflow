@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#fff",
-    marginBottom: 20,
+    marginBottom: 22,
+    textAlign: "center",
   },
   pickerContainer: {
     flexDirection: "row",
@@ -24,6 +25,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#111",
     color: "#fff",
     borderRadius: 10,
+    textAlign: "center",
+    border: "none",
   },
   sortButton: {
     width: 150,

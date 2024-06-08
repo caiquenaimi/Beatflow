@@ -65,8 +65,7 @@ export default function Library() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Nossa Biblioteca</Text>
-
+      <Text style={styles.title}>Biblioteca</Text>
       <View style={styles.pickerContainer}>
         <View style={styles.pickerWrapper}>
           <Picker

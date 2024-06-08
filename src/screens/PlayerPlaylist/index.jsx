@@ -121,8 +121,10 @@ const audioFiles = {
   "swimming_pools.mp3": require("../../../assets/songs/swimming_pools.mp3"),
 };
 
-export default function PlayerPlaylist({ sortOrder }) {
-  const [playlist, setPlaylist] = useState([]);
+
+export default function PlayerPlaylist({ route }) {
+  const { sortedPlaylist } = route.params;
+  const [playlist, setPlaylist] = useState(sortedPlaylist);
   const [currentMusicIndex, setCurrentMusicIndex] = useState(0);
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -132,34 +134,6 @@ export default function PlayerPlaylist({ sortOrder }) {
   const [isShuffle, setIsShuffle] = useState(false);
   const [repeatMode, setRepeatMode] = useState(0);
   const [shuffledPlaylist, setShuffledPlaylist] = useState([]);
-  const [nextMusicIndex, setNextMusicIndex] = useState(0);
-
-  useEffect(() => {
-    async function loadPlaylist() {
-      try {
-        const response = await fetchApiMusics();
-        const sortedPlaylist = response.musics.slice().sort((a, b) => {
-          switch (sortOrder) {
-            case "name":
-              return a.name.localeCompare(b.name);
-            case "artist":
-              return a.artist.localeCompare(b.artist);
-            case "album":
-              return a.album.localeCompare(b.album);
-            default:
-              return a.name.localeCompare(b.name); 
-          }
-        });
-        setPlaylist(sortedPlaylist);
-        setShuffledPlaylist(shuffleArray(sortedPlaylist));
-        setNextMusicIndex(0);
-      } catch (error) {
-        console.error("Erro ao carregar a lista de músicas:", error);
-      }
-    }
-
-    loadPlaylist();
-  }, [sortOrder]);
 
   useEffect(() => {
     if (playlist.length > 0) {
@@ -208,6 +182,7 @@ export default function PlayerPlaylist({ sortOrder }) {
       console.error("Erro ao carregar ou reproduzir a música:", error);
     }
   };
+
   const handleMusicEnd = () => {
     if (repeatMode === 2) {
       playNext();
@@ -215,9 +190,6 @@ export default function PlayerPlaylist({ sortOrder }) {
       loadMusic(playlist[currentMusicIndex]);
     } else {
       playNext();
-      if (currentMusicIndex === playlist.length - 1) {
-        setRepeatMode(0);
-      }
     }
   };
 
@@ -268,11 +240,6 @@ export default function PlayerPlaylist({ sortOrder }) {
     if (!isShuffle) {
       const newShuffledPlaylist = shuffleArray(playlist);
       setShuffledPlaylist(newShuffledPlaylist);
-      setNextMusicIndex(
-        newShuffledPlaylist.findIndex(
-          (music) => music === playlist[currentMusicIndex]
-        )
-      );
     }
   };
 
@@ -405,3 +372,5 @@ export default function PlayerPlaylist({ sortOrder }) {
     </ScrollView>
   );
 }
+
+

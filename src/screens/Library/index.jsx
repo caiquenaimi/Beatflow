@@ -19,6 +19,7 @@ export default function Library() {
   const [filter, setFilter] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
   const [lastFilter, setLastFilter] = useState(null);
+  const [sortOrder, setSortOrder] = useState("A-Z"); // Novo estado para armazenar a ordem de classificação atual
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -41,8 +42,16 @@ export default function Library() {
     fetchMusics();
   }, []);
 
+  useEffect(() => {
+    // Ao atualizar a direção de classificação, reordenar as músicas
+    const sortedMusics = sortMusics(musics, filter);
+    // Verificar se é necessário inverter a ordem
+    const orderedMusics = sortOrder === "A-Z" ? sortedMusics : sortedMusics.reverse();
+    setMusics(orderedMusics);
+  }, [musics, filter, sortDirection, sortOrder]);
+
   const handlePlayPlaylist = () => {
-    navigation.navigate("PlayerPlaylist");
+    navigation.navigate("PlayerPlaylist", { sortOrder });
   };
 
   const handleAddToQueue = (music) => {
@@ -53,12 +62,18 @@ export default function Library() {
     return musics.sort((a, b) => {
       const aVal = a[filter];
       const bVal = b[filter];
-      return sortDirection === "asc" ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      return sortDirection === "asc"
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
     });
   };
-
+  
   const toggleSortDirection = () => {
-    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newSortDirection);
+    // Atualizar sortOrder com base na nova direção de classificação
+    const newSortOrder = newSortDirection === "asc" ? "A-Z" : "Z-A";
+    setSortOrder(newSortOrder);
   };
 
   const sortedMusics = sortMusics(musics, filter);
@@ -86,7 +101,10 @@ export default function Library() {
             <Picker.Item label="Álbum" value="album" />
           </Picker>
         </View>
-        <TouchableOpacity onPress={toggleSortDirection} style={styles.sortButton}>
+        <TouchableOpacity
+          onPress={toggleSortDirection}
+          style={styles.sortButton}
+        >
           <Text style={{ color: "#fff" }}>
             {sortDirection === "asc" ? "A-Z" : "Z-A"}
           </Text>

@@ -121,7 +121,7 @@ const audioFiles = {
   "swimming_pools.mp3": require("../../../assets/songs/swimming_pools.mp3"),
 };
 
-export default function PlayerPlaylist() {
+export default function PlayerPlaylist({ sortOrder }) {
   const [playlist, setPlaylist] = useState([]);
   const [currentMusicIndex, setCurrentMusicIndex] = useState(0);
   const [sound, setSound] = useState(null);
@@ -139,20 +139,28 @@ export default function PlayerPlaylist() {
       try {
         const response = await fetchApiMusics();
         const sortedPlaylist = response.musics.slice().sort((a, b) => {
-          if (a.name < b.name) return -1;
-          if (a.name > b.name) return 1;
-          return 0;
+          switch (sortOrder) {
+            case "name":
+              return a.name.localeCompare(b.name);
+            case "artist":
+              return a.artist.localeCompare(b.artist);
+            case "album":
+              return a.album.localeCompare(b.album);
+            default:
+              return a.name.localeCompare(b.name); 
+          }
         });
         setPlaylist(sortedPlaylist);
-        setShuffledPlaylist(sortedPlaylist); 
+        setShuffledPlaylist(shuffleArray(sortedPlaylist));
         setNextMusicIndex(0);
       } catch (error) {
         console.error("Erro ao carregar a lista de músicas:", error);
       }
     }
-  
+
     loadPlaylist();
-  }, []);
+  }, [sortOrder]);
+
   useEffect(() => {
     if (playlist.length > 0) {
       loadMusic(playlist[currentMusicIndex]);

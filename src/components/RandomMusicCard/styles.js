@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   cardImage: {
     width: '100%',
     height: 300,
-    resizeMode: 'cover',
+    objectFit: 'cover',
   },
   cardTextContainer: {
     position: 'absolute',

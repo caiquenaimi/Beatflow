@@ -7,7 +7,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  containerScroll: {
+  containerScrollEdit: {
     marginTop: 200,
   },
   cadastre: {
@@ -92,8 +92,8 @@ export default StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     position: "absolute",
-    top: 20,
-    right: 20,
+    top: 0,
+    right: 0,
   },
   exitIcon: {
     position: "absolute",

@@ -142,79 +142,85 @@ export default function SignUp({ route }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.exit}>
-        <Text style={styles.exit} onPress={() => navigation.navigate("Users")}>
-          <Feather name="corner-down-left" size={32} color="red" />
-        </Text>
-      </View>
       {edit ? (
-        <ScrollView style={styles.containerScroll}>
-          <Text style={styles.title}>Editar Perfil</Text>
+        <View style={styles.containerUser}>
+          <View style={styles.exit}>
+            <Text
+              style={styles.exit}
+              onPress={() => navigation.navigate("Users")}
+            >
+              <Feather name="corner-down-left" size={32} color="red" />
+            </Text>
+          </View>
 
-          <View style={styles.form}>
-            <TextInput
-              style={styles.input}
-              placeholder="Nome"
-              value={name}
-              onChangeText={setName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-            />
-            <View style={styles.flr}>
+          <ScrollView style={styles.containerScrollEdit}>
+            <Text style={styles.title}>Editar Perfil</Text>
+
+            <View style={styles.form}>
               <TextInput
                 style={styles.input}
-                placeholder="Senha"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={secureTextEntry}
+                placeholder="Nome"
+                value={name}
+                onChangeText={setName}
               />
-              <TouchableOpacity
-                onPress={toggleSecureEntry}
-                style={styles.eyeIcon}
-              >
-                <Feather
-                  name={secureTextEntry ? "eye-off" : "eye"}
-                  size={33}
-                  color="gray"
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+              />
+              <View style={styles.flr}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Senha"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={secureTextEntry}
                 />
+                <TouchableOpacity
+                  onPress={toggleSecureEntry}
+                  style={styles.eyeIcon}
+                >
+                  <Feather
+                    name={secureTextEntry ? "eye-off" : "eye"}
+                    size={33}
+                    color="gray"
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.flr}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Confirme a Senha"
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  secureTextEntry={secureTextEntry}
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={editUser}
+                disabled={loading}
+              >
+                <Text style={styles.buttonText}>Salvar Alterações</Text>
+              </TouchableOpacity>
+              {error ? <ErrorMessage msg={error} /> : null}
+              {success ? <SuccessMessage msg={success} /> : null}
+            </View>
+            <View style={styles.textLittle}>
+              <Text style={styles.TEXT}>ou</Text>
+            </View>
+
+            <View style={styles.deleteButton}>
+              <TouchableOpacity
+                style={styles.buttonDelete}
+                onPress={() => navigation.navigate("ConfirmDelete", { user })}
+              >
+                <Text style={styles.buttonText}>Deletar Perfil</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.flr}>
-              <TextInput
-                style={styles.input}
-                placeholder="Confirme a Senha"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry={secureTextEntry}
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={editUser}
-              disabled={loading}
-            >
-              <Text style={styles.buttonText}>Salvar Alterações</Text>
-            </TouchableOpacity>
-            {error ? <ErrorMessage msg={error} /> : null}
-            {success ? <SuccessMessage msg={success} /> : null}
-          </View>
-          <View style={styles.textLittle}>
-            <Text style={styles.TEXT}>ou</Text>
-          </View>
-
-          <View style={styles.deleteButton}>
-            <TouchableOpacity
-              style={styles.buttonDelete}
-              onPress={() => navigation.navigate("ConfirmDelete", { user })}
-            >
-              <Text style={styles.buttonText}>Deletar Perfil</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       ) : (
         <ScrollView style={styles.containerScroll}>
           <View style={styles.head}>

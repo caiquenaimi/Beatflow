@@ -14,19 +14,28 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   pickerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   picker: {
-    height: 50, 
-    width: 200,
-    alignSelf: "center",
-    marginBottom: 20,
+    height: 50,
+    width: 150, 
     backgroundColor: "#111",
     color: "#fff",
     borderRadius: 10,
   },
+  sortButton: {
+    width: 150,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#111",
+    borderRadius: 10,
+    padding: 10,
+  },
   musicList: {
-    marginBottom: 20,
+    marginBottom: 45,
   },
   musicItem: {
     marginBottom: 10,

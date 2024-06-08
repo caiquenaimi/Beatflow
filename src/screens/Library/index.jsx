@@ -70,24 +70,26 @@ export default function Library() {
       <Text style={styles.title}>Nossa Biblioteca</Text>
 
       <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={filter}
-          onValueChange={(itemValue) => {
-            if (itemValue === filter && lastFilter === filter) {
-              toggleSortDirection();
-            } else {
-              setFilter(itemValue);
-              setSortDirection("asc");
-            }
-            setLastFilter(itemValue);
-          }}
-          style={styles.picker}
-        >
-          <Picker.Item label="Título" value="name" />
-          <Picker.Item label="Artista" value="artist" />
-          <Picker.Item label="Álbum" value="album" />
-        </Picker>
-        <TouchableOpacity onPress={toggleSortDirection}>
+        <View style={styles.pickerWrapper}>
+          <Picker
+            selectedValue={filter}
+            onValueChange={(itemValue) => {
+              if (itemValue === filter && lastFilter === filter) {
+                toggleSortDirection();
+              } else {
+                setFilter(itemValue);
+                setSortDirection("asc");
+              }
+              setLastFilter(itemValue);
+            }}
+            style={styles.picker}
+          >
+            <Picker.Item label="Título" value="name" />
+            <Picker.Item label="Artista" value="artist" />
+            <Picker.Item label="Álbum" value="album" />
+          </Picker>
+        </View>
+        <TouchableOpacity onPress={toggleSortDirection} style={styles.sortButton}>
           <Text style={{ color: "#fff" }}>
             {sortDirection === "asc" ? "A-Z" : "Z-A"}
           </Text>

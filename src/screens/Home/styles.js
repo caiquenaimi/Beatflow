@@ -11,10 +11,21 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   WelcomeText: {
-    fontSize: 30,
+    fontSize: 35,
     color: '#FFF',
     fontWeight: 'bold',
     marginBottom: 10, 
+    fontFamily: 'sans-serif',
+  },
+  txtView: {
+    flexDirection: 'row',
+    alignItems: 'center', 
+  },
+  beatflowtxt: {
+    fontSize: 40,
+    color: '#FF0000',
+    fontWeight: 'bold',
+    marginBottom: 15,
   },
   subtitle: {
     fontSize: 20,
@@ -68,6 +79,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 2,
     marginBottom: 20
+  },
+  beatflowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center', // opcional, para centralizar verticalmente
+    marginBottom: 10,
   },
 });
 

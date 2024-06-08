@@ -17,7 +17,6 @@ import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 import RandomMusicCard from "../../components/RandomMusicCard";
 import { useNavigation } from "@react-navigation/native";
 
-
 const getRandomMusic = (apiData) => {
   const randomId = Math.floor(Math.random() * 104) + 1;
   return apiData.find((music) => music.id === randomId) || {};
@@ -29,7 +28,7 @@ export default function Home() {
   const [randomMusic, setRandomMusic] = useState({});
   const [randomArtist, setRandomArtist] = useState("");
   const [randomArtistMusicData, setRandomArtistMusicData] = useState([]);
-  const [animation] = useState(new Animated.Value(1)); 
+  const [animation] = useState(new Animated.Value(1));
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -58,14 +57,16 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(handleRandomMusicTime, 7000);
     startAnimation();
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
   }, [randomMusic]);
 
   useEffect(() => {
     if (randomArtist) {
-      setRandomArtistMusicData(apiData.filter((item) =>
-        item.artist.toLowerCase().includes(randomArtist.toLowerCase())
-      ));
+      setRandomArtistMusicData(
+        apiData.filter((item) =>
+          item.artist.toLowerCase().includes(randomArtist.toLowerCase())
+        )
+      );
     }
   }, [randomArtist]);
 
@@ -104,7 +105,7 @@ export default function Home() {
 
   const handleRandomMusicTime = () => {
     setRandomMusic(getRandomMusic(apiData));
-    startAnimation(); 
+    startAnimation();
   };
 
   return (
@@ -115,10 +116,11 @@ export default function Home() {
           style={styles.logo}
         />
         <View style={styles.WelcomeView}>
-          <Text style={styles.WelcomeText}>Let the Beatflow</Text>
-          <Text style={styles.subtitle}>
-            O seu aplicativo de Trap/Rap
-          </Text>
+          <View style={styles.txtView}>
+            <Text style={styles.WelcomeText}>Let the</Text>
+            <Text style={styles.beatflowtxt}> Beatflow</Text>
+          </View>
+            <Text style={styles.subtitle}>O seu aplicativo de Trap/Rap</Text>
         </View>
         <View style={styles.randomSongCard}>
           {randomMusic.id ? (
@@ -162,7 +164,7 @@ export default function Home() {
           </Text>
         )}
 
-<Text style={styles.sectionTitle}>Músicas de {randomArtist}</Text>
+        <Text style={styles.sectionTitle}>Músicas de {randomArtist}</Text>
         {randomArtistMusicData.length > 0 ? (
           <Carousel
             data={randomArtistMusicData}
@@ -176,8 +178,7 @@ export default function Home() {
           <Text style={styles.loadingText}>
             Carregando músicas de {randomArtist}...
           </Text>
-        )}  
-      
+        )}
       </ScrollView>
     </View>
   );

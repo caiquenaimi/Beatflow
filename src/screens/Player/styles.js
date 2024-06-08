@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#333333",
     borderRadius: 10,
-    padding: 20,
+    padding: 10, 
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -23,41 +23,41 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: 300,
-    height: 300,
+    width: 250,
+    height: 250, 
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 10, 
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginBottom: 10,
+    marginBottom: 5, 
   },
   artist: {
-    fontSize: 18,
+    fontSize: 16, 
     color: "#888888",
-    marginBottom: 5,
+    marginBottom: 5, 
   },
   album: {
-    fontSize: 16,
+    fontSize: 14, 
     color: "#AAAAAA",
-    marginBottom: 20,
+    marginBottom: 10, 
   },
   controls: {
     flexDirection: "row",
-    marginBottom: 20, // Added margin to prevent space at the bottom
+    marginBottom: 10,
   },
   controlButton: {
     backgroundColor: "#FF0000",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     borderRadius: 50,
-    marginHorizontal: 10,
+    marginHorizontal: 5, 
   },
   controlButtonText: {
     color: "#FFFFFF",
-    fontSize: 18,
+    fontSize: 16, 
     fontWeight: "bold",
   },
   shuffleButton: {
@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
     width: "90%",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 10, 
   },
   time: {
     color: "#FFFFFF",
   },
   error: {
-    fontSize: 16,
+    fontSize: 14, 
     color: "#FFFFFF",
   },
 });

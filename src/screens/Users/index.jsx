@@ -22,7 +22,7 @@ export default function Users() {
         <View style={styles.containerUser}>
           <View style={styles.userInit}>
             <Image
-              source={require("../../../assets/usuariotop.png.png")}
+              source={require("../../../assets/user.png")}
               style={styles.image}
             />
             <Text style={styles.textName}>{user?.name}</Text>

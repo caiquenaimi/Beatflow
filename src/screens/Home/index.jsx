@@ -5,7 +5,6 @@ import {
   Dimensions,
   ScrollView,
   Image,
-  TouchableOpacity,
   Animated,
   ActivityIndicator,
 } from "react-native";
@@ -16,7 +15,9 @@ import { fetchApiPlaylists } from "../../data/Playlists/Playlist";
 import MusicCard from "../../components/Musics/MusicCard";
 import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 import RandomMusicCard from "../../components/RandomMusicCard";
-import { useNavigation } from "@react-navigation/native";
+import ProfileCard from "../../components/Profile/ProfileCard";
+import { useAuth, AuthContext } from "../../context/AuthContext";
+
 
 const getRandomMusic = (apiData) => {
   const randomId = Math.floor(Math.random() * 104) + 1;
@@ -30,7 +31,7 @@ export default function Home() {
   const [randomArtist, setRandomArtist] = useState("");
   const [randomArtistMusicData, setRandomArtistMusicData] = useState([]);
   const [animation] = useState(new Animated.Value(1));
-  const navigation = useNavigation();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,6 +123,8 @@ export default function Home() {
             <Text style={styles.beatflowtxt}> Beatflow</Text>
           </View>
           <Text style={styles.subtitle}>O seu aplicativo de Trap/Rap</Text>
+        <ProfileCard username={user.name} />
+          
         </View>
         <View style={styles.randomSongCard}>
           {randomMusic.id ? (

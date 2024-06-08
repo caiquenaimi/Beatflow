@@ -38,11 +38,15 @@ export default function SignUp({ route }) {
     return () => clearTimeout(timeout);
   }, [error, success]);
 
+  const toggleSecureEntry = () => {
+    setSecureTextEntry((prevState) => !prevState);
+  };
+
   useEffect(() => {
-    if (edit) {
-      setName(user.name);
-      setEmail(user.email);
-      setPassword(user.password);
+    if (edit && user) {
+      setName(user.name || user.name);
+      setEmail(user.email || user.email);
+      setPassword(user.password || user.password);
       setConfirmPassword("");
     } else {
       setName("");
@@ -50,11 +54,7 @@ export default function SignUp({ route }) {
       setPassword("");
       setConfirmPassword("");
     }
-  }, [user]);
-
-  const toggleSecureEntry = () => {
-    setSecureTextEntry(!secureTextEntry);
-  };
+  }, [edit, user]);
 
   const validation = () => {
     let errors = [];
@@ -98,7 +98,7 @@ export default function SignUp({ route }) {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      navigation.navigate("Users");
+      navigation.navigate("SignIn");
     } catch (error) {
       console.error("Erro ao fazer cadastro: ", error);
       setError("Erro ao fazer cadastro. Por favor, tente novamente.");
@@ -143,7 +143,7 @@ export default function SignUp({ route }) {
   return (
     <View style={styles.container}>
       {edit ? (
-        <View style={styles.containerUser}>
+        <View style={styles.container}>
           <View style={styles.exit}>
             <Text
               style={styles.exit}

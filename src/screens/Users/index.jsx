@@ -1,12 +1,13 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styles from "./styles";
 import { Feather } from "@expo/vector-icons";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth, AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Users() {
   const { user } = useAuth();
+  const { signOut } = useContext(AuthContext);
   const navigation = useNavigation();
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
@@ -24,7 +25,7 @@ export default function Users() {
               source={require("../../../assets/usuariotop.png.png")}
               style={styles.image}
             />
-            <Text style={styles.textName}>{user.name}</Text>
+            <Text style={styles.textName}>{user?.name}</Text>
             <TouchableOpacity
               style={styles.editDiv}
               onPress={() =>
@@ -37,14 +38,14 @@ export default function Users() {
 
           <View style={styles.emailDiv}>
             <Text style={styles.textTitle}>Email:</Text>
-            <Text style={styles.textInfo}>{user.email}</Text>
+            <Text style={styles.textInfo}>{user?.email}</Text>
           </View>
 
           <View style={styles.passwordDiv}>
             <Text style={styles.textTitle}>Senha:</Text>
             <View style={styles.textInfoDiv}>
               <Text style={styles.textInfo}>
-                {secureTextEntry ? "********" : user.password}
+                {secureTextEntry ? "********" : user?.password}
               </Text>
               <TouchableOpacity style={styles.edit} onPress={toggleSecureEntry}>
                 <Feather
@@ -55,6 +56,17 @@ export default function Users() {
                 />
               </TouchableOpacity>
             </View>
+          </View>
+          <View style={styles.signOutDiv}>
+            <TouchableOpacity
+              style={styles.signOut}
+              onPress={() => {
+                signOut();
+                navigation.navigate("SignIn");
+              }}
+            >
+              <Feather name="log-out" size={24} color="red" />
+            </TouchableOpacity>
           </View>
         </View>
       ) : (

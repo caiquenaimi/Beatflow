@@ -92,7 +92,7 @@ export default StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     position: "absolute",
-    top: 0,
+    top: 20,
     right: 0,
   },
   exitIcon: {

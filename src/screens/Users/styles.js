@@ -96,6 +96,9 @@ const styles = StyleSheet.create({
     bottom: 8,
     right: 8,
   },
+  signOutDiv: {
+    position: "absolute",
+  },
 });
 
 export default styles;

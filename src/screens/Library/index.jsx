@@ -12,7 +12,7 @@ import { Picker } from "@react-native-picker/picker";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { useNavigation } from "@react-navigation/native";
-import { useFavorites } from "../../context/FavoritesContext";  // Importando o contexto de favoritos
+import { useFavorites } from "../../context/FavoritesContext"; // Importando o contexto de favoritos
 
 export default function Library() {
   const [musics, setMusics] = useState([]);
@@ -21,7 +21,7 @@ export default function Library() {
   const [sortDirection, setSortDirection] = useState("asc");
   const [lastFilter, setLastFilter] = useState(null);
   const navigation = useNavigation();
-  const { favorites, updateFavorites } = useFavorites();  // Usando o contexto de favoritos
+  const { favorites, updateFavorites } = useFavorites(); // Usando o contexto de favoritos
 
   useEffect(() => {
     async function fetchMusics() {
@@ -49,15 +49,23 @@ export default function Library() {
   };
 
   const sortMusics = (musics, filter, direction) => {
-    const sorted = musics.sort((a, b) => {
-      const aVal = a[filter];
-      const bVal = b[filter];
-      return direction === "asc"
-        ? aVal.localeCompare(bVal)
-        : bVal.localeCompare(aVal);
-    });
+    let sorted;
+    
+    if (filter === "favorites") {
+      sorted = musics.filter((music) => music.favorite);
+    } else {
+      sorted = musics.sort((a, b) => {
+        const aVal = a[filter];
+        const bVal = b[filter];
+        return direction === "asc"
+          ? aVal.localeCompare(bVal)
+          : bVal.localeCompare(aVal);
+      });
+    }
+    
     return sorted;
   };
+  
 
   const toggleSortDirection = () => {
     const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
@@ -76,27 +84,19 @@ export default function Library() {
           body: JSON.stringify({ favorite: !currentFavoriteStatus }),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Erro ao atualizar status favorito");
       }
-
-      setMusics((prevMusics) =>
-        prevMusics.map((music) =>
-          music.id === musicId
-            ? { ...music, favorite: !currentFavoriteStatus }
-            : music
-        )
+  
+      const updatedMusics = musics.map((music) =>
+        music.id === musicId ? { ...music, favorite: !currentFavoriteStatus } : music
       );
-
-      const updatedFavorites = musics
-        .map((music) =>
-          music.id === musicId
-            ? { ...music, favorite: !currentFavoriteStatus }
-            : music
-        )
-        .filter((music) => music.favorite);
-      updateFavorites(updatedFavorites);
+  
+      setMusics(updatedMusics); // Atualiza o estado das músicas
+  
+      const updatedFavorites = updatedMusics.filter((music) => music.favorite);
+      updateFavorites(updatedFavorites); // Atualiza o estado dos favoritos
     } catch (error) {
       console.error(error.message);
     }
@@ -125,6 +125,7 @@ export default function Library() {
             <Picker.Item label="Título" value="name" />
             <Picker.Item label="Artista" value="artist" />
             <Picker.Item label="Álbum" value="album" />
+            <Picker.Item label="Favoritas" value="favorites" />
           </Picker>
         </View>
         <TouchableOpacity

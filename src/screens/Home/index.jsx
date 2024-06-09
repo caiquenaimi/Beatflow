@@ -123,7 +123,17 @@ export default function Home() {
             <Text style={styles.beatflowtxt}> Beatflow</Text>
           </View>
           <Text style={styles.subtitle}>O seu aplicativo de Trap/Rap</Text>
-        <ProfileCard username={user.name} />
+          {
+            user ? (
+              <ProfileCard
+                name={user.name}
+                image={user.image}
+                playlists={playlistData}
+              />
+            ) : (
+              null
+            )
+          }
           
         </View>
         <View style={styles.randomSongCard}>

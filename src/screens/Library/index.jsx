@@ -29,11 +29,6 @@ export default function Library() {
         const response = await fetchApiMusics();
         if (response && response.musics) {
           setMusics(response.musics);
-          const initialFavorites = response.musics.reduce((acc, music) => {
-            acc[music.id] = false;
-            return acc;
-          }, {});
-          setFavorites(initialFavorites);
         } else {
           console.error("Error fetching musics: No music data found");
         }
@@ -68,11 +63,35 @@ export default function Library() {
     setSortDirection(newSortDirection);
   };
 
-  const toggleFavorite = (musicId) => {
-    setFavorites((prevFavorites) => ({
-      ...prevFavorites,
-      [musicId]: !prevFavorites[musicId],
-    }));
+  const toggleFavorite = async (musicId, currentFavoriteStatus) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/musics/${musicId}/favorite`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ favorite: !currentFavoriteStatus }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro ao atualizar status favorito");
+      }
+
+      const updatedMusic = await response.json();
+
+      setMusics((prevMusics) =>
+        prevMusics.map((music) =>
+          music.id === musicId
+            ? { ...music, favorite: !currentFavoriteStatus }
+            : music
+        )
+      );
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   const sortedMusics = sortMusics(musics, filter, sortDirection);
@@ -144,11 +163,13 @@ export default function Library() {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.heartBtn}>
-                  <TouchableOpacity onPress={() => toggleFavorite(music.id)}>
+                  <TouchableOpacity
+                    onPress={() => toggleFavorite(music.id, music.favorite)}
+                  >
                     <MaterialCommunityIcons
-                      name={favorites[music.id] ? "heart" : "heart-outline"}
+                      name={music.favorite ? "heart" : "heart-outline"}
                       size={24}
-                      color={favorites[music.id] ? "red" : "#fff"}
+                      color={music.favorite ? "red" : "#fff"}
                     />
                   </TouchableOpacity>
                 </View>

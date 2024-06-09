@@ -18,7 +18,6 @@ import RandomMusicCard from "../../components/RandomMusicCard";
 import ProfileCard from "../../components/Profile/ProfileCard";
 import { useAuth, AuthContext } from "../../context/AuthContext";
 
-
 const getRandomMusic = (apiData) => {
   const randomId = Math.floor(Math.random() * 104) + 1;
   return apiData.find((music) => music.id === randomId) || {};
@@ -31,6 +30,7 @@ export default function Home() {
   const [randomArtist, setRandomArtist] = useState("");
   const [randomArtistMusicData, setRandomArtistMusicData] = useState([]);
   const [animation] = useState(new Animated.Value(1));
+  const [favoriteMusics, setFavoriteMusics] = useState([]);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -52,6 +52,8 @@ export default function Home() {
 
   useEffect(() => {
     if (apiData.length > 0) {
+      const favorites = apiData.filter((music) => music.favorite);
+      setFavoriteMusics(favorites);
       setRandomArtist(getRandomArtist(apiData));
     }
   }, [apiData]);
@@ -82,6 +84,17 @@ export default function Home() {
   };
 
   const renderMusicItem = ({ item }) => (
+    <View style={styles.cardContainer}>
+      <MusicCard
+        id={item.id}
+        songname={item.name}
+        image={item.image}
+        artist={item.artist}
+      />
+    </View>
+  );
+
+  const renderFavoriteMusicItem = ({ item }) => (
     <View style={styles.cardContainer}>
       <MusicCard
         id={item.id}
@@ -123,19 +136,15 @@ export default function Home() {
             <Text style={styles.beatflowtxt}> Beatflow</Text>
           </View>
           <Text style={styles.subtitle}>O seu aplicativo de Trap/Rap</Text>
-          {
-            user ? (
-              <ProfileCard
-                name={user.name}
-                image={user.image}
-                playlists={playlistData}
-              />
-            ) : (
-              null
-            )
-          }
-          
+          {user ? (
+            <ProfileCard
+              name={user.name}
+              image={user.image}
+              playlists={playlistData}
+            />
+          ) : null}
         </View>
+
         <View style={styles.randomSongCard}>
           {randomMusic.id ? (
             <View>
@@ -190,6 +199,22 @@ export default function Home() {
           />
         ) : (
           <ActivityIndicator size="large" color="#ff0000" />
+        )}
+
+        <Text style={styles.sectionTitle}>Músicas Favoritas</Text>
+        {favoriteMusics.length > 0 ? (
+          <Carousel
+            data={favoriteMusics}
+            renderItem={renderFavoriteMusicItem}
+            sliderWidth={width}
+            itemWidth={220}
+            activeSlideAlignment="center"
+            contentContainerCustomStyle={styles.carouselContent}
+          />
+        ) : (
+          <Text style={styles.loadingText}>
+            Nenhuma música favorita encontrada.
+          </Text>
         )}
       </ScrollView>
     </View>

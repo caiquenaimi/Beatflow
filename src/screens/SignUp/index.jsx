@@ -151,6 +151,7 @@ export default function SignUp() {
   console.log("User:", user);
 
   return (
+    <ScrollView style={styles.containerScroll}>
     <View style={styles.container}>
       {edit ? (
         <View style={styles.container}>
@@ -298,5 +299,6 @@ export default function SignUp() {
         </ScrollView>
       )}
     </View>
+    </ScrollView>
   );
 }

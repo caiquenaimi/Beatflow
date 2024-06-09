@@ -1,11 +1,18 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  containerScroll: {
+    flex: 1,
+    backgroundColor: "#000000",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
   container: {
     flex: 1,
     backgroundColor: "#000000",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 20,
   },
   containerScrollEdit: {
     marginTop: 100,

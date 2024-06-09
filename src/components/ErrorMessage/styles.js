@@ -7,16 +7,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorMsgContainer: {
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: "#111", 
+    padding: 15,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#D32F2F",
     textAlign: 'center',
     alignSelf: 'center',
     marginVertical: 10,
     width: 300,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, 
   },
   errorMsgText: {
-    color: "#D32F2F",
+    color: "#fff",
     fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

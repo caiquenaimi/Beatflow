@@ -48,6 +48,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1, 
     borderBottomColor: 'gray', 
+    outlineColor: 'gray',
   },
   eyeIcon:{
     position: 'absolute',

@@ -60,6 +60,7 @@ export default StyleSheet.create({
     alignItems: "center",
     borderBottomWidth: 1,
     borderBottomColor: "gray",
+    outlineColor: "transparent",
   },
   eyeIcon: {
     position: "absolute",

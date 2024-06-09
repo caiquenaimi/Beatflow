@@ -12,7 +12,8 @@ import { Picker } from "@react-native-picker/picker";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { useNavigation } from "@react-navigation/native";
-import { useFavorites } from "../../context/FavoritesContext"; // Importando o contexto de favoritos
+import { useFavorites } from "../../context/FavoritesContext";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Library() {
   const [musics, setMusics] = useState([]);
@@ -21,7 +22,8 @@ export default function Library() {
   const [sortDirection, setSortDirection] = useState("asc");
   const [lastFilter, setLastFilter] = useState(null);
   const navigation = useNavigation();
-  const { favorites, updateFavorites } = useFavorites(); // Usando o contexto de favoritos
+  const { favorites, updateFavorites } = useFavorites();
+  const { user } = useAuth();
 
   useEffect(() => {
     async function fetchMusics() {
@@ -50,7 +52,7 @@ export default function Library() {
 
   const sortMusics = (musics, filter, direction) => {
     let sorted;
-    
+
     if (filter === "favorites") {
       sorted = musics.filter((music) => music.favorite);
     } else {
@@ -62,10 +64,9 @@ export default function Library() {
           : bVal.localeCompare(aVal);
       });
     }
-    
+
     return sorted;
   };
-  
 
   const toggleSortDirection = () => {
     const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
@@ -84,19 +85,21 @@ export default function Library() {
           body: JSON.stringify({ favorite: !currentFavoriteStatus }),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Erro ao atualizar status favorito");
       }
-  
+
       const updatedMusics = musics.map((music) =>
-        music.id === musicId ? { ...music, favorite: !currentFavoriteStatus } : music
+        music.id === musicId
+          ? { ...music, favorite: !currentFavoriteStatus }
+          : music
       );
-  
-      setMusics(updatedMusics); // Atualiza o estado das músicas
-  
+
+      setMusics(updatedMusics);
+
       const updatedFavorites = updatedMusics.filter((music) => music.favorite);
-      updateFavorites(updatedFavorites); // Atualiza o estado dos favoritos
+      updateFavorites(updatedFavorites);
     } catch (error) {
       console.error(error.message);
     }
@@ -125,7 +128,9 @@ export default function Library() {
             <Picker.Item label="Título" value="name" />
             <Picker.Item label="Artista" value="artist" />
             <Picker.Item label="Álbum" value="album" />
-            <Picker.Item label="Favoritas" value="favorites" />
+            {favorites.some((music) => music.favorite) && (
+              <Picker.Item label="Favoritas" value="favorites" />
+            )}
           </Picker>
         </View>
         <TouchableOpacity
@@ -171,17 +176,20 @@ export default function Library() {
                     <Text style={styles.artistText}>{music.artist}</Text>
                   </TouchableOpacity>
                 </View>
-                <View style={styles.heartBtn}>
+                {user ? (
                   <TouchableOpacity
+                    style={styles.favoriteButton}
                     onPress={() => toggleFavorite(music.id, music.favorite)}
                   >
                     <MaterialCommunityIcons
                       name={music.favorite ? "heart" : "heart-outline"}
                       size={24}
-                      color={music.favorite ? "red" : "#fff"}
+                      color={music.favorite ? "#ff0000" : "#fff"}
                     />
                   </TouchableOpacity>
-                </View>
+                ) : (
+                  <></>
+                )}
               </View>
             </View>
           ))

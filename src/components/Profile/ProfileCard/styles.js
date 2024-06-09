@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   cardContainer: {
-    flexDirection: "column", // Para empilhar os elementos verticalmente
+    flexDirection: "column", 
   },
   profileCardImg: {
     borderRadius: 50,
@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   textContainer: {
-    alignItems: "center", // Alinha o texto ao centro
-    paddingVertical: 10, // Adiciona espaçamento vertical
-    backgroundColor: "#222", // Cor de fundo diferente
-    borderBottomLeftRadius: 20, // Adiciona bordas arredondadas
-    borderBottomRightRadius: 20, // Adiciona bordas arredondadas
+    alignItems: "center", 
+    paddingVertical: 10,
+    backgroundColor: "#222", 
+    borderBottomLeftRadius: 20, 
+    borderBottomRightRadius: 20, 
   },
   userText: {
     color: "#FFF",

@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 20,
     backgroundColor: "#000000",
+    marginBottom: 20,
   },
   message: {
     color: "red",

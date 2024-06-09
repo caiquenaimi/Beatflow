@@ -1,13 +1,19 @@
 import { StyleSheet } from "react-native";
-const styles = StyleSheet.create({
+
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     backgroundColor: "#000",
   },
-  text: {
-    color: "#FF0000",
-    fontSize: 20,
+  containerUser: {
+    marginTop: 100,
+  },
+  userInit: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+    marginBottom: 20,
   },
   image: {
     width: 200,
@@ -16,29 +22,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#FF0000",
   },
-  edit: {
-    color: "#FF0000",
-    fontSize: 20,
+  textName: {
+    color: "#fff",
+    fontSize: 30,
+    textAlign: "center",
   },
   editDiv: {
     position: "absolute",
     right: 0,
     top: 0,
   },
-  userInit: {
+  emailDiv: {
     alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-    marginBottom: 20,
   },
-  textName: {
-    color: "#fff",
-    fontSize: 30,
-    textAlign: "center",
-  },
-  playlistDiv: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  passwordDiv: {
     alignItems: "center",
   },
   textTitle: {
@@ -54,43 +51,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
   },
-  emailDiv: {
-    alignItems: "center",
-  },
-  containerUser: {
-    marginTop: 100,
-  },
-  loading: {
-    color: "#FFF",
-    fontSize: 20,
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  loadingNavigation: {
-    color: "#FF0000",
-    fontSize: 20,
-    paddingTop: 0,
-  },
-  containerLoading: {
-    marginTop: 350,
-    alignItems: "center",
-  },
-  separatedDivs: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-  },
-  passwordDiv: {
-    alignItems: "center",
-  },
   textInfoDiv: {
     flexDirection: "row",
     alignItems: "center",
   },
-  containerUser: {
-    marginTop: 200,
+  edit: {
+    color: "#FF0000",
+    fontSize: 20,
   },
   eyeIcon: {
     bottom: 8,
@@ -98,6 +65,20 @@ const styles = StyleSheet.create({
   },
   signOutDiv: {
     position: "absolute",
+  },
+  containerLoading: {
+    marginTop: 350,
+    alignItems: "center",
+  },
+  loading: {
+    color: "#FFF",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  loadingNavigation: {
+    color: "#FF0000",
+    fontSize: 20,
   },
 });
 

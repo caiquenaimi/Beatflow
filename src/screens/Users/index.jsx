@@ -1,9 +1,10 @@
+import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import { useState, useEffect, useContext } from "react";
-import styles from "./styles";
+import { useState, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useAuth, AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import styles from "./styles";
 
 export default function Users() {
   const { user } = useAuth();
@@ -15,7 +16,6 @@ export default function Users() {
     setSecureTextEntry(!secureTextEntry);
   };
 
-  console.log(user);
   return (
     <View style={styles.container}>
       {user ? (
@@ -72,14 +72,13 @@ export default function Users() {
       ) : (
         <View style={styles.containerLoading}>
           <Text style={styles.loading}>
-            Você não está conectado em uma conta,
+            Você não está conectado em uma conta.
           </Text>
-          <Text
-            style={styles.loadingNavigation}
-            onPress={() => navigation.navigate("SignIn")}
-          >
-            clique aqui para fazer login.
-          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
+            <Text style={styles.loadingNavigation}>
+              Clique aqui para fazer login.
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>

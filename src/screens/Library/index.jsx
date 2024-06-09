@@ -19,6 +19,7 @@ export default function Library() {
   const [filter, setFilter] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
   const [lastFilter, setLastFilter] = useState(null);
+  const [favorites, setFavorites] = useState({});
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -28,6 +29,11 @@ export default function Library() {
         const response = await fetchApiMusics();
         if (response && response.musics) {
           setMusics(response.musics);
+          const initialFavorites = response.musics.reduce((acc, music) => {
+            acc[music.id] = false;
+            return acc;
+          }, {});
+          setFavorites(initialFavorites);
         } else {
           console.error("Error fetching musics: No music data found");
         }
@@ -46,15 +52,13 @@ export default function Library() {
     navigation.navigate("PlayerPlaylist", { sortedPlaylist: sortedMusics });
   };
 
-  const handleAddToQueue = (music) => {
-    console.log("Added to queue:", music);
-  };
-
   const sortMusics = (musics, filter, direction) => {
     const sorted = musics.sort((a, b) => {
       const aVal = a[filter];
       const bVal = b[filter];
-      return direction === "asc" ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      return direction === "asc"
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
     });
     return sorted;
   };
@@ -62,6 +66,13 @@ export default function Library() {
   const toggleSortDirection = () => {
     const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
     setSortDirection(newSortDirection);
+  };
+
+  const toggleFavorite = (musicId) => {
+    setFavorites((prevFavorites) => ({
+      ...prevFavorites,
+      [musicId]: !prevFavorites[musicId],
+    }));
   };
 
   const sortedMusics = sortMusics(musics, filter, sortDirection);
@@ -130,6 +141,15 @@ export default function Library() {
                   >
                     <Text style={styles.cardText}>{music.name}</Text>
                     <Text style={styles.artistText}>{music.artist}</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.heartBtn}>
+                  <TouchableOpacity onPress={() => toggleFavorite(music.id)}>
+                    <MaterialCommunityIcons
+                      name={favorites[music.id] ? "heart" : "heart-outline"}
+                      size={24}
+                      color={favorites[music.id] ? "red" : "#fff"}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>

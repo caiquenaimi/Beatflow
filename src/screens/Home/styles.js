@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: '#FFF',
     fontWeight: 'bold',
-    marginBottom: 10, 
+    marginBottom: 10,
     fontFamily: 'sans-serif',
   },
   txtView: {
     flexDirection: 'row',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   beatflowtxt: {
     fontSize: 40,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
     marginBottom: 20,
-    color: '#888', 
+    color: '#888',
   },
   scrollContainer: {
     paddingBottom: 80,
@@ -82,8 +82,27 @@ const styles = StyleSheet.create({
   },
   beatflowContainer: {
     flexDirection: 'row',
-    alignItems: 'center', // opcional, para centralizar verticalmente
+    alignItems: 'center', 
     marginBottom: 10,
+  },
+  seeMoreDiv: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: "#1c1c1c", 
+    borderRadius: 10,
+  },
+  seeMoreButton: {
+    backgroundColor: "#ff0000",
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  seeMoreText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold", 
   },
 });
 

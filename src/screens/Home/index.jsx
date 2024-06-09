@@ -7,6 +7,7 @@ import {
   Image,
   Animated,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import styles from "./styles";
@@ -16,6 +17,7 @@ import MusicCard from "../../components/Musics/MusicCard";
 import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 import RandomMusicCard from "../../components/RandomMusicCard";
 import ProfileCard from "../../components/Profile/ProfileCard";
+import { useNavigation } from "@react-navigation/native";
 import { useAuth, AuthContext } from "../../context/AuthContext";
 
 const getRandomMusic = (apiData) => {
@@ -31,6 +33,7 @@ export default function Home() {
   const [randomArtistMusicData, setRandomArtistMusicData] = useState([]);
   const [animation] = useState(new Animated.Value(1));
   const [favoriteMusics, setFavoriteMusics] = useState([]);
+  const navigation = useNavigation();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -201,21 +204,35 @@ export default function Home() {
           <ActivityIndicator size="large" color="#ff0000" />
         )}
 
-        <Text style={styles.sectionTitle}>Músicas Favoritas</Text>
-        {favoriteMusics.length > 0 ? (
-          <Carousel
-            data={favoriteMusics}
-            renderItem={renderFavoriteMusicItem}
-            sliderWidth={width}
-            itemWidth={220}
-            activeSlideAlignment="center"
-            contentContainerCustomStyle={styles.carouselContent}
-          />
-        ) : (
-          <Text style={styles.loadingText}>
-            Nenhuma música favorita encontrada.
-          </Text>
-        )}
+          {
+            user? (
+              <>
+                <Text style={styles.sectionTitle}>Músicas favoritas de {user.name}</Text>
+                {favoriteMusics.length > 0 ? (
+                  <Carousel
+                    data={favoriteMusics}
+                    renderItem={renderFavoriteMusicItem}
+                    sliderWidth={width}
+                    itemWidth={220}
+                    activeSlideAlignment="center"
+                    contentContainerCustomStyle={styles.carouselContent}
+                  />
+                ) : (
+                  <View style={styles.seeMoreDiv}>
+                  <Text style={styles.loadingText}>
+                    Visite nossa biblioteca e adicione músicas aos favoritos.
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.seeMoreButton}
+                    onPress={() => navigation.navigate("Library")}
+                  >
+                    <Text style={styles.seeMoreText}>Biblioteca</Text>
+                  </TouchableOpacity>
+                  </View>
+                )}
+              </>
+            ) : null
+          }
       </ScrollView>
     </View>
   );

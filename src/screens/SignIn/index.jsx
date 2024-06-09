@@ -45,19 +45,7 @@ export default function SignIn() {
     } else if (!email.includes("@")) {
       errors.push("Email inválido");
     }
-    if (!password) {
-      errors.push("Preencha o campo de senha");
-    } else if (password.length < 6) {
-      errors.push("A senha deve ter no mínimo 6 caracteres");
-    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-      errors.push("A senha deve conter ao menos um caracter especial");
-    } else if (!/\d/.test(password)) {
-      errors.push("A senha deve conter ao menos um número");
-    } else if (!/[A-Z]/.test(password)) {
-      errors.push("A senha deve conter ao menos uma letra maiúscula");
-    } else if (!/[a-z]/.test(password)) {
-      errors.push("A senha deve conter ao menos uma letra minúscula");
-    }
+   
 
     if (errors.length > 0) {
       setError(errors.join("\n"));

@@ -72,6 +72,16 @@ export default function SignUp() {
     }
     if (edit && password !== confirmPassword) {
       errors.push("As senhas não coincidem");
+    } else if (password.length < 6) {
+      errors.push("A senha deve ter no mínimo 6 caracteres");
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      errors.push("A senha deve conter ao menos um caracter especial");
+    } else if (!/\d/.test(password)) {
+      errors.push("A senha deve conter ao menos um número");
+    } else if (!/[A-Z]/.test(password)) {
+      errors.push("A senha deve conter ao menos uma letra maiúscula");
+    } else if (!/[a-z]/.test(password)) {
+      errors.push("A senha deve conter ao menos uma letra minúscula");
     }
     if (errors.length > 0) {
       setError(errors.join("\n"));
@@ -152,21 +162,101 @@ export default function SignUp() {
 
   return (
     <ScrollView style={styles.containerScroll}>
-    <View style={styles.container}>
-      {edit ? (
-        <View style={styles.container}>
-          <View style={styles.exit}>
-            <Text
-              style={styles.exit}
-              onPress={() => navigation.navigate("Users")}
-            >
-              <Feather name="corner-down-left" size={32} color="red" />
-            </Text>
+      <View style={styles.container}>
+        {edit ? (
+          <View style={styles.container}>
+            <View style={styles.exit}>
+              <Text
+                style={styles.exit}
+                onPress={() => navigation.navigate("Users")}
+              >
+                <Feather name="corner-down-left" size={32} color="red" />
+              </Text>
+            </View>
+
+            <ScrollView style={styles.containerScrollEdit}>
+              <Text style={styles.title}>Editar Perfil</Text>
+
+              <View style={styles.form}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Nome"
+                  value={name}
+                  onChangeText={setName}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  value={email}
+                  onChangeText={setEmail}
+                />
+                <View style={styles.flr}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Senha"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={secureTextEntry}
+                  />
+                  <TouchableOpacity
+                    onPress={toggleSecureEntry}
+                    style={styles.eyeIcon}
+                  >
+                    <Feather
+                      name={secureTextEntry ? "eye-off" : "eye"}
+                      size={33}
+                      color="gray"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.flr}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Confirme a Senha"
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                    secureTextEntry={secureTextEntry}
+                  />
+                </View>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={editUser}
+                  disabled={loading}
+                >
+                  <Text style={styles.buttonText}>Salvar Alterações</Text>
+                </TouchableOpacity>
+                {error ? <ErrorMessage msg={error} /> : null}
+                {success ? <SuccessMessage msg={success} /> : null}
+              </View>
+              <View style={styles.textLittle}>
+                <Text style={styles.TEXT}>ou</Text>
+              </View>
+
+              <View style={styles.deleteButton}>
+                <TouchableOpacity
+                  style={styles.buttonDelete}
+                  onPress={() => navigation.navigate("ConfirmDelete", { user })}
+                >
+                  <Text style={styles.buttonText}>Deletar Perfil</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
           </View>
-
-          <ScrollView style={styles.containerScrollEdit}>
-            <Text style={styles.title}>Editar Perfil</Text>
-
+        ) : (
+          <ScrollView style={styles.containerScroll}>
+            <View style={styles.head}>
+              <View style={styles.logo}>
+                <Image
+                  source={require("../../../assets/Beatflowlogo.png")}
+                  style={{ width: 350, height: 250 }}
+                />
+              </View>
+              <Text style={styles.title}>Bem-vindo a BeatFlow</Text>
+              <Text style={styles.subtitle}>
+                A melhor plataforma de Trap/Rap
+              </Text>
+            </View>
+            <Text style={styles.title}>Cadastre-se</Text>
             <View style={styles.form}>
               <TextInput
                 style={styles.input}
@@ -199,106 +289,28 @@ export default function SignUp() {
                   />
                 </TouchableOpacity>
               </View>
-              <View style={styles.flr}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Confirme a Senha"
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  secureTextEntry={secureTextEntry}
-                />
-              </View>
               <TouchableOpacity
                 style={styles.button}
-                onPress={editUser}
+                onPress={handleSignUp}
                 disabled={loading}
               >
-                <Text style={styles.buttonText}>Salvar Alterações</Text>
+                <Text style={styles.buttonText}>Cadastrar</Text>
               </TouchableOpacity>
+              <Text style={styles.cadastre}>
+                Já possui uma conta?{" "}
+                <Text
+                  style={styles.loginButton}
+                  onPress={() => navigation.navigate("SignIn")}
+                >
+                  Faça o Login
+                </Text>
+              </Text>
               {error ? <ErrorMessage msg={error} /> : null}
               {success ? <SuccessMessage msg={success} /> : null}
             </View>
-            <View style={styles.textLittle}>
-              <Text style={styles.TEXT}>ou</Text>
-            </View>
-
-            <View style={styles.deleteButton}>
-              <TouchableOpacity
-                style={styles.buttonDelete}
-                onPress={() => navigation.navigate("ConfirmDelete", { user })}
-              >
-                <Text style={styles.buttonText}>Deletar Perfil</Text>
-              </TouchableOpacity>
-            </View>
           </ScrollView>
-        </View>
-      ) : (
-        <ScrollView style={styles.containerScroll}>
-          <View style={styles.head}>
-            <View style={styles.logo}>
-              <Image
-                source={require("../../../assets/Beatflowlogo.png")}
-                style={{ width: 350, height: 250 }}
-              />
-            </View>
-            <Text style={styles.title}>Bem-vindo a BeatFlow</Text>
-            <Text style={styles.subtitle}>A melhor plataforma de Trap/Rap</Text>
-          </View>
-          <Text style={styles.title}>Cadastre-se</Text>
-          <View style={styles.form}>
-            <TextInput
-              style={styles.input}
-              placeholder="Nome"
-              value={name}
-              onChangeText={setName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-            />
-            <View style={styles.flr}>
-              <TextInput
-                style={styles.input}
-                placeholder="Senha"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={secureTextEntry}
-              />
-              <TouchableOpacity
-                onPress={toggleSecureEntry}
-                style={styles.eyeIcon}
-              >
-                <Feather
-                  name={secureTextEntry ? "eye-off" : "eye"}
-                  size={33}
-                  color="gray"
-                />
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleSignUp}
-              disabled={loading}
-            >
-              <Text style={styles.buttonText}>Cadastrar</Text>
-            </TouchableOpacity>
-            <Text style={styles.cadastre}>
-              Já possui uma conta?{" "}
-              <Text
-                style={styles.loginButton}
-                onPress={() => navigation.navigate("SignIn")}
-              >
-                Faça o Login
-              </Text>
-            </Text>
-            {error ? <ErrorMessage msg={error} /> : null}
-            {success ? <SuccessMessage msg={success} /> : null}
-          </View>
-        </ScrollView>
-      )}
-    </View>
+        )}
+      </View>
     </ScrollView>
   );
 }

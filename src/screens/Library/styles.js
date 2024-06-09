@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     textAlign: "center",
     border: "none",
+    outlineColor: "gray",
   },
   sortButton: {
     width: 150,

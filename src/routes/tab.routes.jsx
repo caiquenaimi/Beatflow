@@ -56,7 +56,7 @@ const TabRoutes = () => {
         tabBarIconStyle,
         tabBarBackground,
       }}
-      initialRouteName="SignIn"
+      initialRouteName="Inicio"
     >
       <Tab.Screen
         name="Inicio"

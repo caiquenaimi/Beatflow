@@ -1,17 +1,22 @@
+import React from "react";
 import { View, Text, Image } from "react-native";
 import styles from "./styles";
 
-const ProfileCard = ({ username , userimage}) => {
+const ProfileCard = ({ username }) => {
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.profileCardImg}>
-        <Image
-          source={userimage}
-          style={styles.profileImg}
-        />
+    <View style={styles.outerContainer}>
+      <View style={styles.cardContainer}>
+        <View style={styles.profileCardImg}>
+          <Image
+            source={require("../../../../assets/avataaars.png")}
+            style={styles.profileImg}
+            resizeMode="cover"
+          />
+        </View>
       </View>
-
-      <Text style={styles.userText}>{username}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.userText}>{username}</Text>
+      </View>
     </View>
   );
 };

@@ -29,12 +29,13 @@ export default function SignUp() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const clear = route.params?.clear;
 
   useEffect(() => {
     if (edit) {
-      setName(user.name || "");
-      setEmail(user.email || "");
-      setPassword(user.password || "");
+      setName(user.name);
+      setEmail(user.email);
+      setPassword(user.password);
       setConfirmPassword("");
 
       const unsubscribe = navigation.addListener("focus", () => {
@@ -45,6 +46,15 @@ export default function SignUp() {
       return () => unsubscribe();
     }
   }, [navigation, edit, user]);
+
+  useEffect(() => {
+    if (clear) {
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+    }
+  }, [clear]);
 
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -123,6 +133,10 @@ export default function SignUp() {
 
       setError("");
       updateUser(updatedUser);
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
       navigation.navigate("Users");
     } catch (error) {
       console.error("Erro ao atualizar cadastro: ", error);
@@ -131,6 +145,8 @@ export default function SignUp() {
     }
     setLoading(false);
   };
+
+  console.log("Edit:", edit);
 
   console.log("User:", user);
 

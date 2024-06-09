@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#1c1c1c", 
+    backgroundColor: "#1c1c1c",
     borderRadius: 10,
   },
   userInit: {
@@ -71,15 +71,20 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
   signOutDiv: {
-    right: 10,
-    bottom: 20,
+    position: "absolute",
+    left: 10,
+    top: 10,
+  },
+  signOut: {
+    color: "#FF0000",
+    fontSize: 20,
   },
   containerLoading: {
     marginTop: 350,
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#1c1c1c", 
+    backgroundColor: "#1c1c1c",
     borderRadius: 10,
   },
   loading: {
@@ -97,7 +102,7 @@ export const styles = StyleSheet.create({
   loadingNavigation: {
     color: "#FFF",
     fontSize: 16,
-    fontWeight: "bold", 
+    fontWeight: "bold",
   },
 });
 

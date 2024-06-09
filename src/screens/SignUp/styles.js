@@ -8,7 +8,11 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   containerScrollEdit: {
-    marginTop: 200,
+    marginTop: 100,
+    marginBottom: 100,
+    padding: 20,
+    backgroundColor: "#1c1c1c", 
+    borderRadius: 10,
   },
   cadastre: {
     color: "#FFFFFF",

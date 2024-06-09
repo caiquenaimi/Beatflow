@@ -86,7 +86,6 @@ export default function SignUp() {
         password,
       });
       console.log("response: ", response.data);
-      setSuccess("Cadastro realizado com sucesso!");
       setError("");
       setName("");
       setEmail("");
@@ -122,7 +121,6 @@ export default function SignUp() {
       const updatedUser = response.data.user;
       console.log("Dados do usuário atualizado: ", updatedUser);
 
-      setSuccess("Cadastro atualizado com sucesso!");
       setError("");
       updateUser(updatedUser);
       navigation.navigate("Users");

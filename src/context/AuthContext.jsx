@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const apiURL = "http://localhost:3000";
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [refreshToken, setRefreshToken] = useState("");
   const [accessToken, setAccessToken] = useState("");

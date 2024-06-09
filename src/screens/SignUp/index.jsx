@@ -6,55 +6,49 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./styles";
 import axios from "axios";
 import { Feather } from "@expo/vector-icons";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
-import { useAuth } from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-export default function SignUp({ route }) {
-  let { user, edit } = route.params;
-  const { updateUser } = useAuth();
-  const [email, setEmail] = useState("");
+export default function SignUp() {
+  const { user, updateUser } = useContext(AuthContext);
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { edit } = route.params || {};
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const navigation = useNavigation();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setError("");
-      setSuccess("");
-    }, 7000);
+    if (edit) {
+      setName(user.name || "");
+      setEmail(user.email || "");
+      setPassword(user.password || "");
+      setConfirmPassword("");
 
-    return () => clearTimeout(timeout);
-  }, [error, success]);
+      const unsubscribe = navigation.addListener("focus", () => {
+        console.log("Atualizando informações do usuário");
+        console.log("Usuário: ", user);
+      });
+
+      return () => unsubscribe();
+    }
+  }, [navigation, edit, user]);
 
   const toggleSecureEntry = () => {
-    setSecureTextEntry((prevState) => !prevState);
+    setSecureTextEntry(!secureTextEntry);
   };
-
-  useEffect(() => {
-    if (edit && user) {
-      setName(user.name || user.name);
-      setEmail(user.email || user.email);
-      setPassword(user.password || user.password);
-      setConfirmPassword("");
-    } else {
-      setName("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-    }
-  }, [edit, user]);
 
   const validation = () => {
     let errors = [];
@@ -124,8 +118,10 @@ export default function SignUp({ route }) {
           password,
         }
       );
-      const updatedUser = response.data;
-      console.log("response: ", updatedUser);
+      console.log("Response completa da API: ", response);
+      const updatedUser = response.data.user;
+      console.log("Dados do usuário atualizado: ", updatedUser);
+
       setSuccess("Cadastro atualizado com sucesso!");
       setError("");
       updateUser(updatedUser);

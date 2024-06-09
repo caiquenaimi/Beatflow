@@ -10,7 +10,6 @@ import SignIn from "../screens/SignIn";
 import Search from "../screens/Search";
 import Player from "../screens/Player";
 import PlayerPlaylist from "../screens/PlayerPlaylist";
-import PlaylistTest from "../screens/PlaylistTest";
 import Library from "../screens/Library";
 import ConfirmDelete from "../screens/ConfirmDelete";
 
@@ -107,14 +106,7 @@ const TabRoutes = () => {
           tabBarVisible: false,
         }}
       />
-      <Tab.Screen
-        name="PlaylistTest"
-        component={PlaylistTest}
-        options={{
-          tabBarButton: () => null,
-          tabBarVisible: false,
-        }}
-      />
+     
 
       <Tab.Screen
         name="Player"

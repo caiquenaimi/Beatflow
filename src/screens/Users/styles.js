@@ -8,12 +8,18 @@ export const styles = StyleSheet.create({
   },
   containerUser: {
     marginTop: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#1c1c1c", 
+    borderRadius: 10,
   },
   userInit: {
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
     marginBottom: 20,
+    position: "relative",
   },
   image: {
     width: 200,
@@ -65,7 +71,7 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
   signOutDiv: {
-    position: "absolute",
+    right: 10,
     bottom: 20,
   },
   containerLoading: {

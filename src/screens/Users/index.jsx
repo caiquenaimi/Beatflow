@@ -26,6 +26,17 @@ export default function Users() {
               style={styles.image}
             />
             <Text style={styles.textName}>{user?.name}</Text>
+            <View style={styles.signOutDiv}>
+              <TouchableOpacity
+                style={styles.signOut}
+                onPress={() => {
+                  signOut();
+                  navigation.navigate("SignIn");
+                }}
+              >
+                <Feather name="log-out" size={24} color="red" />
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity
               style={styles.editDiv}
               onPress={() =>
@@ -56,17 +67,6 @@ export default function Users() {
                 />
               </TouchableOpacity>
             </View>
-          </View>
-          <View style={styles.signOutDiv}>
-            <TouchableOpacity
-              style={styles.signOut}
-              onPress={() => {
-                signOut();
-                navigation.navigate("SignIn");
-              }}
-            >
-              <Feather name="log-out" size={24} color="red" />
-            </TouchableOpacity>
           </View>
         </View>
       ) : (

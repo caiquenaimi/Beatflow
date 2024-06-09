@@ -14,7 +14,7 @@ export default function ConfirmDelete({ route }) {
         `http://localhost:3000/users/${user.id}`
       );
       if (response.status === 204) {
-        navigation.navigate("SignUp");
+        navigation.navigate("SignUp", { clear: true });
       } else {
         console.log("Unexpected response: ", response);
       }

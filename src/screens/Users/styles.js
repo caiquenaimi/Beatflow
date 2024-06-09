@@ -26,17 +26,20 @@ export const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 30,
     textAlign: "center",
+    marginTop: 10,
   },
   editDiv: {
     position: "absolute",
-    right: 0,
-    top: 0,
+    right: 10,
+    top: 10,
   },
   emailDiv: {
     alignItems: "center",
+    marginBottom: 20,
   },
   passwordDiv: {
     alignItems: "center",
+    marginBottom: 20,
   },
   textTitle: {
     color: "#fff",
@@ -45,30 +48,33 @@ export const styles = StyleSheet.create({
   textInfo: {
     color: "#FF0000",
     fontSize: 24,
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10,
+    marginBottom: 10,
     textAlign: "center",
   },
   textInfoDiv: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
   },
   edit: {
     color: "#FF0000",
     fontSize: 20,
+    marginLeft: 10,
   },
   eyeIcon: {
-    bottom: 8,
-    right: 8,
+    marginLeft: 10,
   },
   signOutDiv: {
     position: "absolute",
+    bottom: 20,
   },
   containerLoading: {
     marginTop: 350,
     alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#1c1c1c", 
+    borderRadius: 10,
   },
   loading: {
     color: "#FFF",
@@ -76,9 +82,16 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
   },
+  noLogedbtn: {
+    backgroundColor: "#ff0000",
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 10,
+  },
   loadingNavigation: {
-    color: "#FF0000",
-    fontSize: 20,
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold", 
   },
 });
 

@@ -74,7 +74,7 @@ export default function Users() {
           <Text style={styles.loading}>
             Você não está conectado em uma conta.
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
+          <TouchableOpacity style={styles.noLogedbtn} onPress={() => navigation.navigate("SignIn")}>
             <Text style={styles.loadingNavigation}>
               Clique aqui para fazer login.
             </Text>

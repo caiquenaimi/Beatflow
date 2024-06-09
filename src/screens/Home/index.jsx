@@ -18,7 +18,8 @@ import MusicCardSearch from "../../components/Musics/MusicCardSearch";
 import RandomMusicCard from "../../components/RandomMusicCard";
 import ProfileCard from "../../components/Profile/ProfileCard";
 import { useNavigation } from "@react-navigation/native";
-import { useAuth, AuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
+import { useFavorites } from "../../context/FavoritesContext";
 
 const getRandomMusic = (apiData) => {
   const randomId = Math.floor(Math.random() * 104) + 1;
@@ -32,9 +33,9 @@ export default function Home() {
   const [randomArtist, setRandomArtist] = useState("");
   const [randomArtistMusicData, setRandomArtistMusicData] = useState([]);
   const [animation] = useState(new Animated.Value(1));
-  const [favoriteMusics, setFavoriteMusics] = useState([]);
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { favorites: favoriteMusics } = useFavorites();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,8 +56,6 @@ export default function Home() {
 
   useEffect(() => {
     if (apiData.length > 0) {
-      const favorites = apiData.filter((music) => music.favorite);
-      setFavoriteMusics(favorites);
       setRandomArtist(getRandomArtist(apiData));
     }
   }, [apiData]);
@@ -204,35 +203,33 @@ export default function Home() {
           <ActivityIndicator size="large" color="#ff0000" />
         )}
 
-          {
-            user? (
-              <>
-                <Text style={styles.sectionTitle}>Músicas favoritas de {user.name}</Text>
-                {favoriteMusics.length > 0 ? (
-                  <Carousel
-                    data={favoriteMusics}
-                    renderItem={renderFavoriteMusicItem}
-                    sliderWidth={width}
-                    itemWidth={220}
-                    activeSlideAlignment="center"
-                    contentContainerCustomStyle={styles.carouselContent}
-                  />
-                ) : (
-                  <View style={styles.seeMoreDiv}>
-                  <Text style={styles.loadingText}>
-                    Visite nossa biblioteca e adicione músicas aos favoritos.
-                  </Text>
-                  <TouchableOpacity
-                    style={styles.seeMoreButton}
-                    onPress={() => navigation.navigate("Library")}
-                  >
-                    <Text style={styles.seeMoreText}>Biblioteca</Text>
-                  </TouchableOpacity>
-                  </View>
-                )}
-              </>
-            ) : null
-          }
+        {user ? (
+          <>
+            <Text style={styles.sectionTitle}>Músicas favoritas de {user.name}</Text>
+            {favoriteMusics.length > 0 ? (
+              <Carousel
+                data={favoriteMusics}
+                renderItem={renderFavoriteMusicItem}
+                sliderWidth={width}
+                itemWidth={220}
+                activeSlideAlignment="center"
+                contentContainerCustomStyle={styles.carouselContent}
+              />
+            ) : (
+              <View style={styles.seeMoreDiv}>
+                <Text style={styles.loadingText}>
+                  Visite nossa biblioteca e adicione músicas aos favoritos.
+                </Text>
+                <TouchableOpacity
+                  style={styles.seeMoreButton}
+                  onPress={() => navigation.navigate("Library")}
+                >
+                  <Text style={styles.seeMoreText}>Biblioteca</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </>
+        ) : null}
       </ScrollView>
     </View>
   );

@@ -12,6 +12,7 @@ import { Picker } from "@react-native-picker/picker";
 import styles from "./styles";
 import { fetchApiMusics } from "../../data/Musics/Music";
 import { useNavigation } from "@react-navigation/native";
+import { useFavorites } from "../../context/FavoritesContext";  // Importando o contexto de favoritos
 
 export default function Library() {
   const [musics, setMusics] = useState([]);
@@ -19,8 +20,8 @@ export default function Library() {
   const [filter, setFilter] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
   const [lastFilter, setLastFilter] = useState(null);
-  const [favorites, setFavorites] = useState({});
   const navigation = useNavigation();
+  const { favorites, updateFavorites } = useFavorites();  // Usando o contexto de favoritos
 
   useEffect(() => {
     async function fetchMusics() {
@@ -80,8 +81,6 @@ export default function Library() {
         throw new Error("Erro ao atualizar status favorito");
       }
 
-      const updatedMusic = await response.json();
-
       setMusics((prevMusics) =>
         prevMusics.map((music) =>
           music.id === musicId
@@ -89,6 +88,15 @@ export default function Library() {
             : music
         )
       );
+
+      const updatedFavorites = musics
+        .map((music) =>
+          music.id === musicId
+            ? { ...music, favorite: !currentFavoriteStatus }
+            : music
+        )
+        .filter((music) => music.favorite);
+      updateFavorites(updatedFavorites);
     } catch (error) {
       console.error(error.message);
     }
@@ -147,7 +155,7 @@ export default function Library() {
         {loading ? (
           <ActivityIndicator size="large" color="#ff0000" />
         ) : (
-          sortedMusics.map((music, index) => (
+          sortedMusics.map((music) => (
             <View key={music.id} style={styles.musicItem}>
               <View style={styles.cardContainer}>
                 <Image source={{ uri: music.image }} style={styles.cardImage} />

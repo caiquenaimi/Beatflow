@@ -112,10 +112,6 @@ export default function Search() {
                 O Artista, Album ou Música pesquisada ainda não existe em nosso
                 aplicativo, sinto muito.
               </Text>
-              <Image
-                source={require("./../../../assets/triste.png")}
-                style={styles.sad}
-              />
             </View>
           ) : (
             filteredData.map((item) => (

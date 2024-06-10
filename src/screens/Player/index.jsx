@@ -172,13 +172,11 @@ export default function Player() {
     if (sound) {
       sound.unloadAsync();
       setSound(null);
-      setPosition(0);
-      setDuration(0);
-      setPausedPosition(0);
-      setIsPlaying(false);
     }
 
     if (apiData && apiData.file && audioFiles[apiData.file]) {
+      setPosition(0); // Reset position to 0
+      setDuration(0); // Reset duration to 0
       playSound();
     }
   }, [apiData]);
@@ -209,14 +207,7 @@ export default function Player() {
         const newSound = new Audio.Sound();
         await newSound.loadAsync(audioFiles[apiData.file]);
         setSound(newSound);
-
-        if (pausedPosition) {
-          await newSound.playFromPositionAsync(pausedPosition);
-          setPausedPosition(0);
-        } else {
-          await newSound.playAsync();
-        }
-
+        await newSound.playAsync();
         setIsPlaying(true);
       } catch (error) {
         console.error("Error loading or playing sound:", error);

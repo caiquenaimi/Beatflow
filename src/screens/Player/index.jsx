@@ -130,7 +130,6 @@ export default function Player() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [shouldResume, setShouldResume] = useState(false);
   const [pausedPosition, setPausedPosition] = useState(0);
 
   useEffect(() => {
@@ -170,6 +169,21 @@ export default function Player() {
   }, [sound]);
 
   useEffect(() => {
+    if (sound) {
+      sound.unloadAsync();
+      setSound(null);
+      setPosition(0);
+      setDuration(0);
+      setPausedPosition(0);
+      setIsPlaying(false);
+    }
+
+    if (apiData && apiData.file && audioFiles[apiData.file]) {
+      playSound();
+    }
+  }, [apiData]);
+
+  useEffect(() => {
     return () => {
       if (sound) {
         sound.unloadAsync();
@@ -181,17 +195,28 @@ export default function Player() {
     if (apiData && apiData.file && audioFiles[apiData.file]) {
       try {
         if (sound) {
-          await sound.unloadAsync();
-          setSound(null);
-          setIsPlaying(false);
-          setPosition(0);
-          setDuration(0);
+          const status = await sound.getStatusAsync();
+          if (status.isLoaded) {
+            await sound.playAsync();
+            setIsPlaying(true);
+            return;
+          } else {
+            await sound.unloadAsync();
+            setSound(null);
+          }
         }
 
         const newSound = new Audio.Sound();
         await newSound.loadAsync(audioFiles[apiData.file]);
         setSound(newSound);
-        await newSound.playAsync();
+
+        if (pausedPosition) {
+          await newSound.playFromPositionAsync(pausedPosition);
+          setPausedPosition(0);
+        } else {
+          await newSound.playAsync();
+        }
+
         setIsPlaying(true);
       } catch (error) {
         console.error("Error loading or playing sound:", error);
@@ -217,7 +242,6 @@ export default function Player() {
       await sound.stopAsync();
       setIsPlaying(false);
       setPosition(0);
-      setShouldResume(false);
       setPausedPosition(0);
     }
   }

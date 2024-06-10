@@ -126,7 +126,7 @@ export default function Player() {
   const { musicId } = route.params || {};
 
   const [apiData, setApiData] = useState(null);
-  const [sound, setSound] = useState();
+  const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -169,21 +169,30 @@ export default function Player() {
     }
   }, [sound]);
 
+  useEffect(() => {
+    return () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
+  }, [sound]);
+
   async function playSound() {
     if (apiData && apiData.file && audioFiles[apiData.file]) {
       try {
-        if (!sound) {
-          const newSound = new Audio.Sound();
-          await newSound.loadAsync(audioFiles[apiData.file], {}, shouldResume);
-          console.log("New sound:", newSound);
-          setSound(newSound);
-          setShouldResume(true);
-          await newSound.playAsync();
-          setIsPlaying(true);
-        } else if (!isPlaying) {
-          await sound.playAsync();
-          setIsPlaying(true);
+        if (sound) {
+          await sound.unloadAsync();
+          setSound(null);
+          setIsPlaying(false);
+          setPosition(0);
+          setDuration(0);
         }
+
+        const newSound = new Audio.Sound();
+        await newSound.loadAsync(audioFiles[apiData.file]);
+        setSound(newSound);
+        await newSound.playAsync();
+        setIsPlaying(true);
       } catch (error) {
         console.error("Error loading or playing sound:", error);
       }

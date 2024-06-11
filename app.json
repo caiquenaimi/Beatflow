@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rn-boilerplate",
-    "slug": "rn-boilerplate",
+    "name": "BeatFlow",
+    "slug": "BeatFlow",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +24,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/beatflow.jpg"
     }
   }
 }

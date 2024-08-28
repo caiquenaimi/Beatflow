@@ -37,6 +37,7 @@ const audioFiles = {
   "sicko_mode.mp3": require("../../../assets/songs/sicko_mode.mp3"),
   "antidote.mp3": require("../../../assets/songs/antidote.mp3"),
   "nightcrawler.mp3": require("../../../assets/songs/nightcrawler.mp3"),
+  "drugs.mp3": require("../../../assets/songs/drugs.mp3"),
   "highest_in_the_room.mp3": require("../../../assets/songs/highest_in_the_room.mp3"),
   "out_west.mp3": require("../../../assets/songs/out_west.mp3"),
   "the_scotts.mp3": require("../../../assets/songs/the_scotts.mp3"),

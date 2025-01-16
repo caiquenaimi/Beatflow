@@ -1,7 +1,5 @@
 # BeatFlow 🎶
 
-[![Capa do Projeto](https://fv5-3.failiem.lv/thumb_show.php?i=ng3s8mk657&view&v=1)](https://github.com/pedroisac564/front-final-project)
-
 BeatFlow é o seu aplicativo de música de trap/rap, onde você pode descobrir, curtir e organizar suas músicas favoritas. Explore músicas por artista, álbum, e muito mais.
 
 ## Visão Geral 

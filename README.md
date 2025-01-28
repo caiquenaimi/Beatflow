@@ -3,6 +3,7 @@
 BeatFlow é o seu aplicativo de música de trap/rap, onde você pode descobrir, curtir e organizar suas músicas favoritas. Explore músicas por artista, álbum, e muito mais.
 
 ## Visão Geral 
+
 BeatFlow é um aplicativo de música desenvolvido com React Native. Ele fornece uma interface amigável para gerenciar e ouvir suas músicas de trap/rap favoritas, permitindo que você filtre músicas por artista, álbum, e título, além de curtir e acessar facilmente suas faixas preferidas.
 
 ## Funcionalidades
@@ -21,25 +22,27 @@ Certifique-se de ter o Node.js e o npm instalados em seu sistema. Além disso, �
 ## Configuração do Projeto ⚙
 
 1. **Clonar o repositório:**
-```
+```bash
 git clone https://github.com/PedroIsac564/front-final-project.git
 ```
 2. **Instalar dependências:**
-```
+```bash
 npm install
 ```
-
 3. **Rodar aplicação:**
-```
+```bash
 npm run dev 
 ```
+
+## Apresentação do Projeto 🚀
+
+Confira a apresentação do projeto, incluindo telas e funcionalidades, [clicando aqui](https://www.canva.com/design/DAGHRrzw3TE/iNMmQd-9wJbsD29vVZQ80Q/edit?utm_content=DAGHRrzw3TE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton).
 
 ## Contribuindo ⚡
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
-Desenvolvido por:
-
+## Desenvolvido por:
 
 [Arthur Borges](https://github.com/arthbg)
 
@@ -50,4 +53,3 @@ Desenvolvido por:
 [Guilherme Rocha](https://github.com/guilhermerocha564)
 
 [Pedro Isac](https://github.com/pedroisac564)
-
